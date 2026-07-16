@@ -10,7 +10,7 @@ const database = {
             duration: "3 months",
             completionDate: "December 15, 2024",
             verified: true,
-            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/view?usp=sharing"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/view"
         },
         {
             id: "INT-2024-002",
@@ -87,11 +87,14 @@ function displayResult(certificate) {
             <p><strong>Duration:</strong> ${certificate.duration}</p>
             <p><strong>Completion Date:</strong> ${certificate.completionDate}</p>
             <div class="certificate-link">
-                <a href="${certificate.certificateLink}" target="_blank">📄 View Full Certificate</a>
+                <a href="${certificate.certificateLink}" target="_blank" class="btn-certificate">
+                    📄 View Full Certificate
+                </a>
             </div>
         </div>
     `;
 }
+
 
 // Function to display error
 function displayError(message) {
