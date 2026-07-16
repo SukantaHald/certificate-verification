@@ -10,7 +10,7 @@ const database = {
             duration: "3 months",
             completionDate: "December 15, 2024",
             verified: true,
-            certificateLink: "https://example.com/certificates/john-doe.pdf"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/view?usp=sharing"
         },
         {
             id: "INT-2024-002",
