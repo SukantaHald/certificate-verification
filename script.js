@@ -1,7 +1,5 @@
-// Database - You can edit this to add/remove students
+// Database
 const database = {
-    // Edit this array to add new students
-    // To add a new student, copy the format below and paste it inside the array
     certificates: [
         {
             id: "INT-2024-001",
@@ -10,7 +8,7 @@ const database = {
             duration: "3 months",
             completionDate: "December 15, 2024",
             verified: true,
-            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/view"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         },
         {
             id: "INT-2024-002",
@@ -19,7 +17,7 @@ const database = {
             duration: "6 months",
             completionDate: "November 30, 2024",
             verified: true,
-            certificateLink: "https://example.com/certificates/jane-smith.pdf"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         },
         {
             id: "INT-2024-003",
@@ -28,26 +26,12 @@ const database = {
             duration: "4 months",
             completionDate: "October 20, 2024",
             verified: true,
-            certificateLink: "https://example.com/certificates/mike-johnson.pdf"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         }
-        // Add more certificates here following the same format
-        // Example:
-        // {
-        //     id: "INT-2024-004",
-        //     name: "New Student Name",
-        //     internship: "Your Internship Role",
-        //     duration: "Duration of Internship",
-        //     completionDate: "Completion Date",
-        //     verified: true,
-        //     certificateLink: "Link to their certificate"
-        // }
     ]
 };
 
-// QR Scanner instance
-let html5QrCode = null;
-
-// Function to verify certificate
+// Verify Certificate Function
 function verifyCertificate() {
     const input = document.getElementById('certificateId');
     const id = input.value.trim();
@@ -57,12 +41,10 @@ function verifyCertificate() {
         return;
     }
     
-    // Show loading state
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = '<div class="loading"></div><p>Verifying...</p>';
     
-    // Simulate verification process
     setTimeout(() => {
         const certificate = database.certificates.find(cert => cert.id === id);
         
@@ -74,7 +56,7 @@ function verifyCertificate() {
     }, 1000);
 }
 
-// Function to display result
+// Display Result Function
 function displayResult(certificate) {
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
@@ -95,8 +77,7 @@ function displayResult(certificate) {
     `;
 }
 
-
-// Function to display error
+// Display Error Function
 function displayError(message) {
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
@@ -108,7 +89,9 @@ function displayError(message) {
     `;
 }
 
-// Function to start QR scanner
+// QR Scanner Function
+let html5QrCode = null;
+
 function startScanner() {
     const readerDiv = document.getElementById('qr-reader');
     readerDiv.style.display = 'block';
@@ -137,66 +120,32 @@ function startScanner() {
     });
 }
 
-// Function when QR code is scanned successfully
 function onScanSuccess(decodedText, decodedResult) {
-    // Stop the scanner
     if (html5QrCode) {
         html5QrCode.stop();
         html5QrCode.clear();
     }
-    
-    // The QR code should contain the certificate ID
-    const id = decodedText.trim();
-    document.getElementById('certificateId').value = id;
+    document.getElementById('certificateId').value = decodedText.trim();
     verifyCertificate();
 }
 
-// Function when QR scan fails
 function onScanError(errorMessage) {
-    // This is called when scanning is in progress but no QR code is found
-    // You can ignore this or log it
+    // Ignore - scanning in progress
 }
 
-// Function to generate QR code for a certificate (for admin use)
-function generateQRCode(certificateId) {
-    // This would be used by the admin to generate QR codes for certificates
-    // You can use a QR code library or API to generate QR codes
-    alert('QR Code generation feature coming soon!');
-}
-
-// Initialize - Add enter key support
-document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById('certificateId');
-    input.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            verifyCertificate();
+// Auto-verify from URL
+window.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const verifyId = urlParams.get('verify');
+    
+    if (verifyId) {
+        const certificate = database.certificates.find(cert => cert.id === verifyId);
+        if (certificate && certificate.verified) {
+            setTimeout(() => {
+                document.getElementById('certificateId').value = verifyId;
+                displayResult(certificate);
+                document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+            }, 500);
         }
-    });
-    
-    // Pre-fill with example ID
-    
-    
-    // Auto-verify on load (optional)
-    // verifyCertificate();
+    }
 });
-
-// Function to add new certificate (for admin use)
-function addNewCertificate(certificateData) {
-    // This function allows you to add new certificates programmatically
-    database.certificates.push(certificateData);
-    console.log('Certificate added successfully!');
-    console.log('Current certificates:', database.certificates);
-}
-
-// Example of how to add a new certificate (uncomment and modify to use)
-/*
-addNewCertificate({
-    id: "INT-2024-004",
-    name: "Alice Wonderland",
-    internship: "Frontend Development Intern",
-    duration: "2 months",
-    completionDate: "January 15, 2025",
-    verified: true,
-    certificateLink: "https://example.com/certificates/alice-wonderland.pdf"
-});
-*/
