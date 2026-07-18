@@ -345,3 +345,193 @@ function updateLogoForDarkMode() {
         }
     }
 }
+// Download Certificate
+let currentCertificate = null;
+
+function downloadCertificate() {
+    // Get the currently displayed certificate data
+    const name = document.querySelector('#result h3')?.textContent || 'Certificate';
+    const certId = document.getElementById('certId')?.textContent || '';
+    const internship = document.getElementById('internship')?.textContent || '';
+    const duration = document.getElementById('duration')?.textContent || '';
+    const date = document.getElementById('completionDate')?.textContent || '';
+    
+    // Method 1: Download as Image (using html2canvas)
+    downloadCertificateAsImage(name, certId, internship, duration, date);
+}
+
+function downloadCertificateAsImage(name, certId, internship, duration, date) {
+    // Create a temporary div for the certificate
+    const certDiv = document.createElement('div');
+    certDiv.style.cssText = `
+        position: fixed;
+        left: -9999px;
+        top: 0;
+        width: 800px;
+        padding: 40px;
+        background: white;
+        border: 20px solid #d4af37;
+        border-radius: 20px;
+        font-family: 'Georgia', serif;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        z-index: 9999;
+    `;
+    
+    certDiv.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 4rem;">🎓</div>
+            <h1 style="font-size: 2.5rem; color: #d4af37; text-transform: uppercase; letter-spacing: 5px; margin: 10px 0;">Certificate of Internship</h1>
+            <p style="font-size: 1.2rem; color: #666;">This certifies that</p>
+        </div>
+        
+        <div style="padding: 20px 0;">
+            <h2 style="font-size: 2.8rem; color: #2c3e50; margin: 20px 0; border-bottom: 2px dashed #d4af37; display: inline-block; padding-bottom: 10px;">${name}</h2>
+            <p style="font-size: 1.2rem; margin: 20px 0;">has successfully completed the</p>
+            <h3 style="font-size: 1.8rem; color: #2c3e50; margin: 10px 0;">${internship}</h3>
+            <p style="font-size: 1.1rem; margin: 10px 0;">program at <strong>InternVerify</strong></p>
+            
+            <div style="display: inline-block; background: #27ae60; color: white; padding: 5px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; margin: 10px 0;">✅ Verified Certificate</div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px 0; max-width: 400px; margin-left: auto; margin-right: auto; text-align: left;">
+                <div style="padding: 5px 0;"><strong>Certificate ID:</strong> ${certId}</div>
+                <div style="padding: 5px 0;"><strong>Duration:</strong> ${duration}</div>
+                <div style="padding: 5px 0;"><strong>Completion Date:</strong> ${date}</div>
+                <div style="padding: 5px 0;"><strong>Status:</strong> <span style="color: #27ae60; font-weight: bold;">Verified ✓</span></div>
+            </div>
+            
+            <div style="margin: 15px 0;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${certId}" alt="QR Code" style="border: 2px solid #d4af37; border-radius: 10px; padding: 5px;">
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div style="text-align: center;">
+                <div style="width: 150px; height: 2px; background: #333; margin: 0 auto 10px;"></div>
+                <p style="font-size: 0.9rem; color: #666;"><strong>Authorized Signatory</strong></p>
+                <p style="font-size: 0.8rem; color: #999;">InternVerify</p>
+            </div>
+            <div style="text-align: center;">
+                <p style="font-size: 0.9rem; color: #666;"><strong>Date of Issue</strong></p>
+                <p style="font-size: 0.9rem; color: #333;">${date}</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 0.8rem; color: #999; border-top: 1px solid #eee; padding-top: 10px;">
+            This certificate is digitally verified. Scan the QR code to verify.
+        </div>
+    `;
+    
+    document.body.appendChild(certDiv);
+    
+    // Use html2canvas to convert to image
+    if (typeof html2canvas !== 'undefined') {
+        html2canvas(certDiv, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            logging: false
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `Certificate-${name.replace(/\s/g, '_')}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.body.removeChild(certDiv);
+        }).catch(err => {
+            console.error('Error generating certificate:', err);
+            // Fallback: Download as HTML
+            downloadCertificateAsHTML(name, certId, internship, duration, date);
+            document.body.removeChild(certDiv);
+        });
+    } else {
+        // Fallback: Download as HTML
+        downloadCertificateAsHTML(name, certId, internship, duration, date);
+        document.body.removeChild(certDiv);
+    }
+}
+
+// Fallback: Download as HTML
+function downloadCertificateAsHTML(name, certId, internship, duration, date) {
+    const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Certificate - ${name}</title>
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    background: #f5f7fa;
+                    font-family: 'Georgia', serif;
+                    padding: 20px;
+                }
+                .certificate {
+                    max-width: 800px;
+                    width: 100%;
+                    background: white;
+                    padding: 40px;
+                    border: 20px solid #d4af37;
+                    border-radius: 20px;
+                    text-align: center;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                }
+                .certificate h1 { font-size: 2.5rem; color: #d4af37; text-transform: uppercase; letter-spacing: 5px; }
+                .certificate h2 { font-size: 2.8rem; color: #2c3e50; margin: 20px 0; border-bottom: 2px dashed #d4af37; display: inline-block; padding-bottom: 10px; }
+                .certificate .details { background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 400px; text-align: left; }
+                .certificate .details div { padding: 5px 0; }
+                .certificate .verified { display: inline-block; background: #27ae60; color: white; padding: 5px 20px; border-radius: 50px; font-weight: bold; }
+                .certificate .footer { margin-top: 30px; padding-top: 20px; border-top: 2px solid #d4af37; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+                .certificate .signature-line { width: 150px; height: 2px; background: #333; margin: 10px auto; }
+                @media print { body { padding: 0; } .certificate { box-shadow: none; border: 20px solid #d4af37; } }
+            </style>
+        </head>
+        <body>
+            <div class="certificate">
+                <div style="font-size: 4rem;">🎓</div>
+                <h1>Certificate of Internship</h1>
+                <p style="font-size: 1.2rem; color: #666; margin: 10px 0;">This certifies that</p>
+                <h2>${name}</h2>
+                <p style="font-size: 1.2rem; margin: 20px 0;">has successfully completed the</p>
+                <h3 style="font-size: 1.8rem; color: #2c3e50;">${internship}</h3>
+                <p style="font-size: 1.1rem; margin: 10px 0;">program at <strong>InternVerify</strong></p>
+                <div class="verified">✅ Verified Certificate</div>
+                <div class="details">
+                    <div><strong>Certificate ID:</strong> ${certId}</div>
+                    <div><strong>Duration:</strong> ${duration}</div>
+                    <div><strong>Completion Date:</strong> ${date}</div>
+                    <div><strong>Status:</strong> <span style="color: #27ae60; font-weight: bold;">Verified ✓</span></div>
+                </div>
+                <div style="margin: 15px 0;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${certId}" alt="QR Code" style="border: 2px solid #d4af37; border-radius: 10px; padding: 5px;">
+                </div>
+                <div class="footer">
+                    <div style="text-align: center;">
+                        <div class="signature-line"></div>
+                        <p><strong>Authorized Signatory</strong></p>
+                        <p style="color: #999;">InternVerify</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p><strong>Date of Issue</strong></p>
+                        <p>${date}</p>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; font-size: 0.8rem; color: #999; border-top: 1px solid #eee; padding-top: 10px;">
+                    This certificate is digitally verified. Scan the QR code to verify.
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = `Certificate-${name.replace(/\s/g, '_')}.html`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+}

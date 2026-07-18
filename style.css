@@ -1052,3 +1052,37 @@ footer,
 .dark-mode-btn {
     transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
+/* Download Certificate Button */
+.btn-download {
+    display: inline-block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(245, 87, 108, 0.3);
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.btn-download:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(245, 87, 108, 0.4);
+}
+
+.btn-download:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .btn-download {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        margin-left: 0;
+        width: 100%;
+    }
+}

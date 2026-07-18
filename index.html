@@ -1,3 +1,7 @@
+<!-- Scripts -->
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="script.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,16 +77,18 @@
             
             <!-- IMPORTANT: This div MUST have id="result" -->
             <div id="result" class="result-box" style="display:none;">
-                <div class="result-content">
-                    <div class="status-badge verified">✅ Verified</div>
-                    <h3 id="studentName"></h3>
-                    <p><strong>Certificate ID:</strong> <span id="certId"></span></p>
-                    <p><strong>Internship:</strong> <span id="internship"></span></p>
-                    <p><strong>Duration:</strong> <span id="duration"></span></p>
-                    <p><strong>Completion Date:</strong> <span id="completionDate"></span></p>
-                    <div class="certificate-link">
-                        <div class="certificate-link">
-    <a id="certLink" href="#" target="_blank" class="btn-certificate">📄 View Full Certificate</a>
+    <div class="result-content">
+        <div class="status-badge verified">✅ Verified</div>
+        <h3 id="studentName"></h3>
+        <p><strong>Certificate ID:</strong> <span id="certId"></span></p>
+        <p><strong>Internship:</strong> <span id="internship"></span></p>
+        <p><strong>Duration:</strong> <span id="duration"></span></p>
+        <p><strong>Completion Date:</strong> <span id="completionDate"></span></p>
+        <div class="certificate-link">
+            <a id="certLink" href="#" target="_blank" class="btn-certificate">📄 View Full Certificate</a>
+            <button onclick="downloadCertificate()" class="btn-download">⬇️ Download Certificate</button>
+        </div>
+    </div>
 </div>
 <!-- SHARE BUTTONS - Add this section -->
 <div class="share-section">
