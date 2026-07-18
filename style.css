@@ -493,15 +493,15 @@ footer {
     100% { transform: rotate(360deg); }
 }
 /* Top Right Logos */
-.top-logos {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-left: 20px;
-}
-
 .top-logo {
-    height: 40px;
+    height: 40px;      /* Change to 30px for smaller, 50px for larger */
     width: auto;
     object-fit: contain;
+    border-radius: 5px; /* Adds rounded corners */
+    padding: 2px;       /* Adds space around logo */
+    background: white;  /* Adds white background if needed */
+}
+.top-logo:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
