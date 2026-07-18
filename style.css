@@ -39,22 +39,24 @@ body {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0.5rem 2rem;  /* Changed from 1rem to 0.5rem */
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+.top-logos {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 20px;
 }
 
+.top-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
 .nav-links a {
     color: #333;
     text-decoration: none;
@@ -496,18 +498,3 @@ footer {
 }
 /* Top Right Logos */
 /* Top Right Logos - Updated */
-.top-logos {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: 20px;
-    flex-shrink: 0;  /* Prevents logos from shrinking */
-}
-
-.top-logo {
-    height: 35px;  /* Reduced from 40px to fit better */
-    width: auto;
-    object-fit: contain;
-    display: block;  /* Removes extra spacing */
-    max-height: 45px; /* Prevents overflow */
-}
