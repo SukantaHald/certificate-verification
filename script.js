@@ -179,6 +179,30 @@ function displayResult(certificate) {
                     📄 View Full Certificate
                 </a>
             </div>
+            <!-- SHARE BUTTONS -->
+            <div class="share-section">
+                <p style="margin: 15px 0 10px 0; color: #666; font-weight: 600;">Share Your Verified Certificate</p>
+                <div class="share-buttons">
+                    <button onclick="shareOnLinkedIn()" class="btn-share-linkedin" title="Share on LinkedIn">
+                        <span>🔗</span> LinkedIn
+                    </button>
+                    <button onclick="shareOnTwitter()" class="btn-share-twitter" title="Share on Twitter">
+                        <span>🐦</span> Twitter
+                    </button>
+                    <button onclick="shareOnWhatsApp()" class="btn-share-whatsapp" title="Share on WhatsApp">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button onclick="shareOnFacebook()" class="btn-share-facebook" title="Share on Facebook">
+                        <span>👍</span> Facebook
+                    </button>
+                    <button onclick="shareViaEmail()" class="btn-share-email" title="Share via Email">
+                        <span>✉️</span> Email
+                    </button>
+                    <button onclick="shareViaCopy()" class="btn-share-copy" title="Copy Verification Details">
+                        <span>📋</span> Copy
+                    </button>
+                </div>
+            </div>
         </div>
     `;
 }
