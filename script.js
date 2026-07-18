@@ -1,3 +1,109 @@
+// ========================================
+// SHARE FUNCTIONS
+// ========================================
+
+function shareOnLinkedIn() {
+    const name = document.querySelector('#result h3')?.textContent || 'a student';
+    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
+    const url = window.location.href;
+    
+    const shareText = `🎓 I just verified my internship certificate! 
+Name: ${name}
+Certificate ID: ${certId}
+Verified at: ${url}
+#Internship #Certificate #Verification`;
+    
+    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&summary=${encodeURIComponent(shareText)}`;
+    window.open(linkedInUrl, '_blank', 'width=600,height=600');
+}
+
+function shareOnTwitter() {
+    const name = document.querySelector('#result h3')?.textContent || 'a student';
+    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
+    const url = window.location.href;
+    
+    const shareText = `✅ I just verified my internship certificate on InternVerify! 🎓
+Name: ${name}
+Certificate ID: ${certId}
+Verify yours at: ${url}
+#Internship #CertificateVerification`;
+    
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
+    window.open(twitterUrl, '_blank', 'width=600,height=400');
+}
+
+function shareOnWhatsApp() {
+    const name = document.querySelector('#result h3')?.textContent || 'a student';
+    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
+    const url = window.location.href;
+    
+    const shareText = `✅ Verified Certificate! 🎓
+Name: ${name}
+Certificate ID: ${certId}
+Verify here: ${url}`;
+    
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(whatsappUrl, '_blank', 'width=600,height=600');
+}
+
+function shareOnFacebook() {
+    const url = window.location.href;
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent('I just verified my internship certificate! 🎓')}`;
+    window.open(facebookUrl, '_blank', 'width=600,height=400');
+}
+
+function shareViaEmail() {
+    const name = document.querySelector('#result h3')?.textContent || 'a student';
+    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
+    const url = window.location.href;
+    
+    const subject = '🎓 Internship Certificate Verification';
+    const body = `Hello,
+
+I would like to share my verified internship certificate details:
+
+Name: ${name}
+Certificate ID: ${certId}
+Verification Link: ${url}
+
+Thank you,
+${name}`;
+    
+    const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+}
+
+function shareViaCopy() {
+    const name = document.querySelector('#result h3')?.textContent || 'a student';
+    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
+    const url = window.location.href;
+    
+    const shareText = `✅ Verified Certificate! 🎓
+Name: ${name}
+Certificate ID: ${certId}
+Verification Link: ${url}`;
+    
+    navigator.clipboard.writeText(shareText).then(() => {
+        // Show success message
+        const btn = document.querySelector('.btn-share-copy');
+        const originalText = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        btn.style.background = '#27ae60';
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+        }, 2000);
+    }).catch(() => {
+        alert('Copy failed. Please copy the text manually.');
+    });
+}
+
+
+
+
+
+
+
 // Database
 const database = {
     certificates: [
