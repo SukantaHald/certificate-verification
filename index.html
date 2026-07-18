@@ -7,34 +7,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">🎓</span>
-                <span class="logo-text">InternVerify</span>
-            </div>
-            <div class="nav-links">
-                <a href="#home" class="nav-link active">
-                    <span class="nav-icon">🏠</span>
-                    Home
-                </a>
-                <a href="#verify" class="nav-link">
-                    <span class="nav-icon">✅</span>
-                    Verify
-                </a>
-                <a href="#about" class="nav-link">
-                    <span class="nav-icon">ℹ️</span>
-                    About
-                </a>
-            </div>
-            <div class="top-logos">
-                <img src="logo1.png" alt="Logo 1" class="top-logo">
-                <img src="logo2.png" alt="Logo 2" class="top-logo">
-            </div>
+    <div class="nav-container">
+        <div class="logo">
+            <span class="logo-icon">✨</span>
+            <span class="logo-text">InternVerify</span>
         </div>
-    </nav>
-
+        <div class="nav-links">
+            <a href="#home" class="nav-link active">
+                <span class="nav-icon">🏠</span>
+                Home
+            </a>
+            <a href="#verify" class="nav-link">
+                <span class="nav-icon">✅</span>
+                Verify
+            </a>
+            <a href="#about" class="nav-link">
+                <span class="nav-icon">ℹ️</span>
+                About
+            </a>
+        </div>
+        <!-- ===== DARK MODE TOGGLE ===== -->
+        <button id="darkModeToggle" class="dark-mode-btn" onclick="toggleDarkMode()">
+            <span class="dark-mode-icon">🌙</span>
+        </button>
+        <div class="top-logos">
+            <img src="logo1.png" alt="Logo 1" class="top-logo">
+            <img src="logo2.png" alt="Logo 2" class="top-logo">
+        </div>
+    </div>
+</nav>
     <!-- ===== HERO SECTION ===== -->
     <section id="home" class="hero">
         <div class="hero-content">

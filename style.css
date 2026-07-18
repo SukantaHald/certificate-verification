@@ -818,3 +818,237 @@ footer {
         transform: rotate(360deg);
     }
 }
+/* ========================================
+   DARK MODE TOGGLE BUTTON
+   ======================================== */
+.dark-mode-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-size: 1.4rem;
+    backdrop-filter: blur(10px);
+    margin-left: 8px;
+}
+
+.dark-mode-btn:hover {
+    transform: scale(1.1) rotate(20deg);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode-btn .dark-mode-icon {
+    transition: transform 0.5s ease;
+}
+
+.dark-mode-btn:hover .dark-mode-icon {
+    transform: rotate(360deg);
+}
+
+/* ========================================
+   DARK MODE THEME
+   ======================================== */
+body.dark-mode {
+    background: #0f0f1a;
+    color: #e0e0e0;
+}
+
+/* Navbar in Dark Mode */
+body.dark-mode .navbar {
+    background: rgba(20, 20, 35, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .nav-links {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .nav-link {
+    color: #aaa;
+}
+
+body.dark-mode .nav-link:hover {
+    background: rgba(102, 126, 234, 0.2);
+    color: #8a9cf0;
+}
+
+body.dark-mode .nav-link.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+/* Hero in Dark Mode */
+body.dark-mode .hero {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+body.dark-mode .hero h1 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .hero p {
+    color: #aaa;
+}
+
+/* Cards in Dark Mode */
+body.dark-mode .verify-box {
+    background: rgba(30, 30, 50, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .verify-box h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .input-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+body.dark-mode .input-group input:focus {
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .input-group input::placeholder {
+    color: #666;
+}
+
+/* Result Box in Dark Mode */
+body.dark-mode .result-box {
+    background: rgba(30, 30, 50, 0.9);
+    border-left: 6px solid #27ae60;
+}
+
+body.dark-mode .result-content h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .result-content p {
+    color: #aaa;
+}
+
+/* About Section in Dark Mode */
+body.dark-mode .about-section {
+    background: transparent;
+}
+
+body.dark-mode .about-section h2 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .about-content > p {
+    color: #aaa;
+}
+
+body.dark-mode .feature-card {
+    background: rgba(30, 30, 50, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .feature-card h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .feature-card p {
+    color: #aaa;
+}
+
+/* QR Section in Dark Mode */
+body.dark-mode .qr-section {
+    border-top: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .qr-section h4 {
+    color: #aaa;
+}
+
+/* Footer in Dark Mode */
+body.dark-mode footer {
+    background: #0a0a15;
+    color: #666;
+}
+
+/* Top Logos in Dark Mode */
+body.dark-mode .top-logos {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .top-logo {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode Toggle Button in Dark Mode */
+body.dark-mode .dark-mode-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .dark-mode-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Certificate Link in Dark Mode */
+body.dark-mode .certificate-link {
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Status Badge in Dark Mode */
+body.dark-mode .status-badge.verified {
+    background: rgba(39, 174, 96, 0.2);
+    color: #2ecc71;
+}
+
+body.dark-mode .status-badge.invalid {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+/* Scrollbar for Dark Mode */
+body.dark-mode::-webkit-scrollbar {
+    width: 8px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}
+
+/* Mobile Adjustments for Dark Mode */
+@media (max-width: 768px) {
+    body.dark-mode .nav-links {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+}
+/* Smooth transitions for dark mode */
+body,
+.navbar,
+.verify-box,
+.result-box,
+.feature-card,
+.input-group input,
+.about-section,
+footer,
+.top-logos,
+.dark-mode-btn {
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}

@@ -279,3 +279,69 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+// ========================================
+// DARK MODE FUNCTIONALITY
+// ========================================
+
+// Check for saved dark mode preference
+function checkDarkModePreference() {
+    const darkMode = localStorage.getItem('darkMode');
+    const toggle = document.getElementById('darkModeToggle');
+    
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        if (toggle) {
+            toggle.querySelector('.dark-mode-icon').textContent = '☀️';
+        }
+    } else {
+        document.body.classList.remove('dark-mode');
+        if (toggle) {
+            toggle.querySelector('.dark-mode-icon').textContent = '🌙';
+        }
+    }
+}
+
+// Toggle dark mode
+function toggleDarkMode() {
+    const toggle = document.getElementById('darkModeToggle');
+    const icon = toggle.querySelector('.dark-mode-icon');
+    
+    if (document.body.classList.contains('dark-mode')) {
+        // Switch to light mode
+        document.body.classList.remove('dark-mode');
+        icon.textContent = '🌙';
+        localStorage.setItem('darkMode', 'disabled');
+    } else {
+        // Switch to dark mode
+        document.body.classList.add('dark-mode');
+        icon.textContent = '☀️';
+        localStorage.setItem('darkMode', 'enabled');
+    }
+}
+
+// Initialize dark mode on page load
+document.addEventListener('DOMContentLoaded', function() {
+    checkDarkModePreference();
+    
+    // Add keyboard shortcut (Ctrl+Shift+D) for dark mode
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+            e.preventDefault();
+            toggleDarkMode();
+        }
+    });
+});
+
+// Also update the logo animation in dark mode
+function updateLogoForDarkMode() {
+    const logoText = document.querySelector('.logo-text');
+    if (logoText) {
+        if (document.body.classList.contains('dark-mode')) {
+            logoText.style.setProperty('--gradient-color1', '#8a9cf0');
+            logoText.style.setProperty('--gradient-color2', '#9b6fc0');
+        } else {
+            logoText.style.setProperty('--gradient-color1', '#667eea');
+            logoText.style.setProperty('--gradient-color2', '#764ba2');
+        }
+    }
+}
