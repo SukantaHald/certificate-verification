@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Pre-fill with example ID
-    input.value = 'INT-2024-001';
+    
     
     // Auto-verify on load (optional)
     // verifyCertificate();
