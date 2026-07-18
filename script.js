@@ -123,7 +123,7 @@ const database = {
             duration: "6 months",
             completionDate: "November 30, 2024",
             verified: true,
-            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
+            certificateLink: "PENDING"
         },
         {
             id: "INT-2024-003",
@@ -132,7 +132,7 @@ const database = {
             duration: "4 months",
             completionDate: "October 20, 2024",
             verified: true,
-            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
+            certificateLink: "NOT UPLODED BY YOUR TEACHER"
         }
     ]
 };
