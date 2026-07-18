@@ -196,42 +196,52 @@ function copyVerificationLink() {
     });
 }
 
-// ===== DOWNLOAD CERTIFICATE =====
-// ===== DOWNLOAD CERTIFICATE (ORIGINAL FROM GOOGLE DRIVE) =====
+// ===== DOWNLOAD CERTIFICATE (Direct from Google Drive) =====
 function downloadCertificate() {
-    // Get the currently displayed certificate data
-    const name = document.querySelector('#result h3')?.textContent || 'Certificate';
-    const certLink = document.getElementById('certLink')?.href || '';
+    // Get the current certificate data
+    const certId = document.getElementById('certId')?.textContent || '';
     
-    if (!certLink) {
-        alert('Certificate link not found. Please verify first.');
+    if (!certId) {
+        alert('No certificate to download. Please verify first.');
         return;
     }
     
-    // Create a download button for the original certificate
-    const link = document.createElement('a');
-    link.href = certLink; // This is the Google Drive link
-    link.target = '_blank';
-    link.download = `Certificate-${name.replace(/\s/g, '_')}.pdf`; // Try to download as PDF
+    // Find the certificate in the database
+    const certificate = database.certificates.find(cert => cert.id === certId);
     
-    // For Google Drive, we need to use the download URL format
-    // Convert view link to download link
-    let downloadUrl = certLink;
+    if (!certificate || !certificate.certificateLink) {
+        alert('Certificate link not found.');
+        return;
+    }
     
-    // Check if it's a Google Drive link
-    if (certLink.includes('drive.google.com')) {
-        // Extract file ID
-        const fileIdMatch = certLink.match(/[-\w]{25,}/);
-        if (fileIdMatch) {
-            const fileId = fileIdMatch[0];
-            // Use Google Drive's direct download URL
-            downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    // Get the Google Drive link
+    let driveLink = certificate.certificateLink;
+    
+    // Convert preview link to download link
+    // Example: https://drive.google.com/file/d/XXXXX/preview
+    // becomes: https://drive.google.com/uc?export=download&id=XXXXX
+    const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
+    if (fileIdMatch) {
+        const fileId = fileIdMatch[1];
+        driveLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    } else {
+        // If it's already a download link, use it as is
+        // If it's a view link, try to convert it
+        if (driveLink.includes('view')) {
+            const idMatch = driveLink.match(/id=([^&]+)/);
+            if (idMatch) {
+                driveLink = `https://drive.google.com/uc?export=download&id=${idMatch[1]}`;
+            }
         }
     }
     
-    // Open in new tab for viewing/downloading
-    window.open(downloadUrl, '_blank');
+    // Open the download link in a new tab
+    window.open(driveLink, '_blank');
+    
+    // Show a message
+    showNotification('📥 Downloading your certificate...');
 }
+
 
 // ===== AUTO-VERIFY FROM URL =====
 window.addEventListener('DOMContentLoaded', function() {
@@ -249,3 +259,31 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+// ===== SHOW NOTIFICATION =====
+function showNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #27ae60;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-weight: 600;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        z-index: 9999;
+        animation: slideIn 0.5s ease;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 500);
+    }, 3000);
+}
