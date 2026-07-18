@@ -1,110 +1,4 @@
-// ========================================
-// SHARE FUNCTIONS
-// ========================================
-
-function shareOnLinkedIn() {
-    const name = document.querySelector('#result h3')?.textContent || 'a student';
-    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
-    const url = window.location.href;
-    
-    const shareText = `🎓 I just verified my internship certificate! 
-Name: ${name}
-Certificate ID: ${certId}
-Verified at: ${url}
-#Internship #Certificate #Verification`;
-    
-    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&summary=${encodeURIComponent(shareText)}`;
-    window.open(linkedInUrl, '_blank', 'width=600,height=600');
-}
-
-function shareOnTwitter() {
-    const name = document.querySelector('#result h3')?.textContent || 'a student';
-    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
-    const url = window.location.href;
-    
-    const shareText = `✅ I just verified my internship certificate on InternVerify! 🎓
-Name: ${name}
-Certificate ID: ${certId}
-Verify yours at: ${url}
-#Internship #CertificateVerification`;
-    
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
-    window.open(twitterUrl, '_blank', 'width=600,height=400');
-}
-
-function shareOnWhatsApp() {
-    const name = document.querySelector('#result h3')?.textContent || 'a student';
-    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
-    const url = window.location.href;
-    
-    const shareText = `✅ Verified Certificate! 🎓
-Name: ${name}
-Certificate ID: ${certId}
-Verify here: ${url}`;
-    
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-    window.open(whatsappUrl, '_blank', 'width=600,height=600');
-}
-
-function shareOnFacebook() {
-    const url = window.location.href;
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent('I just verified my internship certificate! 🎓')}`;
-    window.open(facebookUrl, '_blank', 'width=600,height=400');
-}
-
-function shareViaEmail() {
-    const name = document.querySelector('#result h3')?.textContent || 'a student';
-    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
-    const url = window.location.href;
-    
-    const subject = '🎓 Internship Certificate Verification';
-    const body = `Hello,
-
-I would like to share my verified internship certificate details:
-
-Name: ${name}
-Certificate ID: ${certId}
-Verification Link: ${url}
-
-Thank you,
-${name}`;
-    
-    const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoUrl;
-}
-
-function shareViaCopy() {
-    const name = document.querySelector('#result h3')?.textContent || 'a student';
-    const certId = document.querySelector('#result p strong')?.nextSibling?.textContent || '';
-    const url = window.location.href;
-    
-    const shareText = `✅ Verified Certificate! 🎓
-Name: ${name}
-Certificate ID: ${certId}
-Verification Link: ${url}`;
-    
-    navigator.clipboard.writeText(shareText).then(() => {
-        // Show success message
-        const btn = document.querySelector('.btn-share-copy');
-        const originalText = btn.textContent;
-        btn.textContent = '✅ Copied!';
-        btn.style.background = '#27ae60';
-        setTimeout(() => {
-            btn.textContent = originalText;
-            btn.style.background = '';
-        }, 2000);
-    }).catch(() => {
-        alert('Copy failed. Please copy the text manually.');
-    });
-}
-
-
-
-
-
-
-
-// Database
+// ===== DATABASE =====
 const database = {
     certificates: [
         {
@@ -123,7 +17,7 @@ const database = {
             duration: "6 months",
             completionDate: "November 30, 2024",
             verified: true,
-            certificateLink: "PENDING"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         },
         {
             id: "INT-2024-003",
@@ -132,12 +26,15 @@ const database = {
             duration: "4 months",
             completionDate: "October 20, 2024",
             verified: true,
-            certificateLink: "NOT UPLODED BY YOUR TEACHER"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         }
     ]
 };
 
-// Verify Certificate Function
+// ===== VARIABLES =====
+let currentCertificate = null;
+
+// ===== VERIFY CERTIFICATE =====
 function verifyCertificate() {
     const input = document.getElementById('certificateId');
     const id = input.value.trim();
@@ -162,52 +59,41 @@ function verifyCertificate() {
     }, 1000);
 }
 
-// Display Result Function
+// ===== DISPLAY RESULT =====
 function displayResult(certificate) {
+    currentCertificate = certificate;
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
         <div class="result-content">
             <div class="status-badge verified">✅ Verified</div>
-            <h3>${certificate.name}</h3>
-            <p><strong>Certificate ID:</strong> ${certificate.id}</p>
-            <p><strong>Internship:</strong> ${certificate.internship}</p>
-            <p><strong>Duration:</strong> ${certificate.duration}</p>
-            <p><strong>Completion Date:</strong> ${certificate.completionDate}</p>
+            <h3 id="studentName">${certificate.name}</h3>
+            <p><strong>Certificate ID:</strong> <span id="certId">${certificate.id}</span></p>
+            <p><strong>Internship:</strong> <span id="internship">${certificate.internship}</span></p>
+            <p><strong>Duration:</strong> <span id="duration">${certificate.duration}</span></p>
+            <p><strong>Completion Date:</strong> <span id="completionDate">${certificate.completionDate}</span></p>
             <div class="certificate-link">
-                <a href="${certificate.certificateLink}" target="_blank" class="btn-certificate">
-                    📄 View Full Certificate
-                </a>
+                <a id="certLink" href="${certificate.certificateLink}" target="_blank" class="btn-certificate">📄 View Full Certificate</a>
+                <button onclick="downloadCertificate()" class="btn-download">⬇️ Download Certificate</button>
             </div>
-            <!-- SHARE BUTTONS -->
-            <div class="share-section">
-                <p style="margin: 15px 0 10px 0; color: #666; font-weight: 600;">Share Your Verified Certificate</p>
-                <div class="share-buttons">
-                    <button onclick="shareOnLinkedIn()" class="btn-share-linkedin" title="Share on LinkedIn">
-                        <span>🔗</span> LinkedIn
-                    </button>
-                    <button onclick="shareOnTwitter()" class="btn-share-twitter" title="Share on Twitter">
-                        <span>🐦</span> Twitter
-                    </button>
-                    <button onclick="shareOnWhatsApp()" class="btn-share-whatsapp" title="Share on WhatsApp">
-                        <span>💬</span> WhatsApp
-                    </button>
-                    <button onclick="shareOnFacebook()" class="btn-share-facebook" title="Share on Facebook">
-                        <span>👍</span> Facebook
-                    </button>
-                    <button onclick="shareViaEmail()" class="btn-share-email" title="Share via Email">
-                        <span>✉️</span> Email
-                    </button>
-                    <button onclick="shareViaCopy()" class="btn-share-copy" title="Copy Verification Details">
-                        <span>📋</span> Copy
-                    </button>
+            
+            <!-- SHARE SECTION - ONLY ONE -->
+            <div class="share-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center;">
+                <h4 style="margin-bottom: 15px; color: #333;">Share Your Verified Certificate</h4>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">LinkedIn</button>
+                    <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Twitter</button>
+                    <button onclick="shareOnWhatsApp()" class="btn-share" style="background: #25d366; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">WhatsApp</button>
+                    <button onclick="shareOnFacebook()" class="btn-share" style="background: #1877f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Facebook</button>
+                    <button onclick="shareViaEmail()" class="btn-share" style="background: #ea4335; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Email</button>
+                    <button onclick="copyVerificationLink()" class="btn-share" style="background: #666; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Copy</button>
                 </div>
             </div>
         </div>
     `;
 }
 
-// Display Error Function
+// ===== DISPLAY ERROR =====
 function displayError(message) {
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
@@ -219,7 +105,7 @@ function displayError(message) {
     `;
 }
 
-// QR Scanner Function
+// ===== QR SCANNER =====
 let html5QrCode = null;
 
 function startScanner() {
@@ -263,105 +149,65 @@ function onScanError(errorMessage) {
     // Ignore - scanning in progress
 }
 
-// Auto-verify from URL
-window.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const verifyId = urlParams.get('verify');
-    
-    if (verifyId) {
-        const certificate = database.certificates.find(cert => cert.id === verifyId);
-        if (certificate && certificate.verified) {
-            setTimeout(() => {
-                document.getElementById('certificateId').value = verifyId;
-                displayResult(certificate);
-                document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-            }, 500);
-        }
-    }
-});
-// ========================================
-// DARK MODE FUNCTIONALITY
-// ========================================
-
-// Check for saved dark mode preference
-function checkDarkModePreference() {
-    const darkMode = localStorage.getItem('darkMode');
-    const toggle = document.getElementById('darkModeToggle');
-    
-    if (darkMode === 'enabled') {
-        document.body.classList.add('dark-mode');
-        if (toggle) {
-            toggle.querySelector('.dark-mode-icon').textContent = '☀️';
-        }
-    } else {
-        document.body.classList.remove('dark-mode');
-        if (toggle) {
-            toggle.querySelector('.dark-mode-icon').textContent = '🌙';
-        }
-    }
+// ===== SHARE FUNCTIONS =====
+function shareOnLinkedIn() {
+    const url = window.location.href;
+    const text = `✅ I have successfully completed my internship! Verify my certificate here:`;
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(text)}`, '_blank');
 }
 
-// Toggle dark mode
-function toggleDarkMode() {
-    const toggle = document.getElementById('darkModeToggle');
-    const icon = toggle.querySelector('.dark-mode-icon');
-    
-    if (document.body.classList.contains('dark-mode')) {
-        // Switch to light mode
-        document.body.classList.remove('dark-mode');
-        icon.textContent = '🌙';
-        localStorage.setItem('darkMode', 'disabled');
-    } else {
-        // Switch to dark mode
-        document.body.classList.add('dark-mode');
-        icon.textContent = '☀️';
-        localStorage.setItem('darkMode', 'enabled');
-    }
+function shareOnTwitter() {
+    const url = window.location.href;
+    const text = `✅ I have successfully completed my internship! Verify my certificate here:`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
 }
 
-// Initialize dark mode on page load
-document.addEventListener('DOMContentLoaded', function() {
-    checkDarkModePreference();
-    
-    // Add keyboard shortcut (Ctrl+Shift+D) for dark mode
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
-            e.preventDefault();
-            toggleDarkMode();
-        }
+function shareOnWhatsApp() {
+    const url = window.location.href;
+    const text = `✅ I have successfully completed my internship! Verify my certificate here: ${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function shareOnFacebook() {
+    const url = window.location.href;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+}
+
+function shareViaEmail() {
+    const url = window.location.href;
+    const subject = 'My Verified Internship Certificate';
+    const body = `I have successfully completed my internship! Verify my certificate here: ${url}`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function copyVerificationLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        alert('✅ Verification link copied to clipboard!');
+    }).catch(() => {
+        // Fallback
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        alert('✅ Verification link copied to clipboard!');
     });
-});
-
-// Also update the logo animation in dark mode
-function updateLogoForDarkMode() {
-    const logoText = document.querySelector('.logo-text');
-    if (logoText) {
-        if (document.body.classList.contains('dark-mode')) {
-            logoText.style.setProperty('--gradient-color1', '#8a9cf0');
-            logoText.style.setProperty('--gradient-color2', '#9b6fc0');
-        } else {
-            logoText.style.setProperty('--gradient-color1', '#667eea');
-            logoText.style.setProperty('--gradient-color2', '#764ba2');
-        }
-    }
 }
-// Download Certificate
-let currentCertificate = null;
 
+// ===== DOWNLOAD CERTIFICATE =====
 function downloadCertificate() {
-    // Get the currently displayed certificate data
     const name = document.querySelector('#result h3')?.textContent || 'Certificate';
     const certId = document.getElementById('certId')?.textContent || '';
     const internship = document.getElementById('internship')?.textContent || '';
     const duration = document.getElementById('duration')?.textContent || '';
     const date = document.getElementById('completionDate')?.textContent || '';
     
-    // Method 1: Download as Image (using html2canvas)
     downloadCertificateAsImage(name, certId, internship, duration, date);
 }
 
 function downloadCertificateAsImage(name, certId, internship, duration, date) {
-    // Create a temporary div for the certificate
     const certDiv = document.createElement('div');
     certDiv.style.cssText = `
         position: fixed;
@@ -424,7 +270,6 @@ function downloadCertificateAsImage(name, certId, internship, duration, date) {
     
     document.body.appendChild(certDiv);
     
-    // Use html2canvas to convert to image
     if (typeof html2canvas !== 'undefined') {
         html2canvas(certDiv, {
             scale: 2,
@@ -437,20 +282,16 @@ function downloadCertificateAsImage(name, certId, internship, duration, date) {
             link.href = canvas.toDataURL('image/png');
             link.click();
             document.body.removeChild(certDiv);
-        }).catch(err => {
-            console.error('Error generating certificate:', err);
-            // Fallback: Download as HTML
+        }).catch(() => {
             downloadCertificateAsHTML(name, certId, internship, duration, date);
             document.body.removeChild(certDiv);
         });
     } else {
-        // Fallback: Download as HTML
         downloadCertificateAsHTML(name, certId, internship, duration, date);
         document.body.removeChild(certDiv);
     }
 }
 
-// Fallback: Download as HTML
 function downloadCertificateAsHTML(name, certId, internship, duration, date) {
     const htmlContent = `
         <!DOCTYPE html>
@@ -460,25 +301,8 @@ function downloadCertificateAsHTML(name, certId, internship, duration, date) {
             <title>Certificate - ${name}</title>
             <style>
                 * { margin: 0; padding: 0; box-sizing: border-box; }
-                body {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    min-height: 100vh;
-                    background: #f5f7fa;
-                    font-family: 'Georgia', serif;
-                    padding: 20px;
-                }
-                .certificate {
-                    max-width: 800px;
-                    width: 100%;
-                    background: white;
-                    padding: 40px;
-                    border: 20px solid #d4af37;
-                    border-radius: 20px;
-                    text-align: center;
-                    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-                }
+                body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f5f7fa; font-family: 'Georgia', serif; padding: 20px; }
+                .certificate { max-width: 800px; width: 100%; background: white; padding: 40px; border: 20px solid #d4af37; border-radius: 20px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
                 .certificate h1 { font-size: 2.5rem; color: #d4af37; text-transform: uppercase; letter-spacing: 5px; }
                 .certificate h2 { font-size: 2.8rem; color: #2c3e50; margin: 20px 0; border-bottom: 2px dashed #d4af37; display: inline-block; padding-bottom: 10px; }
                 .certificate .details { background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 400px; text-align: left; }
@@ -535,3 +359,20 @@ function downloadCertificateAsHTML(name, certId, internship, duration, date) {
     link.click();
     URL.revokeObjectURL(url);
 }
+
+// ===== AUTO-VERIFY FROM URL =====
+window.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const verifyId = urlParams.get('verify');
+    
+    if (verifyId) {
+        const certificate = database.certificates.find(cert => cert.id === verifyId);
+        if (certificate && certificate.verified) {
+            setTimeout(() => {
+                document.getElementById('certificateId').value = verifyId;
+                displayResult(certificate);
+                document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        }
+    }
+});
