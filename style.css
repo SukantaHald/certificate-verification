@@ -492,3 +492,16 @@ footer {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+/* Top Right Logos */
+.top-logos {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+.top-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
