@@ -50,12 +50,14 @@ body {
     align-items: center;
     gap: 15px;
     margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px solid #ddd; /* Adds a subtle line */
 }
 
 .top-logo {
-    height: 40px;
-    width: auto;
-    object-fit: contain;
+    height: 30px; /* Smaller */
+    /* or */
+    height: 50px; /* Larger */
 }
 .nav-links a {
     color: #333;
