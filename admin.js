@@ -3,12 +3,10 @@ let adminData = [];
 
 // Load data from localStorage or database
 function loadAdminData() {
-    // Try to load from localStorage
     const stored = localStorage.getItem('adminCertificates');
     if (stored) {
         adminData = JSON.parse(stored);
     } else {
-        // Load from main database
         adminData = JSON.parse(JSON.stringify(database.certificates));
         localStorage.setItem('adminCertificates', JSON.stringify(adminData));
     }
@@ -22,10 +20,10 @@ function login(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     
-    // Simple authentication - change these credentials
     if (username === 'admin' && password === 'admin123') {
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('adminContent').style.display = 'block';
+        localStorage.setItem('adminLoggedIn', 'true');
         loadAdminData();
     } else {
         alert('❌ Invalid username or password!');
@@ -35,6 +33,7 @@ function login(event) {
 function logout() {
     document.getElementById('loginOverlay').style.display = 'flex';
     document.getElementById('adminContent').style.display = 'none';
+    localStorage.removeItem('adminLoggedIn');
 }
 
 // ===== SAVE CERTIFICATE =====
@@ -58,13 +57,11 @@ function saveCertificate(event) {
     }
     
     if (editId) {
-        // Edit existing
         const index = adminData.findIndex(c => c.id === editId);
         if (index !== -1) {
             adminData[index] = certData;
         }
     } else {
-        // Add new
         if (adminData.find(c => c.id === certData.id)) {
             alert('Certificate ID already exists!');
             return;
@@ -76,7 +73,6 @@ function saveCertificate(event) {
     renderTable();
     updateStats();
     resetForm();
-    // Also update main database
     updateMainDatabase();
 }
 
@@ -171,12 +167,11 @@ function updateStats() {
     document.getElementById('totalCerts').textContent = adminData.length;
     document.getElementById('verifiedCerts').textContent = adminData.filter(c => c.verified).length;
     
-    // Simple expiry check (6 months from date)
     const now = new Date();
     const expired = adminData.filter(c => {
         const date = new Date(c.completionDate);
         const diff = (now - date) / (1000 * 60 * 60 * 24 * 30);
-        return diff > 6; // Expired after 6 months
+        return diff > 6;
     });
     document.getElementById('expiredCerts').textContent = expired.length;
 }
@@ -187,12 +182,15 @@ function saveToStorage() {
 }
 
 function updateMainDatabase() {
-    // Update the main database in localStorage for index.html
     const mainData = adminData.map(c => ({
         ...c,
         verified: true
     }));
     localStorage.setItem('certificatesData', JSON.stringify(mainData));
+    // Update the global database variable
+    if (typeof database !== 'undefined') {
+        database.certificates = mainData;
+    }
 }
 
 // ===== EXPORT DATA =====
@@ -207,60 +205,11 @@ function exportData() {
     URL.revokeObjectURL(url);
 }
 
-// ===== IMPORT DATA (for bulk upload) =====
-function importData(jsonData) {
-    try {
-        const data = JSON.parse(jsonData);
-        if (Array.isArray(data)) {
-            adminData = data;
-            saveToStorage();
-            renderTable();
-            updateStats();
-            updateMainDatabase();
-            alert('✅ Data imported successfully!');
-        }
-    } catch (e) {
-        alert('❌ Invalid data format. Please use JSON array.');
-    }
-}
-
-// ===== MODIFY MAIN DATABASE =====
-// Override the main database with admin data
-const originalDatabase = database;
-database.certificates = adminData;
-
-// Auto-login check
+// ===== AUTO-LOGIN CHECK =====
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if already logged in
     if (localStorage.getItem('adminLoggedIn') === 'true') {
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('adminContent').style.display = 'block';
         loadAdminData();
     }
 });
-
-// Override verify function to use admin data
-const originalVerify = verifyCertificate;
-verifyCertificate = function() {
-    const input = document.getElementById('certificateId');
-    const id = input.value.trim();
-    
-    if (!id) {
-        alert('Please enter a certificate ID');
-        return;
-    }
-    
-    const resultDiv = document.getElementById('result');
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = '<div class="loading"></div><p>Verifying...</p>';
-    
-    setTimeout(() => {
-        const certificate = adminData.find(cert => cert.id === id);
-        
-        if (certificate && certificate.verified) {
-            displayResult(certificate);
-        } else {
-            displayError('Certificate not found or not verified');
-        }
-    }, 1000);
-};

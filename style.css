@@ -1,108 +1,4 @@
 /* ========================================
-   SHARE BUTTONS
-   ======================================== */
-.share-section {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 2px solid #e0e0e0;
-    text-align: center;
-}
-
-.share-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.share-buttons button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 50px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-}
-
-.share-buttons button:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.share-buttons button:active {
-    transform: scale(0.95);
-}
-
-.share-buttons button span {
-    font-size: 1.2rem;
-}
-
-/* Individual Button Colors */
-.btn-share-linkedin {
-    background: #0A66C2;
-}
-.btn-share-linkedin:hover {
-    background: #004182;
-}
-
-.btn-share-twitter {
-    background: #000000;
-}
-.btn-share-twitter:hover {
-    background: #1a1a1a;
-}
-
-.btn-share-whatsapp {
-    background: #25D366;
-}
-.btn-share-whatsapp:hover {
-    background: #128C7E;
-}
-
-.btn-share-facebook {
-    background: #1877F2;
-}
-.btn-share-facebook:hover {
-    background: #0d65d9;
-}
-
-.btn-share-email {
-    background: #EA4335;
-}
-.btn-share-email:hover {
-    background: #c5221f;
-}
-
-.btn-share-copy {
-    background: #6c757d;
-}
-.btn-share-copy:hover {
-    background: #495057;
-}
-
-/* Mobile Responsive */
-@media (max-width: 600px) {
-    .share-buttons {
-        gap: 8px;
-    }
-    
-    .share-buttons button {
-        padding: 8px 14px;
-        font-size: 0.85rem;
-    }
-    
-    .share-buttons button span {
-        font-size: 1rem;
-    }
-}
-/* ========================================
    COMPLETE MODERN CSS - GEN Z DESIGN
    ======================================== */
 
@@ -161,6 +57,8 @@ body {
     justify-content: space-between;
     align-items: center;
     min-height: 60px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 /* ----- LOGO ----- */
@@ -212,7 +110,7 @@ body {
     }
 }
 
-/* ----- NAV LINKS (BUTTON STYLE) ----- */
+/* ----- NAV LINKS ----- */
 .nav-links {
     display: flex;
     align-items: center;
@@ -241,15 +139,6 @@ body {
     cursor: pointer;
 }
 
-.nav-icon {
-    font-size: 1.1rem;
-    transition: transform 0.3s ease;
-}
-
-.nav-link:hover .nav-icon {
-    transform: scale(1.2) rotate(-5deg);
-}
-
 .nav-link:hover {
     background: linear-gradient(135deg, #667eea15, #764ba215);
     color: #667eea;
@@ -266,6 +155,30 @@ body {
 .nav-link.active:hover {
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 6px 30px rgba(102, 126, 234, 0.45);
+}
+
+/* ----- LANGUAGE SELECTOR ----- */
+.language-selector select {
+    padding: 8px 15px;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.language-selector select:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.language-selector select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 /* ----- TOP LOGOS ----- */
@@ -299,7 +212,7 @@ body {
    HERO SECTION
    ======================================== */
 .hero {
-    min-height: 80vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -363,7 +276,7 @@ body {
     margin-bottom: 2rem;
 }
 
-/* ----- HERO BUTTONS (MODERN) ----- */
+/* ----- HERO BUTTONS ----- */
 .hero-buttons {
     display: flex;
     gap: 1rem;
@@ -435,7 +348,7 @@ body {
     gap: 2rem;
 }
 
-/* ----- VERIFY BOX (MODERN CARD) ----- */
+/* ----- VERIFY BOX ----- */
 .verify-box {
     background: white;
     padding: 2.5rem;
@@ -481,7 +394,7 @@ body {
     background: white;
 }
 
-/* ----- VERIFY BUTTON (MODERN) ----- */
+/* ----- VERIFY BUTTON ----- */
 .btn-verify {
     padding: 1rem 2.5rem;
     background: linear-gradient(135deg, #667eea, #764ba2);
@@ -543,7 +456,7 @@ body {
 }
 
 /* ========================================
-   RESULT BOX (CERTIFICATE DISPLAY)
+   RESULT BOX
    ======================================== */
 .result-box {
     background: white;
@@ -595,11 +508,14 @@ body {
     font-size: 1.05rem;
 }
 
-/* ----- CERTIFICATE BUTTON (MODERN) ----- */
+/* ----- CERTIFICATE BUTTONS ----- */
 .certificate-link {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 2px solid #e0e0e0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .btn-certificate {
@@ -617,6 +533,42 @@ body {
 .btn-certificate:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 8px 30px rgba(0, 206, 201, 0.4);
+}
+
+.btn-download {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(245, 87, 108, 0.3);
+}
+
+.btn-download:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(245, 87, 108, 0.4);
+}
+
+.btn-print {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(243, 156, 18, 0.3);
+}
+
+.btn-print:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(243, 156, 18, 0.4);
 }
 
 /* ========================================
@@ -647,7 +599,7 @@ body {
     margin: 0 auto 3rem;
 }
 
-/* ----- FEATURE CARDS (MODERN) ----- */
+/* ----- FEATURE CARDS ----- */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -711,6 +663,7 @@ footer {
         padding: 0 1rem;
         flex-wrap: wrap;
         gap: 10px;
+        justify-content: center;
     }
 
     .logo-text {
@@ -733,8 +686,10 @@ footer {
         font-size: 0.8rem;
         gap: 4px;
     }
-    .nav-icon {
-        font-size: 0.9rem;
+
+    .language-selector select {
+        font-size: 0.8rem;
+        padding: 6px 12px;
     }
 
     .top-logos {
@@ -746,7 +701,7 @@ footer {
     }
 
     .hero {
-        min-height: 60vh;
+        min-height: 50vh;
         border-radius: 0 0 30px 30px;
         padding: 3rem 1.5rem;
     }
@@ -773,6 +728,16 @@ footer {
     .result-content h3 {
         font-size: 1.5rem;
     }
+    .certificate-link {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .certificate-link button,
+    .certificate-link a {
+        width: 100%;
+        text-align: center;
+        margin-left: 0 !important;
+    }
 
     .features {
         grid-template-columns: 1fr;
@@ -780,13 +745,6 @@ footer {
 }
 
 @media (max-width: 480px) {
-    .nav-link span:not(.nav-icon) {
-        display: none;
-    }
-    .nav-link {
-        padding: 8px 12px;
-    }
-
     .hero h1 {
         font-size: 1.8rem;
     }
@@ -794,6 +752,37 @@ footer {
     .btn-secondary {
         padding: 0.8rem 1.5rem;
         font-size: 0.9rem;
+    }
+    .nav-link span:not(.nav-icon) {
+        display: none;
+    }
+    .nav-link {
+        padding: 8px 12px;
+    }
+}
+
+/* ========================================
+   NOTIFICATION ANIMATIONS
+   ======================================== */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
     }
 }
 
@@ -816,330 +805,5 @@ footer {
     }
     100% {
         transform: rotate(360deg);
-    }
-}
-/* ========================================
-   DARK MODE TOGGLE BUTTON
-   ======================================== */
-.dark-mode-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    font-size: 1.4rem;
-    backdrop-filter: blur(10px);
-    margin-left: 8px;
-}
-
-.dark-mode-btn:hover {
-    transform: scale(1.1) rotate(20deg);
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.dark-mode-btn .dark-mode-icon {
-    transition: transform 0.5s ease;
-}
-
-.dark-mode-btn:hover .dark-mode-icon {
-    transform: rotate(360deg);
-}
-
-/* ========================================
-   DARK MODE THEME
-   ======================================== */
-body.dark-mode {
-    background: #0f0f1a;
-    color: #e0e0e0;
-}
-
-/* Navbar in Dark Mode */
-body.dark-mode .navbar {
-    background: rgba(20, 20, 35, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode .nav-links {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-body.dark-mode .nav-link {
-    color: #aaa;
-}
-
-body.dark-mode .nav-link:hover {
-    background: rgba(102, 126, 234, 0.2);
-    color: #8a9cf0;
-}
-
-body.dark-mode .nav-link.active {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-}
-
-/* Hero in Dark Mode */
-body.dark-mode .hero {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-}
-
-body.dark-mode .hero h1 {
-    color: #e0e0e0;
-}
-
-body.dark-mode .hero p {
-    color: #aaa;
-}
-
-/* Cards in Dark Mode */
-body.dark-mode .verify-box {
-    background: rgba(30, 30, 50, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode .verify-box h3 {
-    color: #e0e0e0;
-}
-
-body.dark-mode .input-group input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    color: #e0e0e0;
-}
-
-body.dark-mode .input-group input:focus {
-    border-color: #667eea;
-    background: rgba(255, 255, 255, 0.08);
-}
-
-body.dark-mode .input-group input::placeholder {
-    color: #666;
-}
-
-/* Result Box in Dark Mode */
-body.dark-mode .result-box {
-    background: rgba(30, 30, 50, 0.9);
-    border-left: 6px solid #27ae60;
-}
-
-body.dark-mode .result-content h3 {
-    color: #e0e0e0;
-}
-
-body.dark-mode .result-content p {
-    color: #aaa;
-}
-
-/* About Section in Dark Mode */
-body.dark-mode .about-section {
-    background: transparent;
-}
-
-body.dark-mode .about-section h2 {
-    color: #e0e0e0;
-}
-
-body.dark-mode .about-content > p {
-    color: #aaa;
-}
-
-body.dark-mode .feature-card {
-    background: rgba(30, 30, 50, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode .feature-card h3 {
-    color: #e0e0e0;
-}
-
-body.dark-mode .feature-card p {
-    color: #aaa;
-}
-
-/* QR Section in Dark Mode */
-body.dark-mode .qr-section {
-    border-top: 2px dashed rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .qr-section h4 {
-    color: #aaa;
-}
-
-/* Footer in Dark Mode */
-body.dark-mode footer {
-    background: #0a0a15;
-    color: #666;
-}
-
-/* Top Logos in Dark Mode */
-body.dark-mode .top-logos {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-body.dark-mode .top-logo {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* Dark Mode Toggle Button in Dark Mode */
-body.dark-mode .dark-mode-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .dark-mode-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Certificate Link in Dark Mode */
-body.dark-mode .certificate-link {
-    border-top: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Status Badge in Dark Mode */
-body.dark-mode .status-badge.verified {
-    background: rgba(39, 174, 96, 0.2);
-    color: #2ecc71;
-}
-
-body.dark-mode .status-badge.invalid {
-    background: rgba(231, 76, 60, 0.2);
-    color: #e74c3c;
-}
-
-/* Scrollbar for Dark Mode */
-body.dark-mode::-webkit-scrollbar {
-    width: 8px;
-}
-
-body.dark-mode::-webkit-scrollbar-track {
-    background: #1a1a2e;
-}
-
-body.dark-mode::-webkit-scrollbar-thumb {
-    background: #667eea;
-    border-radius: 10px;
-}
-
-body.dark-mode::-webkit-scrollbar-thumb:hover {
-    background: #764ba2;
-}
-
-/* Mobile Adjustments for Dark Mode */
-@media (max-width: 768px) {
-    body.dark-mode .nav-links {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-}
-/* Smooth transitions for dark mode */
-body,
-.navbar,
-.verify-box,
-.result-box,
-.feature-card,
-.input-group input,
-.about-section,
-footer,
-.top-logos,
-.dark-mode-btn {
-    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-}
-/* Download Certificate Button */
-.btn-download {
-    display: inline-block;
-    padding: 12px 30px;
-    background: linear-gradient(135deg, #f093fb, #f5576c);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 20px rgba(245, 87, 108, 0.3);
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.btn-download:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 30px rgba(245, 87, 108, 0.4);
-}
-
-.btn-download:active {
-    transform: scale(0.95);
-}
-
-@media (max-width: 768px) {
-    .btn-download {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-        margin-left: 0;
-        width: 100%;
-    }
-}
-/* Notification Animation */
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
-/* Language Selector */
-.language-selector select {
-    padding: 8px 15px;
-    border-radius: 10px;
-    border: 2px solid #e0e0e0;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.language-selector select:hover {
-    border-color: #667eea;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
-}
-
-.language-selector select:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-@media (max-width: 768px) {
-    .language-selector {
-        margin-left: 0 !important;
-        margin-top: 5px;
-    }
-    .language-selector select {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-        width: 100%;
     }
 }
