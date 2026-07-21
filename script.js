@@ -36,6 +36,15 @@ const database = {
             completionDate: "October 13, 2024",
             verified: true,
             certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
+        },
+        {
+            id: "INT-2024-005",
+            name: "Test Student",
+            internship: "Test Internship",
+            duration: "1 Month",
+            completionDate: "July 21, 2024",
+            verified: true,
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         }
     ]
 };
