@@ -17,7 +17,7 @@ const database = {
             duration: "6 months",
             completionDate: "November 30, 2024",
             verified: true,
-            certificateLink: "not available"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         },
         {
             id: "INT-2024-003",
@@ -26,7 +26,16 @@ const database = {
             duration: "4 months",
             completionDate: "October 20, 2024",
             verified: true,
-            certificateLink: "not available"
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
+        },
+        {
+            id: "INT-2024-004",
+            name: "Sukanta Halder",
+            internship: "Data Analytics Internship",
+            duration: "2 Months",
+            completionDate: "October 13, 2024",
+            verified: true,
+            certificateLink: "https://drive.google.com/file/d/1Tin2gET6LZ8LnAkshNZVPfXznTWLlie8/preview"
         }
     ]
 };
@@ -43,21 +52,60 @@ function changeLanguage(lang) {
 function updatePageLanguage(lang) {
     const t = languages[lang] || languages.en;
     
-    // Update all elements with data-lang attribute
-    document.querySelectorAll('[data-lang]').forEach(el => {
-        const key = el.getAttribute('data-lang');
-        if (t[key] !== undefined && t[key] !== null) {
-            el.textContent = t[key];
-        }
-    });
+    // Update all elements with id
+    const translations = {
+        'navHome': t.home,
+        'navVerify': t.verify,
+        'navAbout': t.about,
+        'heroTitle': t.heroTitle,
+        'heroSubtitle': t.heroSubtitle,
+        'verifyNowBtn': t.verifyNow,
+        'learnMoreBtn': t.learnMore,
+        'searchTitle': t.searchTitle,
+        'searchBtn': t.searchBtn,
+        'clearBtn': t.clearBtn,
+        'verifyTitle': t.verifyTitle,
+        'enterIdLabel': t.enterId,
+        'verifyBtn': t.verifyBtn,
+        'orLabel': t.or,
+        'scanQRLabel': t.scanQR,
+        'openScannerBtn': t.openScanner,
+        'verifiedBadge': t.verified,
+        'certIdLabel': t.certId,
+        'internshipLabel': t.internship,
+        'durationLabel': t.duration,
+        'completionDateLabel': t.completionDate,
+        'viewCertBtn': t.viewCert,
+        'downloadCertBtn': t.downloadCert,
+        'printCertBtn': t.printCert,
+        'shareTitle': t.share,
+        'aboutTitle': t.aboutTitle,
+        'aboutText': t.aboutText,
+        'secureLabel': t.secure,
+        'secureText': t.secureText,
+        'fastLabel': t.fast,
+        'fastText': t.fastText,
+        'qrLabel': t.qr,
+        'qrText': t.qrText,
+        'footerText': t.footer
+    };
     
-    // Update placeholder texts
-    document.querySelectorAll('[data-placeholder-lang]').forEach(el => {
-        const key = el.getAttribute('data-placeholder-lang');
-        if (t[key] !== undefined && t[key] !== null) {
-            el.placeholder = t[key];
+    for (const [id, text] of Object.entries(translations)) {
+        const el = document.getElementById(id);
+        if (el && text) {
+            el.textContent = text;
         }
-    });
+    }
+    
+    // Update placeholder
+    const searchInput = document.getElementById('searchName');
+    if (searchInput) {
+        searchInput.placeholder = t.searchPlaceholder;
+    }
+    const certInput = document.getElementById('certificateId');
+    if (certInput) {
+        certInput.placeholder = t.enterIdPlaceholder;
+    }
     
     // Update title
     if (t.title) {
@@ -72,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (select) {
         select.value = savedLang;
     }
-    changeLanguage(savedLang);
+    updatePageLanguage(savedLang);
 });
 
 // ===== VERIFY CERTIFICATE =====
@@ -81,7 +129,8 @@ function verifyCertificate() {
     const id = input.value.trim();
     
     if (!id) {
-        alert(getTranslation('searchPrompt'));
+        const t = languages[currentLanguage] || languages.en;
+        alert(t.searchPrompt || 'Please enter a certificate ID');
         return;
     }
     
@@ -95,7 +144,8 @@ function verifyCertificate() {
         if (certificate && certificate.verified) {
             displayResult(certificate);
         } else {
-            displayError(getTranslation('noCertificate'));
+            const t = languages[currentLanguage] || languages.en;
+            displayError(t.noCertificate || 'Certificate not found or not verified');
         }
     }, 1000);
 }
@@ -106,19 +156,19 @@ function displayResult(certificate) {
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
         <div class="result-content">
-            <div class="status-badge verified" data-lang="verified">✅ Verified</div>
+            <div class="status-badge verified" id="verifiedBadge">✅ Verified</div>
             <h3>${certificate.name}</h3>
-            <p><strong data-lang="certificateId">Certificate ID:</strong> <span id="certId">${certificate.id}</span></p>
-            <p><strong data-lang="internship">Internship:</strong> <span id="internship">${certificate.internship}</span></p>
-            <p><strong data-lang="duration">Duration:</strong> <span id="duration">${certificate.duration}</span></p>
-            <p><strong data-lang="completionDate">Completion Date:</strong> <span id="completionDate">${certificate.completionDate}</span></p>
+            <p><strong id="certIdLabel">Certificate ID:</strong> <span id="certId">${certificate.id}</span></p>
+            <p><strong id="internshipLabel">Internship:</strong> <span id="internship">${certificate.internship}</span></p>
+            <p><strong id="durationLabel">Duration:</strong> <span id="duration">${certificate.duration}</span></p>
+            <p><strong id="completionDateLabel">Completion Date:</strong> <span id="completionDate">${certificate.completionDate}</span></p>
             <div class="certificate-link">
-                <a href="${certificate.certificateLink}" target="_blank" class="btn-certificate" data-lang="viewCertificate">📄 View Full Certificate</a>
-                <button onclick="downloadCertificate()" class="btn-download" data-lang="downloadCertificate">⬇️ Download Certificate</button>
-                <button onclick="printCertificate()" class="btn-print" style="padding: 12px 30px; background: linear-gradient(135deg, #f39c12, #e67e22); color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; margin-top: 10px; margin-left: 10px;" data-lang="printCertificate">🖨️ Print Certificate</button>
+                <a href="${certificate.certificateLink}" target="_blank" class="btn-certificate" id="viewCertBtn">📄 View Full Certificate</a>
+                <button onclick="downloadCertificate()" class="btn-download" id="downloadCertBtn">⬇️ Download Certificate</button>
+                <button onclick="printCertificate()" class="btn-print" id="printCertBtn">🖨️ Print Certificate</button>
             </div>
             <div class="share-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center;">
-                <h4 style="margin-bottom: 15px; color: #333;" data-lang="share">Share Your Verified Certificate</h4>
+                <h4 style="margin-bottom: 15px; color: #333;" id="shareTitle">Share Your Verified Certificate</h4>
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">LinkedIn</button>
                     <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Twitter</button>
@@ -131,7 +181,7 @@ function displayResult(certificate) {
         </div>
     `;
     
-    // Apply current language to new elements
+    // Apply current language
     updatePageLanguage(currentLanguage);
 }
 
@@ -140,93 +190,29 @@ function displayError(message) {
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
         <div class="result-content">
-            <div class="status-badge invalid" data-lang="invalid">❌ Invalid</div>
+            <div class="status-badge invalid" id="invalidBadge">❌ Invalid</div>
             <p style="color: #721c24;">${message}</p>
         </div>
     `;
     updatePageLanguage(currentLanguage);
 }
 
-// ===== GET TRANSLATION =====
-function getTranslation(key) {
-    const t = languages[currentLanguage] || languages.en;
-    return t[key] || key;
-}
-
-// ===== SEARCH BY NAME =====
 // ===== SEARCH BY NAME =====
 function searchByName() {
     const searchInput = document.getElementById('searchName');
     const query = searchInput.value.trim().toLowerCase();
+    const t = languages[currentLanguage] || languages.en;
     
     if (!query) {
-        alert('Please enter a name to search.');
+        alert(t.searchPrompt || 'Please enter a name to search.');
         return;
     }
     
-    // Search in admin data or main database
-    let searchData = [];
-    if (typeof adminData !== 'undefined' && adminData.length > 0) {
-        searchData = adminData;
-    } else {
-        searchData = database.certificates;
-    }
-    
-    const results = searchData.filter(cert => 
+    const results = database.certificates.filter(cert => 
         cert.name.toLowerCase().includes(query)
     );
     
     const resultsDiv = document.getElementById('searchResults');
-    
-    if (results.length === 0) {
-        resultsDiv.innerHTML = `
-            <div style="background: #f8d7da; padding: 20px; border-radius: 12px; color: #721c24; text-align: center;">
-                <p>❌ No certificates found for "<strong>${query}</strong>"</p>
-            </div>
-        `;
-        return;
-    }
-    
-    let html = `
-        <div style="background: #d4edda; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-            <p style="color: #155724; font-weight: 600;">✅ Found ${results.length} certificate(s) for "<strong>${query}</strong>"</p>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-    `;
-    
-    results.forEach(cert => {
-        html += `
-            <div style="background: white; padding: 15px 20px; border-radius: 12px; border-left: 4px solid #27ae60; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <div>
-                    <strong style="font-size: 1.1rem;">${cert.name}</strong>
-                    <p style="margin: 2px 0; color: #666; font-size: 0.9rem;">ID: ${cert.id} | ${cert.internship}</p>
-                </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button onclick="viewCertificate('${cert.id}')" style="padding: 6px 16px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">Verify</button>
-                    <span style="background: #27ae60; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem;">✅ Verified</span>
-                </div>
-            </div>
-        `;
-    });
-    
-    html += `</div>`;
-    resultsDiv.innerHTML = html;
-}
-    
-    // Use the admin data if available, otherwise use database
-    let searchData = [];
-    if (typeof adminData !== 'undefined' && adminData.length > 0) {
-        searchData = adminData;
-    } else {
-        searchData = database.certificates;
-    }
-    
-    const results = searchData.filter(cert => 
-        cert.name.toLowerCase().includes(query)
-    );
-    
-    const resultsDiv = document.getElementById('searchResults');
-    const t = languages[currentLanguage] || languages.en;
     
     if (results.length === 0) {
         resultsDiv.innerHTML = `
@@ -261,6 +247,18 @@ function searchByName() {
     
     html += `</div>`;
     resultsDiv.innerHTML = html;
+}
+
+function viewCertificate(certId) {
+    document.getElementById('certificateId').value = certId;
+    verifyCertificate();
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+}
+
+function clearSearch() {
+    document.getElementById('searchName').value = '';
+    document.getElementById('searchResults').innerHTML = '';
+}
 
 // ===== QR SCANNER =====
 let html5QrCode = null;
@@ -354,9 +352,10 @@ function copyVerificationLink() {
 // ===== DOWNLOAD CERTIFICATE =====
 function downloadCertificate() {
     const certId = document.getElementById('certId')?.textContent || '';
+    const t = languages[currentLanguage] || languages.en;
     
     if (!certId) {
-        alert(getTranslation('noCertificate'));
+        alert(t.noCertificate || 'No certificate to download. Please verify first.');
         return;
     }
     
@@ -387,13 +386,13 @@ function downloadCertificate() {
     
     if (downloadLink) {
         window.open(downloadLink, '_blank');
-        showNotification(getTranslation('downloadStarted'));
+        showNotification(t.downloadStarted || '📥 Downloading your original certificate...');
     } else {
         alert('Could not generate download link. Please contact support.');
     }
 }
 
-// ===== PRINT CERTIFICATE (Opens Google Drive PDF in new tab) =====
+// ===== PRINT CERTIFICATE =====
 function printCertificate() {
     const certId = document.getElementById('certId')?.textContent || '';
     
@@ -402,20 +401,13 @@ function printCertificate() {
         return;
     }
     
-    // Find the certificate
-    let certificate = null;
-    if (typeof adminData !== 'undefined' && adminData.length > 0) {
-        certificate = adminData.find(cert => cert.id === certId);
-    } else {
-        certificate = database.certificates.find(cert => cert.id === certId);
-    }
+    const certificate = database.certificates.find(cert => cert.id === certId);
     
     if (!certificate) {
         alert('Certificate not found.');
         return;
     }
     
-    // Extract file ID from Google Drive link
     let driveLink = certificate.certificateLink;
     let fileId = '';
     const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
@@ -429,7 +421,6 @@ function printCertificate() {
     }
     
     if (fileId) {
-        // Open the actual PDF from Google Drive
         const printUrl = `https://drive.google.com/file/d/${fileId}/preview`;
         window.open(printUrl, '_blank');
         showNotification('🖨️ Opening your certificate for printing...');
@@ -438,36 +429,6 @@ function printCertificate() {
         showNotification('🖨️ Opening your certificate for printing...');
     }
 }
-    
-    // Get the Google Drive link
-    let driveLink = certificate.certificateLink;
-    
-    // Extract file ID and create direct view link
-    let fileId = '';
-    const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
-    if (fileIdMatch) {
-        fileId = fileIdMatch[1];
-    } else if (driveLink.includes('id=')) {
-        const idMatch = driveLink.match(/id=([^&]+)/);
-        if (idMatch) {
-            fileId = idMatch[1];
-        }
-    }
-    
-    // Open the Google Drive PDF in a new tab
-    if (fileId) {
-        // This opens the PDF directly in browser with print dialog
-        const printUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-        window.open(printUrl, '_blank');
-        
-        // Show notification
-        showNotification('🖨️ Opening certificate for printing...');
-    } else {
-        // If file ID not found, try to open the link directly
-        window.open(driveLink, '_blank');
-        showNotification('🖨️ Opening certificate for printing...');
-    }
-
 
 // ===== NOTIFICATION =====
 function showNotification(message) {

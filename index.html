@@ -15,9 +15,10 @@
                 <span class="logo-text">InternVerify</span>
             </div>
             <div class="nav-links">
-                <a href="#home" class="nav-link active" data-lang="home">Home</a>
-                <a href="#verify" class="nav-link" data-lang="verify">Verify</a>
-                <a href="#about" class="nav-link" data-lang="about">About</a>
+                <a href="#home" class="nav-link active" id="navHome">🏠 Home</a>
+                <a href="#verify" class="nav-link" id="navVerify">✅ Verify</a>
+                <a href="#about" class="nav-link" id="navAbout">ℹ️ About</a>
+                <a href="admin.html" class="nav-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">👑 Admin</a>
             </div>
             <div class="language-selector">
                 <select id="languageSelect" onchange="changeLanguage(this.value)">
@@ -27,14 +28,8 @@
                 </select>
             </div>
             <div class="top-logos">
-                <img src="logo1.png" alt="Logo 1" class="top-logo">
-                <img src="logo2.png" alt="Logo 2" class="top-logo">
-            </div>
-            <div class="nav-links">
-            <a href="#home" class="nav-link active" data-lang="home">Home</a>
-            <a href="#verify" class="nav-link" data-lang="verify">Verify</a>
-            <a href="#about" class="nav-link" data-lang="about">About</a>
-            <a href="admin.html" class="nav-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">👑 Admin</a>
+                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
             </div>
         </div>
     </nav>
@@ -42,11 +37,11 @@
     <!-- ===== HERO SECTION ===== -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1 data-lang="heroTitle">Verify Internship Certificates</h1>
-            <p data-lang="heroSubtitle">Secure and instant verification of your internship certificates</p>
+            <h1 id="heroTitle">Verify Internship Certificates</h1>
+            <p id="heroSubtitle">Secure and instant verification of your internship certificates</p>
             <div class="hero-buttons">
-                <a href="#verify" class="btn-primary" data-lang="verifyNow">Verify Now</a>
-                <a href="#about" class="btn-secondary" data-lang="learnMore">Learn More</a>
+                <a href="#verify" class="btn-primary" id="verifyNowBtn">Verify Now</a>
+                <a href="#about" class="btn-secondary" id="learnMoreBtn">Learn More</a>
             </div>
         </div>
     </section>
@@ -55,11 +50,11 @@
     <section id="search" class="verify-section" style="padding-top: 20px;">
         <div class="verify-container">
             <div class="verify-box">
-                <h3 data-lang="searchByName">🔍 Search by Name</h3>
+                <h3 id="searchTitle">🔍 Search by Name</h3>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <input type="text" id="searchName" data-placeholder-lang="searchPlaceholder" placeholder="Search by student name..." style="flex: 1; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 1rem; min-width: 200px;">
-                    <button onclick="searchByName()" class="btn-verify" data-lang="searchBtn">🔍 Search</button>
-                    <button onclick="clearSearch()" class="btn-secondary" style="padding: 12px 25px; background: #666; color: white; border: none; border-radius: 12px; cursor: pointer;" data-lang="clearBtn">Clear</button>
+                    <input type="text" id="searchName" placeholder="Search by student name..." style="flex: 1; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 1rem; min-width: 200px;">
+                    <button onclick="searchByName()" class="btn-verify" id="searchBtn">🔍 Search</button>
+                    <button onclick="clearSearch()" class="btn-secondary" style="padding: 12px 25px; background: #666; color: white; border: none; border-radius: 12px; cursor: pointer;" id="clearBtn">Clear</button>
                 </div>
                 <div id="searchResults" style="margin-top: 15px;"></div>
             </div>
@@ -68,40 +63,40 @@
 
     <!-- ===== VERIFICATION SECTION ===== -->
     <section id="verify" class="verify-section">
-        <h2 data-lang="certificateVerification">Certificate Verification</h2>
+        <h2 id="verifyTitle">Certificate Verification</h2>
         <div class="verify-container">
             <div class="verify-box">
-                <h3 data-lang="enterId">Enter Certificate ID</h3>
+                <h3 id="enterIdLabel">Enter Certificate ID</h3>
                 <div class="input-group">
-                    <input type="text" id="certificateId" data-placeholder-lang="enterIdPlaceholder" placeholder="Enter Certificate ID (e.g., INT-2024-001)" />
-                    <button onclick="verifyCertificate()" class="btn-verify" data-lang="verifyBtn">Verify</button>
+                    <input type="text" id="certificateId" placeholder="Enter Certificate ID (e.g., INT-2024-001)" />
+                    <button onclick="verifyCertificate()" class="btn-verify" id="verifyBtn">Verify</button>
                 </div>
                 <div class="qr-section">
-                    <h4 data-lang="or">OR</h4>
-                    <p data-lang="scanQR">Scan QR Code</p>
+                    <h4 id="orLabel">OR</h4>
+                    <p id="scanQRLabel">Scan QR Code</p>
                     <div id="qr-reader" class="qr-reader"></div>
-                    <button onclick="startScanner()" class="btn-scanner" data-lang="openScanner">📷 Open Scanner</button>
+                    <button onclick="startScanner()" class="btn-scanner" id="openScannerBtn">📷 Open Scanner</button>
                 </div>
             </div>
             
             <!-- ===== RESULT SECTION ===== -->
             <div id="result" class="result-box" style="display:none;">
                 <div class="result-content">
-                    <div class="status-badge verified" data-lang="verified">✅ Verified</div>
+                    <div class="status-badge verified" id="verifiedBadge">✅ Verified</div>
                     <h3 id="studentName"></h3>
-                    <p><strong data-lang="certificateId">Certificate ID:</strong> <span id="certId"></span></p>
-                    <p><strong data-lang="internship">Internship:</strong> <span id="internship"></span></p>
-                    <p><strong data-lang="duration">Duration:</strong> <span id="duration"></span></p>
-                    <p><strong data-lang="completionDate">Completion Date:</strong> <span id="completionDate"></span></p>
+                    <p><strong id="certIdLabel">Certificate ID:</strong> <span id="certId"></span></p>
+                    <p><strong id="internshipLabel">Internship:</strong> <span id="internship"></span></p>
+                    <p><strong id="durationLabel">Duration:</strong> <span id="duration"></span></p>
+                    <p><strong id="completionDateLabel">Completion Date:</strong> <span id="completionDate"></span></p>
                     <div class="certificate-link">
-                        <a id="certLink" href="#" target="_blank" class="btn-certificate" data-lang="viewCertificate">📄 View Full Certificate</a>
-                        <button onclick="downloadCertificate()" class="btn-download" data-lang="downloadCertificate">⬇️ Download Certificate</button>
-                        <button onclick="printCertificate()" class="btn-print" style="padding: 12px 30px; background: linear-gradient(135deg, #f39c12, #e67e22); color: white; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; margin-top: 10px; margin-left: 10px;" data-lang="printCertificate">🖨️ Print Certificate</button>
+                        <a id="certLink" href="#" target="_blank" class="btn-certificate" id="viewCertBtn">📄 View Full Certificate</a>
+                        <button onclick="downloadCertificate()" class="btn-download" id="downloadCertBtn">⬇️ Download Certificate</button>
+                        <button onclick="printCertificate()" class="btn-print" id="printCertBtn">🖨️ Print Certificate</button>
                     </div>
                     
                     <!-- Share Section -->
                     <div class="share-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center;">
-                        <h4 style="margin-bottom: 15px; color: #333;" data-lang="share">Share Your Verified Certificate</h4>
+                        <h4 style="margin-bottom: 15px; color: #333;" id="shareTitle">Share Your Verified Certificate</h4>
                         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                             <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">LinkedIn</button>
                             <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Twitter</button>
@@ -118,21 +113,21 @@
 
     <!-- ===== ABOUT SECTION ===== -->
     <section id="about" class="about-section">
-        <h2 data-lang="aboutSystem">About This System</h2>
+        <h2 id="aboutTitle">About This System</h2>
         <div class="about-content">
-            <p data-lang="aboutText">Our internship certificate verification system provides a secure and efficient way to verify the authenticity of internship certificates.</p>
+            <p id="aboutText">Our internship certificate verification system provides a secure and efficient way to verify the authenticity of internship certificates.</p>
             <div class="features">
                 <div class="feature-card">
-                    <h3 data-lang="secure">🔒 Secure</h3>
-                    <p data-lang="secureText">Blockchain-inspired verification system</p>
+                    <h3 id="secureLabel">🔒 Secure</h3>
+                    <p id="secureText">Blockchain-inspired verification system</p>
                 </div>
                 <div class="feature-card">
-                    <h3 data-lang="fast">⚡ Fast</h3>
-                    <p data-lang="fastText">Instant verification results</p>
+                    <h3 id="fastLabel">⚡ Fast</h3>
+                    <p id="fastText">Instant verification results</p>
                 </div>
                 <div class="feature-card">
-                    <h3 data-lang="qrCode">📱 QR Code</h3>
-                    <p data-lang="qrText">Scan to verify instantly</p>
+                    <h3 id="qrLabel">📱 QR Code</h3>
+                    <p id="qrText">Scan to verify instantly</p>
                 </div>
             </div>
         </div>
@@ -140,7 +135,7 @@
 
     <!-- ===== FOOTER ===== -->
     <footer>
-        <p data-lang="footer">© 2024 InternVerify. All rights reserved.</p>
+        <p id="footerText">© 2024 InternVerify. All rights reserved.</p>
     </footer>
 
     <!-- ===== SCRIPTS ===== -->
