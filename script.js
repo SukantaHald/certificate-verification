@@ -154,26 +154,34 @@ function getTranslation(key) {
 }
 
 // ===== SEARCH BY NAME =====
+// ===== SEARCH BY NAME =====
 function searchByName() {
     const searchInput = document.getElementById('searchName');
     const query = searchInput.value.trim().toLowerCase();
     
     if (!query) {
-        alert(getTranslation('searchPrompt'));
+        alert('Please enter a name to search.');
         return;
     }
     
-    const results = database.certificates.filter(cert => 
+    // Search in admin data or main database
+    let searchData = [];
+    if (typeof adminData !== 'undefined' && adminData.length > 0) {
+        searchData = adminData;
+    } else {
+        searchData = database.certificates;
+    }
+    
+    const results = searchData.filter(cert => 
         cert.name.toLowerCase().includes(query)
     );
     
     const resultsDiv = document.getElementById('searchResults');
-    const t = languages[currentLanguage] || languages.en;
     
     if (results.length === 0) {
         resultsDiv.innerHTML = `
             <div style="background: #f8d7da; padding: 20px; border-radius: 12px; color: #721c24; text-align: center;">
-                <p>❌ ${t.noResults} "<strong>${query}</strong>"</p>
+                <p>❌ No certificates found for "<strong>${query}</strong>"</p>
             </div>
         `;
         return;
@@ -181,7 +189,7 @@ function searchByName() {
     
     let html = `
         <div style="background: #d4edda; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-            <p style="color: #155724; font-weight: 600;">✅ ${t.foundResults.replace('{count}', results.length)} "<strong>${query}</strong>"</p>
+            <p style="color: #155724; font-weight: 600;">✅ Found ${results.length} certificate(s) for "<strong>${query}</strong>"</p>
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px;">
     `;
@@ -204,17 +212,55 @@ function searchByName() {
     html += `</div>`;
     resultsDiv.innerHTML = html;
 }
-
-function viewCertificate(certId) {
-    document.getElementById('certificateId').value = certId;
-    verifyCertificate();
-    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-}
-
-function clearSearch() {
-    document.getElementById('searchName').value = '';
-    document.getElementById('searchResults').innerHTML = '';
-}
+    
+    // Use the admin data if available, otherwise use database
+    let searchData = [];
+    if (typeof adminData !== 'undefined' && adminData.length > 0) {
+        searchData = adminData;
+    } else {
+        searchData = database.certificates;
+    }
+    
+    const results = searchData.filter(cert => 
+        cert.name.toLowerCase().includes(query)
+    );
+    
+    const resultsDiv = document.getElementById('searchResults');
+    const t = languages[currentLanguage] || languages.en;
+    
+    if (results.length === 0) {
+        resultsDiv.innerHTML = `
+            <div style="background: #f8d7da; padding: 20px; border-radius: 12px; color: #721c24; text-align: center;">
+                <p>❌ ${t.noResults || 'No certificates found for'} "<strong>${query}</strong>"</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = `
+        <div style="background: #d4edda; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+            <p style="color: #155724; font-weight: 600;">✅ ${(t.foundResults || 'Found {count} certificate(s) for').replace('{count}', results.length)} "<strong>${query}</strong>"</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+    `;
+    
+    results.forEach(cert => {
+        html += `
+            <div style="background: white; padding: 15px 20px; border-radius: 12px; border-left: 4px solid #27ae60; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <strong style="font-size: 1.1rem;">${cert.name}</strong>
+                    <p style="margin: 2px 0; color: #666; font-size: 0.9rem;">ID: ${cert.id} | ${cert.internship}</p>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button onclick="viewCertificate('${cert.id}')" style="padding: 6px 16px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">Verify</button>
+                    <span style="background: #27ae60; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem;">✅ Verified</span>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `</div>`;
+    resultsDiv.innerHTML = html;
 
 // ===== QR SCANNER =====
 let html5QrCode = null;
@@ -347,88 +393,81 @@ function downloadCertificate() {
     }
 }
 
-// ===== PRINT CERTIFICATE =====
+// ===== PRINT CERTIFICATE (Opens Google Drive PDF in new tab) =====
 function printCertificate() {
     const certId = document.getElementById('certId')?.textContent || '';
-    const name = document.querySelector('#result h3')?.textContent || '';
     
-    if (!certId || !name) {
+    if (!certId) {
         alert('Please verify a certificate first.');
         return;
     }
     
-    const certificate = database.certificates.find(cert => cert.id === certId);
+    // Find the certificate
+    let certificate = null;
+    if (typeof adminData !== 'undefined' && adminData.length > 0) {
+        certificate = adminData.find(cert => cert.id === certId);
+    } else {
+        certificate = database.certificates.find(cert => cert.id === certId);
+    }
+    
     if (!certificate) {
         alert('Certificate not found.');
         return;
     }
     
-    const printContent = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>Certificate - ${certificate.name}</title>
-            <style>
-                * { margin: 0; padding: 0; box-sizing: border-box; }
-                body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: white; font-family: 'Georgia', serif; padding: 20px; }
-                .certificate-print { max-width: 800px; width: 100%; background: white; padding: 40px; border: 20px solid #d4af37; border-radius: 20px; text-align: center; }
-                .certificate-print h1 { font-size: 2.5rem; color: #d4af37; text-transform: uppercase; letter-spacing: 5px; }
-                .certificate-print h2 { font-size: 2.8rem; color: #2c3e50; margin: 20px 0; border-bottom: 2px dashed #d4af37; display: inline-block; padding-bottom: 10px; }
-                .certificate-print .details { background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 400px; text-align: left; }
-                .certificate-print .details div { padding: 5px 0; }
-                .certificate-print .verified { display: inline-block; background: #27ae60; color: white; padding: 5px 20px; border-radius: 50px; font-weight: bold; }
-                .certificate-print .footer { margin-top: 30px; padding-top: 20px; border-top: 2px solid #d4af37; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-                .certificate-print .signature-line { width: 150px; height: 2px; background: #333; margin: 10px auto; }
-                @media print { body { padding: 0; } .certificate-print { box-shadow: none; border: 20px solid #d4af37; } .no-print { display: none !important; } }
-            </style>
-        </head>
-        <body>
-            <div class="certificate-print" id="printArea">
-                <div style="font-size: 4rem;">🎓</div>
-                <h1>Certificate of Internship</h1>
-                <p style="font-size: 1.2rem; color: #666; margin: 10px 0;">This certifies that</p>
-                <h2>${certificate.name}</h2>
-                <p style="font-size: 1.2rem; margin: 20px 0;">has successfully completed the</p>
-                <h3 style="font-size: 1.8rem; color: #2c3e50;">${certificate.internship}</h3>
-                <p style="font-size: 1.1rem; margin: 10px 0;">program at <strong>InternVerify</strong></p>
-                <div class="verified">✅ Verified Certificate</div>
-                <div class="details">
-                    <div><strong>Certificate ID:</strong> ${certificate.id}</div>
-                    <div><strong>Duration:</strong> ${certificate.duration}</div>
-                    <div><strong>Completion Date:</strong> ${certificate.completionDate}</div>
-                    <div><strong>Status:</strong> <span style="color: #27ae60; font-weight: bold;">Verified ✓</span></div>
-                </div>
-                <div style="margin: 15px 0;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${certificate.id}" alt="QR Code" style="border: 2px solid #d4af37; border-radius: 10px; padding: 5px;">
-                </div>
-                <div class="footer">
-                    <div style="text-align: center;">
-                        <div class="signature-line"></div>
-                        <p><strong>Authorized Signatory</strong></p>
-                        <p style="color: #999;">InternVerify</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <p><strong>Date of Issue</strong></p>
-                        <p>${certificate.completionDate}</p>
-                    </div>
-                </div>
-                <div style="margin-top: 20px; font-size: 0.8rem; color: #999; border-top: 1px solid #eee; padding-top: 10px;">
-                    This certificate is digitally verified. Scan the QR code to verify.
-                </div>
-                <div class="no-print" style="margin-top: 20px;">
-                    <button onclick="window.print()" style="padding: 12px 30px; background: #2d3436; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer;">🖨️ Print</button>
-                    <button onclick="window.close()" style="padding: 12px 30px; background: #e74c3c; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; margin-left: 10px;">Close</button>
-                </div>
-            </div>
-        </body>
-        </html>
-    `;
+    // Extract file ID from Google Drive link
+    let driveLink = certificate.certificateLink;
+    let fileId = '';
+    const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
+    if (fileIdMatch) {
+        fileId = fileIdMatch[1];
+    } else if (driveLink.includes('id=')) {
+        const idMatch = driveLink.match(/id=([^&]+)/);
+        if (idMatch) {
+            fileId = idMatch[1];
+        }
+    }
     
-    const win = window.open('', '_blank', 'width=800,height=900');
-    win.document.write(printContent);
-    win.document.close();
+    if (fileId) {
+        // Open the actual PDF from Google Drive
+        const printUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+        window.open(printUrl, '_blank');
+        showNotification('🖨️ Opening your certificate for printing...');
+    } else {
+        window.open(driveLink, '_blank');
+        showNotification('🖨️ Opening your certificate for printing...');
+    }
 }
+    
+    // Get the Google Drive link
+    let driveLink = certificate.certificateLink;
+    
+    // Extract file ID and create direct view link
+    let fileId = '';
+    const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
+    if (fileIdMatch) {
+        fileId = fileIdMatch[1];
+    } else if (driveLink.includes('id=')) {
+        const idMatch = driveLink.match(/id=([^&]+)/);
+        if (idMatch) {
+            fileId = idMatch[1];
+        }
+    }
+    
+    // Open the Google Drive PDF in a new tab
+    if (fileId) {
+        // This opens the PDF directly in browser with print dialog
+        const printUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+        window.open(printUrl, '_blank');
+        
+        // Show notification
+        showNotification('🖨️ Opening certificate for printing...');
+    } else {
+        // If file ID not found, try to open the link directly
+        window.open(driveLink, '_blank');
+        showNotification('🖨️ Opening certificate for printing...');
+    }
+
 
 // ===== NOTIFICATION =====
 function showNotification(message) {
