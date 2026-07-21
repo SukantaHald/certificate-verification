@@ -61,62 +61,40 @@ function changeLanguage(lang) {
 function updatePageLanguage(lang) {
     const t = languages[lang] || languages.en;
     
-    // Update all elements with id
-    const translations = {
-        'navHome': t.home,
-        'navVerify': t.verify,
-        'navAbout': t.about,
-        'heroTitle': t.heroTitle,
-        'heroSubtitle': t.heroSubtitle,
-        'verifyNowBtn': t.verifyNow,
-        'learnMoreBtn': t.learnMore,
-        'searchTitle': t.searchTitle,
-        'searchBtn': t.searchBtn,
-        'clearBtn': t.clearBtn,
-        'verifyTitle': t.verifyTitle,
-        'enterIdLabel': t.enterId,
-        'verifyBtn': t.verifyBtn,
-        'orLabel': t.or,
-        'scanQRLabel': t.scanQR,
-        'openScannerBtn': t.openScanner,
-        'verifiedBadge': t.verified,
-        'certIdLabel': t.certId,
-        'internshipLabel': t.internship,
-        'durationLabel': t.duration,
-        'completionDateLabel': t.completionDate,
-        'viewCertBtn': t.viewCert,
-        'downloadCertBtn': t.downloadCert,
-        'printCertBtn': t.printCert,
-        'shareTitle': t.share,
-        'aboutTitle': t.aboutTitle,
-        'aboutText': t.aboutText,
-        'secureLabel': t.secure,
-        'secureText': t.secureText,
-        'fastLabel': t.fast,
-        'fastText': t.fastText,
-        'qrLabel': t.qr,
-        'qrText': t.qrText,
-        'footerText': t.footer
-    };
+    // Update all elements by ID
+    const elementIds = [
+        'navHome', 'navVerify', 'navAbout',
+        'heroTitle', 'heroSubtitle', 'verifyNowBtn', 'learnMoreBtn',
+        'searchTitle', 'searchBtn', 'clearBtn',
+        'verifyTitle', 'enterIdLabel', 'verifyBtn', 'orLabel', 
+        'scanQRLabel', 'openScannerBtn',
+        'verifiedBadge', 'certIdLabel', 'internshipLabel', 
+        'durationLabel', 'completionDateLabel',
+        'viewCertBtn', 'downloadCertBtn', 'printCertBtn',
+        'shareTitle', 'aboutTitle', 'aboutText',
+        'secureLabel', 'secureText', 'fastLabel', 'fastText',
+        'qrLabel', 'qrText', 'footerText'
+    ];
     
-    for (const [id, text] of Object.entries(translations)) {
+    elementIds.forEach(id => {
         const el = document.getElementById(id);
-        if (el && text) {
-            el.textContent = text;
+        if (el && t[id] !== undefined) {
+            el.textContent = t[id];
         }
-    }
+    });
     
-    // Update placeholder
+    // Update placeholders
     const searchInput = document.getElementById('searchName');
-    if (searchInput) {
+    if (searchInput && t.searchPlaceholder) {
         searchInput.placeholder = t.searchPlaceholder;
     }
+    
     const certInput = document.getElementById('certificateId');
-    if (certInput) {
+    if (certInput && t.enterIdPlaceholder) {
         certInput.placeholder = t.enterIdPlaceholder;
     }
     
-    // Update title
+    // Update document title
     if (t.title) {
         document.title = t.title;
     }
