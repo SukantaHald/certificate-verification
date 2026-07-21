@@ -491,3 +491,206 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+// ========================================
+// THEME COLOR SWITCHER
+// ========================================
+
+const themes = {
+    default: {
+        '--gradient-start': '#667eea',
+        '--gradient-end': '#764ba2',
+        '--primary-light': '#f093fb',
+        '--shadow-hover': 'rgba(102, 126, 234, 0.15)',
+        '--hero-bg': 'linear-gradient(135deg, #667eea, #764ba2)',
+        '--footer-bg': '#2d3436',
+        '--footer-text': 'white',
+        '--bg-light': '#f5f7fa',
+        '--bg-dark': '#c3cfe2',
+        '--text-color': '#2d3436',
+        '--text-light': '#555',
+        '--card-bg': 'white'
+    },
+    blue: {
+        '--gradient-start': '#2193b0',
+        '--gradient-end': '#6dd5ed',
+        '--primary-light': '#a8e6cf',
+        '--shadow-hover': 'rgba(33, 147, 176, 0.15)',
+        '--hero-bg': 'linear-gradient(135deg, #2193b0, #6dd5ed)',
+        '--footer-bg': '#1a5276',
+        '--footer-text': '#eaf2f8',
+        '--bg-light': '#eaf2f8',
+        '--bg-dark': '#d4e6f1',
+        '--text-color': '#1a5276',
+        '--text-light': '#2c3e50',
+        '--card-bg': '#f8f9fa'
+    },
+    purple: {
+        '--gradient-start': '#8e44ad',
+        '--gradient-end': '#c39bd3',
+        '--primary-light': '#d7bde2',
+        '--shadow-hover': 'rgba(142, 68, 173, 0.15)',
+        '--hero-bg': 'linear-gradient(135deg, #8e44ad, #c39bd3)',
+        '--footer-bg': '#4a235a',
+        '--footer-text': '#f4ecf7',
+        '--bg-light': '#f4ecf7',
+        '--bg-dark': '#e8daef',
+        '--text-color': '#4a235a',
+        '--text-light': '#6c3483',
+        '--card-bg': '#fcf9fe'
+    },
+    green: {
+        '--gradient-start': '#27ae60',
+        '--gradient-end': '#82e0aa',
+        '--primary-light': '#a9dfbf',
+        '--shadow-hover': 'rgba(39, 174, 96, 0.15)',
+        '--hero-bg': 'linear-gradient(135deg, #27ae60, #82e0aa)',
+        '--footer-bg': '#1e8449',
+        '--footer-text': '#eafaf1',
+        '--bg-light': '#eafaf1',
+        '--bg-dark': '#d5f5e3',
+        '--text-color': '#1e8449',
+        '--text-light': '#27ae60',
+        '--card-bg': '#fafffe'
+    },
+    orange: {
+        '--gradient-start': '#e67e22',
+        '--gradient-end': '#f5b041',
+        '--primary-light': '#fad7a0',
+        '--shadow-hover': 'rgba(230, 126, 34, 0.15)',
+        '--hero-bg': 'linear-gradient(135deg, #e67e22, #f5b041)',
+        '--footer-bg': '#a04000',
+        '--footer-text': '#fef9e7',
+        '--bg-light': '#fef9e7',
+        '--bg-dark': '#fdebd0',
+        '--text-color': '#a04000',
+        '--text-light': '#ca6f1e',
+        '--card-bg': '#fffdfa'
+    },
+    red: {
+        '--gradient-start': '#e74c3c',
+        '--gradient-end': '#f1948a',
+        '--primary-light': '#f5b7b1',
+        '--shadow-hover': 'rgba(231, 76, 60, 0.15)',
+        '--hero-bg': 'linear-gradient(135deg, #e74c3c, #f1948a)',
+        '--footer-bg': '#78281f',
+        '--footer-text': '#fdedec',
+        '--bg-light': '#fdedec',
+        '--bg-dark': '#fadbd8',
+        '--text-color': '#78281f',
+        '--text-light': '#943126',
+        '--card-bg': '#fffefe'
+    },
+    pink: {
+        '--gradient-start': '#e84393',
+        '--gradient-end': '#fd79a8',
+        '--primary-light': '#f8a5c2',
+        '--shadow-hover': 'rgba(232, 67, 147, 0.15)',
+        '--hero-bg': 'linear-gradient(135deg, #e84393, #fd79a8)',
+        '--footer-bg': '#6c2e5a',
+        '--footer-text': '#fce4ec',
+        '--bg-light': '#fce4ec',
+        '--bg-dark': '#f8bbd0',
+        '--text-color': '#6c2e5a',
+        '--text-light': '#880e4f',
+        '--card-bg': '#fff8fa'
+    },
+    dark: {
+        '--gradient-start': '#2c3e50',
+        '--gradient-end': '#34495e',
+        '--primary-light': '#5d6d7e',
+        '--shadow-hover': 'rgba(44, 62, 80, 0.3)',
+        '--hero-bg': 'linear-gradient(135deg, #1a1a2e, #2c3e50)',
+        '--footer-bg': '#0d0d0d',
+        '--footer-text': '#bdc3c7',
+        '--bg-light': '#1a1a2e',
+        '--bg-dark': '#2c3e50',
+        '--text-color': '#ecf0f1',
+        '--text-light': '#bdc3c7',
+        '--card-bg': '#2d2d44',
+        '--navbar-bg': 'rgba(26, 26, 46, 0.9)',
+        '--navbar-border': 'rgba(255,255,255,0.1)',
+        '--border-color': '#3d3d5c'
+    },
+    neon: {
+        '--gradient-start': '#00ff87',
+        '--gradient-end': '#60efff',
+        '--primary-light': '#a8ffd6',
+        '--shadow-hover': 'rgba(0, 255, 135, 0.2)',
+        '--hero-bg': 'linear-gradient(135deg, #0a0a23, #1a1a4e)',
+        '--footer-bg': '#0a0a23',
+        '--footer-text': '#00ff87',
+        '--bg-light': '#0a0a23',
+        '--bg-dark': '#1a1a4e',
+        '--text-color': '#00ff87',
+        '--text-light': '#60efff',
+        '--card-bg': '#0f0f2d',
+        '--navbar-bg': 'rgba(10, 10, 35, 0.9)',
+        '--navbar-border': 'rgba(0, 255, 135, 0.2)',
+        '--border-color': 'rgba(0, 255, 135, 0.2)'
+    }
+};
+
+function changeTheme(themeName) {
+    const theme = themes[themeName];
+    if (!theme) return;
+    
+    const root = document.documentElement;
+    
+    // Apply all CSS variables from the theme
+    Object.keys(theme).forEach(key => {
+        root.style.setProperty(key, theme[key]);
+    });
+    
+    // Save preference
+    localStorage.setItem('preferredTheme', themeName);
+    
+    // Show notification
+    showNotification(`🎨 Theme changed to ${themeName.charAt(0).toUpperCase() + themeName.slice(1)}`);
+}
+
+// Load saved theme
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('preferredTheme') || 'default';
+    const select = document.getElementById('themeSelect');
+    if (select) {
+        select.value = savedTheme;
+    }
+    changeTheme(savedTheme);
+});
+
+// Override showNotification to use theme colors
+const originalShowNotification = showNotification;
+showNotification = function(message) {
+    const existing = document.querySelector('.notification-toast');
+    if (existing) existing.remove();
+    
+    const notification = document.createElement('div');
+    notification.className = 'notification-toast';
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+        color: white;
+        padding: 16px 30px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: 0 8px 30px var(--shadow-hover);
+        z-index: 9999;
+        animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 500);
+    }, 3000);
+};
