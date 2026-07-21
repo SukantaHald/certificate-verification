@@ -8,31 +8,24 @@
 </head>
 <body>
     <!-- ===== NAVIGATION ===== -->
-    <nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <span class="logo-icon">🎓</span>
-            <span class="logo-text">InternVerify</span>
-        </div>
-        <div class="nav-links">
-            <a href="#home" class="nav-link active" id="navHome">🏠 Home</a>
-            <a href="#verify" class="nav-link" id="navVerify">✅ Verify</a>
-            <a href="#about" class="nav-link" id="navAbout">ℹ️ About</a>
-            <a href="admin.html" class="nav-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">👑 Admin</a>
-        </div>
-        <div class="language-selector">
-            <select id="languageSelect" onchange="changeLanguage(this.value)">
-                <option value="en">🇬🇧 English</option>
-                <option value="hi">🇮🇳 हिन्दी</option>
-                <option value="bn">🇧🇩 বাংলা</option>
-            </select>
-        </div>
-        <div class="top-logos">
-            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
-        </div>
-    </div>
-</nav>
+        <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text">InternVerify</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">🏠 Home</a>
+                <a href="#verify" class="nav-link">✅ Verify</a>
+                <a href="#about" class="nav-link">ℹ️ About</a>
+                <a href="admin.html" class="nav-link admin-link">👑 Admin</a>
+            </div>
+                    <div class="top-logos">
+                        <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+                        <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
+                    </div>
+                </div>
+            </nav>
             <!-- Add this inside the nav-container, after language-selector -->
             <div class="theme-selector">
                 <select id="themeSelect" onchange="changeTheme(this.value)">
