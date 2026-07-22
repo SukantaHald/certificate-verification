@@ -6,6 +6,7 @@
     <title>Admin Dashboard - InternVerify</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Admin Styles */
         .admin-container {
             max-width: 1200px;
             margin: 100px auto 40px;
@@ -121,8 +122,24 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         .login-box h2 { text-align: center; margin-bottom: 20px; color: #2d3436; }
-        
-        /* Export Modal */
+        .login-box .form-group { margin-bottom: 15px; }
+        .login-box .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #555; }
+        .login-box .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        .login-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -170,10 +187,6 @@
             margin-top: 15px;
             flex-wrap: wrap;
         }
-        .btn-copy {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-        
         @media (max-width: 768px) {
             .form-row { grid-template-columns: 1fr; }
             .admin-table { overflow-x: auto; }
@@ -182,11 +195,11 @@
     </style>
 </head>
 <body>
-    
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <span class="logo-icon">🎓</span>
+                <span class="logo-icon">✨</span>
                 <span class="logo-text">InternVerify</span>
             </div>
             <div class="nav-links">
@@ -200,35 +213,26 @@
         </div>
     </nav>
 
-    <!-- Admin Content (Hidden until login) -->
-    <div class="admin-container" id="adminContent" style="display:none;">
-        <!-- ... rest of admin content ... -->
-    </div>
-
-    <!-- Login Overlay (Always shown first) -->
+    <!-- ===== LOGIN OVERLAY ===== -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
             <h2>🔐 Admin Login</h2>
-            <form onsubmit="login(event)">
+            <div class="login-error" id="loginError">❌ Invalid username or password!</div>
+            <form id="loginForm">
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" id="username" placeholder="admin" required>
+                    <input type="text" id="username" placeholder="Enter username" value="admin" required>
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="password" placeholder="admin123" required>
+                    <input type="password" id="password" placeholder="Enter password" value="admin123" required>
                 </div>
                 <button type="submit" class="btn-admin" style="width: 100%;">Login</button>
             </form>
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-        // ... rest of admin script ...
-    </script>
-
-
+    <!-- ===== ADMIN CONTENT ===== -->
     <div class="admin-container" id="adminContent" style="display:none;">
         <div class="admin-header">
             <h1>📊 Admin Dashboard</h1>
@@ -290,94 +294,87 @@
         </div>
     </div>
 
-    <!-- Export Modal -->
+    <!-- ===== EXPORT MODAL ===== -->
     <div class="modal-overlay" id="exportModal">
         <div class="modal-box">
             <h2>🐙 Export to GitHub</h2>
             <p>Copy the code below and replace the <strong>database.certificates</strong> array in your <code>script.js</code> file.</p>
             <textarea id="exportCode" readonly></textarea>
             <div class="modal-actions">
-                <button onclick="copyExportCode()" class="btn-admin btn-copy">📋 Copy Code</button>
+                <button onclick="copyExportCode()" class="btn-admin" style="background: linear-gradient(135deg, #667eea, #764ba2);">📋 Copy Code</button>
                 <button onclick="downloadScriptJs()" class="btn-admin btn-success">⬇️ Download script.js</button>
                 <button onclick="closeExportModal()" class="btn-admin" style="background: #666;">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Login Overlay -->
-    <div class="login-overlay" id="loginOverlay">
-        <div class="login-box">
-            <h2>🔐 Admin Login</h2>
-            <form onsubmit="login(event)">
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="username" placeholder="admin" value="admin" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" placeholder="admin123" value="admin123" required>
-                </div>
-                <button type="submit" class="btn-admin" style="width: 100%;">Login</button>
-            </form>
-        </div>
-    </div>
-
+    <!-- ===== SCRIPTS ===== -->
     <script src="script.js"></script>
     <script>
-   
         // ===== ADMIN FUNCTIONS =====
         let adminData = [];
 
-        // ===== SECURITY: CHECK LOGIN STATUS =====
-
-        function checkLoginStatus() {
-            const loggedIn = localStorage.getItem('adminLoggedIn');
-            if (loggedIn === 'true') {
+        // ===== LOGIN =====
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // Check credentials
+            if (username === 'admin' && password === 'admin123') {
+                // Hide login overlay
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'block';
+                
+                // Save login state
+                localStorage.setItem('adminLoggedIn', 'true');
+                
+                // Load data
                 loadAdminData();
+                
+                // Hide error if shown
+                document.getElementById('loginError').style.display = 'none';
             } else {
-                document.getElementById('loginOverlay').style.display = 'flex';
-                document.getElementById('adminContent').style.display = 'none';
+                // Show error
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
             }
+        });
+
+        function logout() {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
+            localStorage.removeItem('adminLoggedIn');
+            document.getElementById('username').value = 'admin';
+            document.getElementById('password').value = 'admin123';
+            document.getElementById('loginError').style.display = 'none';
         }
 
+        // ===== LOAD DATA =====
         function loadAdminData() {
             const stored = localStorage.getItem('adminCertificates');
             if (stored) {
-                adminData = JSON.parse(stored);
+                try {
+                    adminData = JSON.parse(stored);
+                } catch(e) {
+                    adminData = [];
+                }
             } else {
-                adminData = JSON.parse(JSON.stringify(database.certificates));
+                // Try to load from main database
+                if (typeof database !== 'undefined' && database.certificates) {
+                    adminData = JSON.parse(JSON.stringify(database.certificates));
+                } else {
+                    adminData = [];
+                }
                 localStorage.setItem('adminCertificates', JSON.stringify(adminData));
             }
             renderTable();
             updateStats();
         }
 
-        function login(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (username === 'admin' && password === 'admin123') {
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                localStorage.setItem('adminLoggedIn', 'true');
-                loadAdminData();
-            } else {
-                alert('❌ Invalid username or password!');
-            }
-        }
-
-        function logout() {
-            document.getElementById('loginOverlay').style.display = 'flex';
-            document.getElementById('adminContent').style.display = 'none';
-            localStorage.removeItem('adminLoggedIn');
-            // Redirect to home page after logout
-            window.location.href = 'index.html';
-        }
-
-        // ===== SAVE, EDIT, DELETE FUNCTIONS =====
+        // ===== SAVE CERTIFICATE =====
         function saveCertificate(event) {
             event.preventDefault();
             
@@ -415,7 +412,7 @@
             updateStats();
             resetForm();
             updateMainDatabase();
-            showNotification('✅ Certificate saved successfully!');
+            alert('✅ Certificate saved successfully!');
         }
 
         function deleteCertificate(id) {
@@ -425,7 +422,7 @@
                 renderTable();
                 updateStats();
                 updateMainDatabase();
-                showNotification('🗑️ Certificate deleted');
+                alert('🗑️ Certificate deleted');
             }
         }
 
@@ -458,6 +455,7 @@
             document.getElementById('formTitle').textContent = '➕ Add New Certificate';
         }
 
+        // ===== RENDER TABLE =====
         function renderTable() {
             const container = document.getElementById('certList');
             
@@ -488,6 +486,7 @@
             container.innerHTML = html;
         }
 
+        // ===== UPDATE STATS =====
         function updateStats() {
             document.getElementById('totalCerts').textContent = adminData.length;
             document.getElementById('verifiedCerts').textContent = adminData.filter(c => c.verified).length;
@@ -501,6 +500,7 @@
             document.getElementById('expiredCerts').textContent = expired.length;
         }
 
+        // ===== STORAGE =====
         function saveToStorage() {
             localStorage.setItem('adminCertificates', JSON.stringify(adminData));
         }
@@ -513,7 +513,7 @@
             }
         }
 
-        // ===== EXPORT FUNCTIONS =====
+        // ===== EXPORT =====
         function exportToGitHub() {
             const code = generateScriptJsCode();
             document.getElementById('exportCode').value = code;
@@ -538,7 +538,7 @@
             const textarea = document.getElementById('exportCode');
             textarea.select();
             document.execCommand('copy');
-            showNotification('📋 Code copied to clipboard!');
+            alert('📋 Code copied to clipboard!');
         }
 
         function downloadScriptJs() {
@@ -550,7 +550,7 @@
             a.download = 'script.js';
             a.click();
             URL.revokeObjectURL(url);
-            showNotification('⬇️ script.js downloaded!');
+            alert('⬇️ script.js downloaded!');
         }
 
         function closeExportModal() {
@@ -566,159 +566,19 @@
             a.download = 'certificates_backup.json';
             a.click();
             URL.revokeObjectURL(url);
-            showNotification('📥 JSON exported!');
+            alert('📥 JSON exported!');
         }
 
-        function showNotification(message) {
-            const existing = document.querySelector('.admin-notification');
-            if (existing) existing.remove();
-            
-            const notification = document.createElement('div');
-            notification.className = 'admin-notification';
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                background: linear-gradient(135deg, #27ae60, #2ecc71);
-                color: white;
-                padding: 16px 30px;
-                border-radius: 12px;
-                font-weight: 600;
-                font-size: 1rem;
-                box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4);
-                z-index: 99999;
-                animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-                border: 1px solid rgba(255,255,255,0.2);
-                backdrop-filter: blur(10px);
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-                setTimeout(() => {
-                    if (document.body.contains(notification)) {
-                        document.body.removeChild(notification);
-                    }
-                }, 500);
-            }, 3000);
-        }
-    </script>
         // ===== INITIALIZE =====
-        <script>
         document.addEventListener('DOMContentLoaded', function() {
-            checkLoginStatus();
-        });
-
-        // Close modal on outside click
-        document.getElementById('exportModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeExportModal();
-            }
-        });
-        </script>
-        // ===== EXPORT TO GITHUB =====
-        <script>
-        function exportToGitHub() {
-            const code = generateScriptJsCode();
-            document.getElementById('exportCode').value = code;
-            document.getElementById('exportModal').classList.add('active');
-        }
-
-        function generateScriptJsCode() {
-            const certs = adminData.map(c => ({
-                id: c.id,
-                name: c.name,
-                internship: c.internship,
-                duration: c.duration,
-                completionDate: c.completionDate,
-                verified: true,
-                certificateLink: c.certificateLink
-            }));
-
-            return `// ===== DATABASE =====
-const database = {
-    certificates: ${JSON.stringify(certs, null, 8)}
-};`;
-        }
-
-        function copyExportCode() {
-            const textarea = document.getElementById('exportCode');
-            textarea.select();
-            document.execCommand('copy');
-            showNotification('📋 Code copied to clipboard!');
-        }
-
-        function downloadScriptJs() {
-            const code = generateScriptJsCode();
-            const blob = new Blob([code], { type: 'text/javascript' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'script.js';
-            a.click();
-            URL.revokeObjectURL(url);
-            showNotification('⬇️ script.js downloaded!');
-        }
-
-        function closeExportModal() {
-            document.getElementById('exportModal').classList.remove('active');
-        }
-
-        // ===== EXPORT JSON =====
-        function exportData() {
-            const dataStr = JSON.stringify(adminData, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'certificates_backup.json';
-            a.click();
-            URL.revokeObjectURL(url);
-            showNotification('📥 JSON exported!');
-        }
-
-        // ===== NOTIFICATION =====
-        function showNotification(message) {
-            const existing = document.querySelector('.admin-notification');
-            if (existing) existing.remove();
-            
-            const notification = document.createElement('div');
-            notification.className = 'admin-notification';
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                background: linear-gradient(135deg, #27ae60, #2ecc71);
-                color: white;
-                padding: 16px 30px;
-                border-radius: 12px;
-                font-weight: 600;
-                font-size: 1rem;
-                box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4);
-                z-index: 99999;
-                animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-                border: 1px solid rgba(255,255,255,0.2);
-                backdrop-filter: blur(10px);
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-                setTimeout(() => {
-                    if (document.body.contains(notification)) {
-                        document.body.removeChild(notification);
-                    }
-                }, 500);
-            }, 3000);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
             if (localStorage.getItem('adminLoggedIn') === 'true') {
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'block';
                 loadAdminData();
+            } else {
+                document.getElementById('loginOverlay').style.display = 'flex';
+                document.getElementById('adminContent').style.display = 'none';
             }
         });
 
