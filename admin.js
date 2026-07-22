@@ -20,7 +20,7 @@ function login(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     
-    if (username === 'admin' && password === 'admin123') {
+    if (username === 'sukanta' && password === '102030') {
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('adminContent').style.display = 'block';
         localStorage.setItem('adminLoggedIn', 'true');
