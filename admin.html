@@ -182,22 +182,52 @@
     </style>
 </head>
 <body>
+    
     <nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <span class="logo-icon">🎓</span>
-            <span class="logo-text">InternVerify</span>
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text">InternVerify</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="admin.html" class="nav-link admin-link">👑 Admin</a>
+            </div>
+            <div class="top-logos">
+                <img src="logo1.png" alt="Logo 1" class="top-logo">
+                <img src="logo2.png" alt="Logo 2" class="top-logo">
+            </div>
         </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">🏠 Home</a>
-            <a href="admin.html" class="nav-link admin-link">👑 Admin</a>
-        </div>
-        <div class="top-logos">
-            <img src="logo1.png" alt="Logo 1" class="top-logo">
-            <img src="logo2.png" alt="Logo 2" class="top-logo">
+    </nav>
+
+    <!-- Admin Content (Hidden until login) -->
+    <div class="admin-container" id="adminContent" style="display:none;">
+        <!-- ... rest of admin content ... -->
+    </div>
+
+    <!-- Login Overlay (Always shown first) -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <h2>🔐 Admin Login</h2>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="admin" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="admin123" required>
+                </div>
+                <button type="submit" class="btn-admin" style="width: 100%;">Login</button>
+            </form>
         </div>
     </div>
-</nav>
+
+    <script src="script.js"></script>
+    <script>
+        // ... rest of admin script ...
+    </script>
+
 
     <div class="admin-container" id="adminContent" style="display:none;">
         <div class="admin-header">
@@ -294,8 +324,23 @@
 
     <script src="script.js"></script>
     <script>
+   
         // ===== ADMIN FUNCTIONS =====
         let adminData = [];
+
+        // ===== SECURITY: CHECK LOGIN STATUS =====
+
+        function checkLoginStatus() {
+            const loggedIn = localStorage.getItem('adminLoggedIn');
+            if (loggedIn === 'true') {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                loadAdminData();
+            } else {
+                document.getElementById('loginOverlay').style.display = 'flex';
+                document.getElementById('adminContent').style.display = 'none';
+            }
+        }
 
         function loadAdminData() {
             const stored = localStorage.getItem('adminCertificates');
@@ -328,8 +373,11 @@
             document.getElementById('loginOverlay').style.display = 'flex';
             document.getElementById('adminContent').style.display = 'none';
             localStorage.removeItem('adminLoggedIn');
+            // Redirect to home page after logout
+            window.location.href = 'index.html';
         }
 
+        // ===== SAVE, EDIT, DELETE FUNCTIONS =====
         function saveCertificate(event) {
             event.preventDefault();
             
@@ -465,7 +513,112 @@
             }
         }
 
+        // ===== EXPORT FUNCTIONS =====
+        function exportToGitHub() {
+            const code = generateScriptJsCode();
+            document.getElementById('exportCode').value = code;
+            document.getElementById('exportModal').classList.add('active');
+        }
+
+        function generateScriptJsCode() {
+            const certs = adminData.map(c => ({
+                id: c.id,
+                name: c.name,
+                internship: c.internship,
+                duration: c.duration,
+                completionDate: c.completionDate,
+                verified: true,
+                certificateLink: c.certificateLink
+            }));
+
+            return `// ===== DATABASE =====\nconst database = {\n    certificates: ${JSON.stringify(certs, null, 8)}\n};`;
+        }
+
+        function copyExportCode() {
+            const textarea = document.getElementById('exportCode');
+            textarea.select();
+            document.execCommand('copy');
+            showNotification('📋 Code copied to clipboard!');
+        }
+
+        function downloadScriptJs() {
+            const code = generateScriptJsCode();
+            const blob = new Blob([code], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'script.js';
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification('⬇️ script.js downloaded!');
+        }
+
+        function closeExportModal() {
+            document.getElementById('exportModal').classList.remove('active');
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(adminData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'certificates_backup.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification('📥 JSON exported!');
+        }
+
+        function showNotification(message) {
+            const existing = document.querySelector('.admin-notification');
+            if (existing) existing.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = 'admin-notification';
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: linear-gradient(135deg, #27ae60, #2ecc71);
+                color: white;
+                padding: 16px 30px;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 1rem;
+                box-shadow: 0 8px 30px rgba(39, 174, 96, 0.4);
+                z-index: 99999;
+                animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                border: 1px solid rgba(255,255,255,0.2);
+                backdrop-filter: blur(10px);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 500);
+            }, 3000);
+        }
+    </script>
+        // ===== INITIALIZE =====
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
+
+        // Close modal on outside click
+        document.getElementById('exportModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeExportModal();
+            }
+        });
+        </script>
         // ===== EXPORT TO GITHUB =====
+        <script>
         function exportToGitHub() {
             const code = generateScriptJsCode();
             document.getElementById('exportCode').value = code;

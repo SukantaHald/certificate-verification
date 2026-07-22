@@ -202,51 +202,152 @@ body {
     box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
 }
 
-/* ----- RESPONSIVE ----- */
+/* ========================================
+   RESPONSIVE DESIGN - FIXED
+   ======================================== */
 @media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
+
     .nav-container {
-        padding: 0 1rem;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
+        padding: 0 0.8rem;
+        flex-wrap: nowrap;
+        gap: 5px;
+        justify-content: space-between;
+        min-height: 55px;
     }
 
     .logo-text {
-        font-size: 1.3rem;
+        font-size: 1rem;
+        display: none; /* Hide full text on mobile */
     }
+    
     .logo-icon {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .nav-links {
-        width: 100%;
+        width: auto;
         justify-content: center;
-        padding: 4px;
-        gap: 4px;
-        order: 3;
+        padding: 3px;
+        gap: 3px;
+        order: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        flex: 1;
     }
 
     .nav-link {
-        padding: 8px 12px;
-        font-size: 0.8rem;
+        padding: 6px 10px;
+        font-size: 0.7rem;
         gap: 4px;
+        border-radius: 10px;
+        white-space: nowrap;
+    }
+    
+    .nav-link span {
+        display: none; /* Hide text, show only emoji on mobile */
+    }
+    
+    .nav-link .nav-icon {
+        display: inline;
     }
 
     .top-logos {
-        padding: 4px 8px;
-        gap: 6px;
+        padding: 2px 6px;
+        gap: 4px;
+        flex-shrink: 0;
     }
+    
     .top-logo {
-        height: 25px;
+        height: 20px;
+        padding: 1px;
+    }
+
+    .hero {
+        min-height: 40vh;
+        padding: 2rem 1rem;
+    }
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .verify-section {
+        padding: 1.5rem 1rem;
+    }
+    .verify-section h2 {
+        font-size: 1.5rem;
+    }
+    .verify-box {
+        padding: 1.2rem;
+    }
+    .input-group {
+        flex-direction: column;
+    }
+    .input-group input {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .result-content h3 {
+        font-size: 1.3rem;
+    }
+    .certificate-link {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .certificate-link button,
+    .certificate-link a {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0 !important;
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .nav-link span:not(.nav-icon) {
-        display: none;
+    .nav-container {
+        padding: 0 0.5rem;
     }
+    
+    .logo-icon {
+        font-size: 1.2rem;
+    }
+    
     .nav-link {
-        padding: 8px 10px;
+        padding: 4px 8px;
+        font-size: 0.65rem;
+    }
+    
+    .nav-link .nav-icon {
+        font-size: 0.8rem;
+    }
+    
+    .top-logo {
+        height: 18px;
+    }
+    
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
     }
 }
 
