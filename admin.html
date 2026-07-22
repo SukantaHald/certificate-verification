@@ -451,7 +451,7 @@
         <form id="loginForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Enter username"required>
+                <input type="text" id="username" placeholder="Enter username" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -566,6 +566,12 @@
 
         let adminData = [];
 
+        // =============================================
+        // ===== LOGIN CREDENTIALS (CHANGE HERE) =====
+        // =============================================
+        const VALID_USERNAME = 'sukanta';
+        const VALID_PASSWORD = '102030';
+
         // ===== LOGIN =====
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -578,7 +584,7 @@
             errorDiv.classList.remove('show');
             
             // Check credentials
-            if (username === 'admin' && password === 'admin123') {
+            if (username === VALID_USERNAME && password === VALID_PASSWORD) {
                 // Show dashboard, hide login
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('adminDashboard').classList.add('active');
@@ -600,8 +606,8 @@
             document.getElementById('loginPage').style.display = 'block';
             document.getElementById('adminDashboard').classList.remove('active');
             localStorage.removeItem('adminLoggedIn');
-            document.getElementById('username').value = 'admin';
-            document.getElementById('password').value = 'admin123';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
             document.getElementById('loginError').classList.remove('show');
         }
 
