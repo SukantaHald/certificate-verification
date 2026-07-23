@@ -297,32 +297,8 @@ body {
     box-shadow: 0 6px 30px rgba(245, 87, 108, 0.4);
 }
 
-/* ===== TOP LOGOS ===== */
-.top-logos {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-}
 
-.top-logo {
-    height: 35px;
-    width: auto;
-    object-fit: contain;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    border-radius: 6px;
-    padding: 2px;
-    background: white;
-}
 
-.top-logo:hover {
-    transform: scale(1.1) rotate(-2deg);
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
-}
 
 /* ===== HERO SECTION ===== */
 .hero {
