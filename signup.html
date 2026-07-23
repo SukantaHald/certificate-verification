@@ -190,67 +190,73 @@
     </div>
 
     <script>
-        // =============================================
-        // ===== SIGNUP FUNCTION =====
-        // =============================================
+            // =============================================
+    // ===== SIGNUP FUNCTION - FIXED =====
+    // =============================================
 
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-            const fullName = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const errorDiv = document.getElementById('authError');
-            const successDiv = document.getElementById('authSuccess');
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const errorDiv = document.getElementById('authError');
+        const successDiv = document.getElementById('authSuccess');
 
-            // Hide previous messages
-            errorDiv.classList.remove('show');
-            successDiv.classList.remove('show');
+        errorDiv.classList.remove('show');
+        successDiv.classList.remove('show');
 
-            // Validate email (must be Gmail)
-            if (!email.endsWith('@gmail.com')) {
-                errorDiv.textContent = '❌ Please use a valid Gmail address (e.g., name@gmail.com)';
-                errorDiv.classList.add('show');
-                return;
-            }
+        // Validate email
+        if (!email.endsWith('@gmail.com')) {
+            errorDiv.textContent = '❌ Please use a valid Gmail address (e.g., name@gmail.com)';
+            errorDiv.classList.add('show');
+            return;
+        }
 
-            // Validate password match
-            if (password !== confirmPassword) {
-                errorDiv.textContent = '❌ Passwords do not match!';
-                errorDiv.classList.add('show');
-                return;
-            }
+        if (password !== confirmPassword) {
+            errorDiv.textContent = '❌ Passwords do not match!';
+            errorDiv.classList.add('show');
+            return;
+        }
 
-            // Validate password length
-            if (password.length < 6) {
-                errorDiv.textContent = '❌ Password must be at least 6 characters long.';
-                errorDiv.classList.add('show');
-                return;
-            }
+        if (password.length < 6) {
+            errorDiv.textContent = '❌ Password must be at least 6 characters long.';
+            errorDiv.classList.add('show');
+            return;
+        }
 
-            // Check if email already registered
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            if (students.find(s => s.email === email)) {
-                errorDiv.textContent = '❌ This email is already registered. Please login.';
-                errorDiv.classList.add('show');
-                return;
-            }
+        // Get existing students
+        let students = JSON.parse(localStorage.getItem('students') || '[]');
 
-            // Save student data
-            const studentData = {
-                id: 'STU-' + Date.now(),
-                fullName: fullName,
-                email: email,
-                password: password,
-                signupDate: new Date().toLocaleString()
-            };
+        if (students.find(s => s.email === email)) {
+            errorDiv.textContent = '❌ This email is already registered. Please login.';
+            errorDiv.classList.add('show');
+            return;
+        }
 
-            students.push(studentData);
-            localStorage.setItem('students', JSON.stringify(students));
+        // Save student
+        const studentData = {
+            id: 'STU-' + Date.now(),
+            fullName: fullName,
+            email: email,
+            password: password,
+            signupDate: new Date().toLocaleString()
+        };
 
-            // Auto-login
-            localStorage.setItem('currentStudent', JSON.stringify(studentData));
+        students.push(studentData);
+        localStorage.setItem('students', JSON.stringify(students));
+
+        // Auto-login
+        localStorage.setItem('currentStudent', JSON.stringify(studentData));
+
+        successDiv.textContent = '✅ Account created successfully! Redirecting...';
+        successDiv.classList.add('show');
+
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1500);
+    });
 
             // Show success
             successDiv.textContent = '✅ Account created successfully! Redirecting to dashboard...';
@@ -260,7 +266,7 @@
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
             }, 1500);
-        });
+        
     </script>
 </body>
 </html>

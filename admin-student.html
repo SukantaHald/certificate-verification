@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Students</title>
+    <title>Student Management - InternVerify</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .admin-container {
@@ -29,6 +29,7 @@
         .admin-header .stats {
             display: flex;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .admin-header .stats span {
@@ -36,6 +37,40 @@
             padding: 10px 20px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .btn-admin-logout {
+            padding: 10px 25px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-admin-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-back {
+            padding: 10px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
         }
 
         .admin-table {
@@ -85,22 +120,6 @@
             color: #721c24;
         }
 
-        .btn-admin-logout {
-            padding: 10px 25px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-admin-logout:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
-        }
-
         .btn-delete {
             padding: 4px 12px;
             background: #e74c3c;
@@ -115,6 +134,12 @@
             background: #c0392b;
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
         @media (max-width: 768px) {
             .admin-table {
                 overflow-x: auto;
@@ -124,13 +149,13 @@
                 text-align: center;
             }
             .admin-header .stats {
-                flex-wrap: wrap;
                 justify-content: center;
             }
         }
     </style>
 </head>
 <body>
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
@@ -143,8 +168,8 @@
                 <a href="admin-students.html" class="nav-link active" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">👥 Students</a>
             </div>
             <div class="top-logos">
-                <img src="logo1.png" alt="Logo 1" class="top-logo">
-                <img src="logo2.png" alt="Logo 2" class="top-logo">
+                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
             </div>
         </div>
     </nav>
@@ -154,6 +179,7 @@
             <h1>👥 Student Management</h1>
             <div class="stats">
                 <span id="totalStudents">👤 Total: 0</span>
+                <a href="admin.html" class="btn-back">← Back to Admin</a>
                 <button class="btn-admin-logout" onclick="logoutAdmin()">🚪 Logout</button>
             </div>
         </div>
@@ -216,9 +242,9 @@
                 html += `
                     <tr>
                         <td><strong>${student.id || 'STU-' + (index + 1)}</strong></td>
-                        <td>${student.fullName}</td>
+                        <td>${student.fullName || 'N/A'}</td>
                         <td>${student.email}</td>
-                        <td><span style="font-family: monospace; background: #f0f0f0; padding: 2px 8px; border-radius: 4px;">${student.password}</span></td>
+                        <td><span style="font-family: monospace; background: #f0f0f0; padding: 2px 8px; border-radius: 4px;">${student.password || 'N/A'}</span></td>
                         <td>${student.signupDate || 'N/A'}</td>
                         <td><span class="badge badge-active">✅ Active</span></td>
                         <td>
@@ -258,7 +284,9 @@
         // ===== INITIALIZE =====
         // =============================================
 
-        loadStudents();
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStudents();
+        });
     </script>
 </body>
 </html>
