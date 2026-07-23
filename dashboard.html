@@ -134,7 +134,11 @@
 <body>
     <script>
     // ===== CHECK LOGIN STATUS =====
-    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    // Use the existing currentStudent from script.js
+    if (typeof currentStudent === 'undefined') {
+        var currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    }
+    
     if (!currentStudent) {
         alert('🔐 Please login first to access your dashboard!');
         window.location.href = 'login.html';
