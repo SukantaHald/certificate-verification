@@ -1064,5 +1064,73 @@ footer {
         font-size: 1.3rem;
     }
 }
+/* ===== PARTNER LOGOS - SCROLLING ANIMATION ===== */
+.partner-logos {
+    overflow: hidden;
+    flex: 1;
+    max-width: 500px;
+    margin-left: 20px;
+    position: relative;
+}
 
+.partner-logos-track {
+    display: flex;
+    gap: 30px;
+    animation: scrollLogos 20s linear infinite;
+    width: max-content;
+}
+
+.partner-logos-track:hover {
+    animation-play-state: paused;
+}
+
+.partner-logo {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.partner-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+@keyframes scrollLogos {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .partner-logos {
+        max-width: 300px;
+        margin-left: 10px;
+    }
+    .partner-logo {
+        height: 25px;
+        padding: 2px 8px;
+    }
+    .partner-logos-track {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .partner-logos {
+        display: none;
+    }
+}
 
