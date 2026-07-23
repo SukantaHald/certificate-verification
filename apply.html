@@ -233,22 +233,37 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">✨</span>
-                <span class="logo-text">InternVerify</span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">🏠 Home</a>
-                <a href="apply.html" class="nav-link active" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">📝 Apply</a>
-                <a href="admin.html" class="nav-link admin-link">👑 Admin</a>
-            </div>
-            <div class="top-logos">
-                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
+    <div class="nav-container">
+        <div class="logo">
+            <span class="logo-icon">✨</span>
+            <span class="logo-text">InternVerify</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🏠 Home</a>
+            <a href="index.html#verify" class="nav-link">✅ Verify</a>
+            <a href="index.html#about" class="nav-link">ℹ️ About</a>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-toggle" onclick="toggleDropdown()">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="apply.html" class="dropdown-item">📝 Apply</a>
+                <a href="dashboard.html" class="dropdown-item">👤 Dashboard</a>
+                <a href="login.html" class="dropdown-item">🔐 Login</a>
+                <a href="signup.html" class="dropdown-item">📝 Sign Up</a>
+                <a href="admin.html" class="dropdown-item">👑 Admin</a>
+                <a href="admin-students.html" class="dropdown-item">👥 Students</a>
             </div>
         </div>
-    </nav>
+        <div class="top-logos">
+            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
+        </div>
+    </div>
+</nav>
     <div class="apply-container">
         <div class="apply-header">
             <h1>🚀 Apply for Internship</h1>

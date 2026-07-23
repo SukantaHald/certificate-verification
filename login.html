@@ -108,30 +108,38 @@
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-box">
-            <div class="logo">
-                <h1>✨ InternVerify</h1>
-                <p>Login to your student account</p>
+    <nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <span class="logo-icon">✨</span>
+            <span class="logo-text">InternVerify</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🏠 Home</a>
+            <a href="index.html#verify" class="nav-link">✅ Verify</a>
+            <a href="index.html#about" class="nav-link">ℹ️ About</a>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-toggle" onclick="toggleDropdown()">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="apply.html" class="dropdown-item">📝 Apply</a>
+                <a href="dashboard.html" class="dropdown-item">👤 Dashboard</a>
+                <a href="login.html" class="dropdown-item">🔐 Login</a>
+                <a href="signup.html" class="dropdown-item">📝 Sign Up</a>
+                <a href="admin.html" class="dropdown-item">👑 Admin</a>
+                <a href="admin-students.html" class="dropdown-item">👥 Students</a>
             </div>
-            <div id="authError" class="auth-error">❌ Invalid email or password!</div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Gmail Address</label>
-                    <input type="email" id="email" placeholder="yourname@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="btn-primary">🔓 Login</button>
-                <div class="auth-link">
-                    Don't have an account? <a href="signup.html">Sign up here</a>
-                </div>
-            </form>
+        </div>
+        <div class="top-logos">
+            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
         </div>
     </div>
-
+</nav>
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();

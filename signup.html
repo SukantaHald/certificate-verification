@@ -126,40 +126,38 @@
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-box">
-            <div class="logo">
-                <h1>✨ InternVerify</h1>
-                <p>Create your student account</p>
+    <nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <span class="logo-icon">✨</span>
+            <span class="logo-text">InternVerify</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">🏠 Home</a>
+            <a href="index.html#verify" class="nav-link">✅ Verify</a>
+            <a href="index.html#about" class="nav-link">ℹ️ About</a>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-toggle" onclick="toggleDropdown()">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="apply.html" class="dropdown-item">📝 Apply</a>
+                <a href="dashboard.html" class="dropdown-item">👤 Dashboard</a>
+                <a href="login.html" class="dropdown-item">🔐 Login</a>
+                <a href="signup.html" class="dropdown-item">📝 Sign Up</a>
+                <a href="admin.html" class="dropdown-item">👑 Admin</a>
+                <a href="admin-students.html" class="dropdown-item">👥 Students</a>
             </div>
-            <div id="authError" class="auth-error">❌ Error message</div>
-            <div id="authSuccess" class="auth-success">✅ Success message</div>
-            <form id="signupForm">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="fullName" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label>Gmail Address</label>
-                    <input type="email" id="email" placeholder="yourname@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" placeholder="Create a password" required minlength="6">
-                    <div class="password-hint">Minimum 6 characters</div>
-                </div>
-                <div class="form-group">
-                    <label>Re-enter Password</label>
-                    <input type="password" id="confirmPassword" placeholder="Re-enter your password" required>
-                </div>
-                <button type="submit" class="btn-primary">🚀 Create Account</button>
-                <div class="auth-link">
-                    Already have an account? <a href="login.html">Login here</a>
-                </div>
-            </form>
+        </div>
+        <div class="top-logos">
+            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
         </div>
     </div>
-    <script>
+</nav>
         document.getElementById('signupForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const fullName = document.getElementById('fullName').value.trim();
