@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - InternVerify</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header .user-info h2 {
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-header .user-info p {
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        .dashboard-header .btn-logout {
+            padding: 10px 25px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-header .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .internship-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .internship-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .internship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .internship-card .icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .internship-card h3 {
+            color: #2d3436;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .internship-card .price {
+            color: #27ae60;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .internship-card .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .internship-card .apply-btn {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .internship-card .apply-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 40px;
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .internship-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .internship-grid {
+                grid-template-columns: 1fr;
+            }
+            .welcome-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">InternVerify</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="apply.html" class="nav-link">📝 Apply</a>
+            </div>
+            <div class="top-logos">
+                <img src="logo1.png" alt="Logo 1" class="top-logo">
+                <img src="logo2.png" alt="Logo 2" class="top-logo">
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>🎓 Welcome, <span id="studentName">Student</span>!</h1>
+            <p>Explore internship opportunities and start your career journey</p>
+        </div>
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="user-info">
+                <h2>📋 Available Internships</h2>
+                <p>Choose your preferred internship and apply now</p>
+            </div>
+            <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+        </div>
+
+        <!-- Internship Listings -->
+        <div class="internship-grid">
+            <div class="internship-card">
+                <div class="icon">🥇</div>
+                <h3>YBI Foundation</h3>
+                <div class="price">₹50 – ₹150</div>
+                <span class="badge">Popular</span>
+                <br>
+                <button class="apply-btn" onclick="applyInternship('YBI Foundation')">Apply Now</button>
+            </div>
+
+            <div class="internship-card">
+                <div class="icon">🥈</div>
+                <h3>Workora</h3>
+                <div class="price">₹99</div>
+                <span class="badge">Trending</span>
+                <br>
+                <button class="apply-btn" onclick="applyInternship('Workora')">Apply Now</button>
+            </div>
+
+            <div class="internship-card">
+                <div class="icon">🥉</div>
+                <h3>CodTech IT Solutions</h3>
+                <div class="price">₹99 – ₹199</div>
+                <span class="badge">Popular</span>
+                <br>
+                <button class="apply-btn" onclick="applyInternship('CodTech IT Solutions')">Apply Now</button>
+            </div>
+
+            <div class="internship-card">
+                <div class="icon">💻</div>
+                <h3>Cyrostack</h3>
+                <div class="price">₹299</div>
+                <span class="badge">AICTE-linked</span>
+                <br>
+                <button class="apply-btn" onclick="applyInternship('Cyrostack')">Apply Now</button>
+            </div>
+
+            <div class="internship-card">
+                <div class="icon">⚡</div>
+                <h3>CodeAlpha</h3>
+                <div class="price" style="color: #f39c12;">Apply Now</div>
+                <span class="badge">Beginner Friendly</span>
+                <br>
+                <button class="apply-btn" onclick="applyInternship('CodeAlpha')">Apply Now</button>
+            </div>
+
+            <div class="internship-card">
+                <div class="icon">🔧</div>
+                <h3>TechnoHacks</h3>
+                <div class="price" style="color: #f39c12;">Apply Now</div>
+                <span class="badge">Beginner Friendly</span>
+                <br>
+                <button class="apply-btn" onclick="applyInternship('TechnoHacks')">Apply Now</button>
+            </div>
+
+            <div class="internship-card">
+                <div class="icon">📊</div>
+                <h3>Prodigy InfoTech</h3>
+                <div class="price" style="color: #f39c12;">Apply Now</div>
+                <span class="badge">Beginner Friendly</span>
+                <br>
+                <button class="apply-btn" onclick="applyInternship('Prodigy InfoTech')">Apply Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // ===== DASHBOARD FUNCTIONS =====
+        // =============================================
+
+        // Check if student is logged in
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+
+        if (!currentStudent) {
+            window.location.href = 'login.html';
+        }
+
+        // Display student name
+        document.getElementById('studentName').textContent = currentStudent.fullName;
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('currentStudent');
+            window.location.href = 'login.html';
+        }
+
+        // Apply for internship
+        function applyInternship(internshipName) {
+            const student = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+            if (!student) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Save application
+            const applications = JSON.parse(localStorage.getItem('applications') || '[]');
+            applications.push({
+                studentEmail: student.email,
+                studentName: student.fullName,
+                internship: internshipName,
+                appliedAt: new Date().toLocaleString()
+            });
+            localStorage.setItem('applications', JSON.stringify(applications));
+
+            alert(`✅ You have successfully applied for ${internshipName}!\n\nWe will contact you soon.`);
+        }
+    </script>
+</body>
+</html>
