@@ -108,34 +108,30 @@
 <body>
     <nav class="navbar">
     <div class="nav-container">
+        <!-- ☰ Menu Icon - LEFT CORNER -->
+        <div class="menu-container">
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <span class="menu-icon">☰</span>
+            </button>
+            <!-- Logo -->
         <div class="logo">
             <span class="logo-icon">✨</span>
             <span class="logo-text">InternVerify</span>
         </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">🏠 Home</a>
-            <a href="index.html#verify" class="nav-link">✅ Verify</a>
-            <a href="index.html#about" class="nav-link">ℹ️ About</a>
-        </div>
-        <div class="dropdown">
-            <button class="dropdown-toggle" onclick="toggleDropdown()">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="apply.html" class="dropdown-item">📝 Apply</a>
-                <a href="dashboard.html" class="dropdown-item">👤 Dashboard</a>
-                <a href="login.html" class="dropdown-item">🔐 Login</a>
-                <a href="signup.html" class="dropdown-item">📝 Sign Up</a>
-                <a href="admin.html" class="dropdown-item">👑 Admin</a>
-                <a href="admin-students.html" class="dropdown-item">👥 Students</a>
+            <div class="menu-dropdown" id="menuDropdown">
+                <a href="index.html" class="menu-item">🏠 Home</a>
+                <a href="#verify" class="menu-item">✅ Verify</a>
+                <a href="#about" class="menu-item">ℹ️ About</a>
+                <a href="apply.html" class="menu-item apply-item">📝 Apply</a>
+                <a href="dashboard.html" class="menu-item dashboard-item">👤 Dashboard</a>
+                <a href="login.html" class="menu-item">🔐 Login</a>
+                <a href="signup.html" class="menu-item">📝 Sign Up</a>
+                <a href="admin.html" class="menu-item admin-item">👑 Admin</a>
+                <a href="admin-students.html" class="menu-item admin-item">👥 Students</a>
             </div>
         </div>
-        <div class="top-logos">
-            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
-        </div>
+        <!-- Empty spacer to keep logo centered -->
+        <div style="width: 50px;"></div>
     </div>
 </nav>
     <div class="admin-container">

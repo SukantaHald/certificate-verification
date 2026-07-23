@@ -202,22 +202,33 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">✨</span>
-                <span class="logo-text">InternVerify</span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">🏠 Home</a>
-                <a href="admin.html" class="nav-link active">👑 Admin</a>
-                <a href="admin-students.html" class="nav-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white;">👥 Students</a>
-            </div>
-            <div class="top-logos">
-                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
+    <div class="nav-container">
+        <!-- ☰ Menu Icon - LEFT CORNER -->
+        <div class="menu-container">
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <span class="menu-icon">☰</span>
+            </button>
+            <!-- Logo -->
+        <div class="logo">
+            <span class="logo-icon">✨</span>
+            <span class="logo-text">InternVerify</span>
+        </div>
+            <div class="menu-dropdown" id="menuDropdown">
+                <a href="index.html" class="menu-item">🏠 Home</a>
+                <a href="#verify" class="menu-item">✅ Verify</a>
+                <a href="#about" class="menu-item">ℹ️ About</a>
+                <a href="apply.html" class="menu-item apply-item">📝 Apply</a>
+                <a href="dashboard.html" class="menu-item dashboard-item">👤 Dashboard</a>
+                <a href="login.html" class="menu-item">🔐 Login</a>
+                <a href="signup.html" class="menu-item">📝 Sign Up</a>
+                <a href="admin.html" class="menu-item admin-item">👑 Admin</a>
+                <a href="admin-students.html" class="menu-item admin-item">👥 Students</a>
             </div>
         </div>
-    </nav>
+        <!-- Empty spacer to keep logo centered -->
+        <div style="width: 50px;"></div>
+    </div>
+</nav>
 
     <div class="admin-container" id="adminContent" style="display:none;">
         <div class="admin-header">
