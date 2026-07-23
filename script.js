@@ -428,3 +428,63 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+// ===== THEME SWITCHER =====
+function toggleThemePanel() {
+    const panel = document.getElementById('themePanel');
+    panel.classList.toggle('show');
+}
+
+// Close theme panel when clicking outside
+document.addEventListener('click', function(event) {
+    const switcher = document.querySelector('.theme-switcher');
+    const panel = document.getElementById('themePanel');
+    
+    if (switcher && !switcher.contains(event.target)) {
+        panel.classList.remove('show');
+    }
+});
+
+// ===== APPLY THEME =====
+function applyTheme(themeName) {
+    // Remove all theme classes
+    document.body.className = '';
+    
+    // Add the selected theme class
+    document.body.classList.add('theme-' + themeName);
+    
+    // Update CSS variables
+    const root = document.documentElement;
+    const themes = {
+        default: { primary: '#667eea', secondary: '#764ba2' },
+        ocean: { primary: '#00b4db', secondary: '#0083b0' },
+        sunset: { primary: '#f12711', secondary: '#f5af19' },
+        forest: { primary: '#11998e', secondary: '#38ef7d' },
+        night: { primary: '#0f0c29', secondary: '#302b63' },
+        rose: { primary: '#ff6b6b', secondary: '#ee5a24' },
+        purple: { primary: '#a29bfe', secondary: '#6c5ce7' }
+    };
+    
+    const theme = themes[themeName] || themes.default;
+    root.style.setProperty('--primary', theme.primary);
+    root.style.setProperty('--secondary', theme.secondary);
+    
+    // Update active state in panel
+    document.querySelectorAll('.theme-option').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.theme === themeName) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Save preference
+    localStorage.setItem('preferredTheme', themeName);
+    
+    // Close panel
+    document.getElementById('themePanel').classList.remove('show');
+}
+
+// ===== LOAD SAVED THEME =====
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('preferredTheme') || 'default';
+    applyTheme(savedTheme);
+});
