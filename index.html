@@ -8,98 +8,74 @@
 </head>
 <body>
     <!-- ===== NAVIGATION ===== -->
-       <nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <span class="logo-icon">✨</span>
-            <span class="logo-text">InternVerify</span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link active">🏠 Home</a>
-            <a href="#verify" class="nav-link">✅ Verify</a>
-            <a href="#about" class="nav-link">ℹ️ About</a>
-            <a href="apply.html" class="nav-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white;">📝 Apply</a>
-            <a href="admin.html" class="nav-link admin-link">👑 Admin</a>
-        </div>
-        <div class="top-logos">
-            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
-        </div>
-    </div>
-</nav>
-
-            <!-- Add this inside the nav-container, after admin boutton -->
-            <div class="theme-selector">
-                <select id="themeSelect" onchange="changeTheme(this.value)">
-                    <option value="default">🎨 Default</option>
-                    <option value="blue">💙 Blue</option>
-                    <option value="purple">💜 Purple</option>
-                    <option value="green">💚 Green</option>
-                    <option value="orange">🧡 Orange</option>
-                    <option value="red">❤️ Red</option>
-                    <option value="pink">💗 Pink</option>
-                    <option value="dark">🌙 Dark</option>
-                    <option value="neon">💎 Neon</option>
-                </select>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">InternVerify</span>
             </div>
-                    
-                </div>
-            </nav>
-            
-            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">🏠 Home</a>
+                <a href="#verify" class="nav-link">✅ Verify</a>
+                <a href="#about" class="nav-link">ℹ️ About</a>
+                <a href="apply.html" class="nav-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white;">📝 Apply</a>
+                <a href="admin.html" class="nav-link admin-link">👑 Admin</a>
+            </div>
+            <div class="top-logos">
+                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
+            </div>
         </div>
     </nav>
 
     <!-- ===== HERO SECTION ===== -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1 id="heroTitle">Verify Internship Certificates</h1>
-            <p id="heroSubtitle">Secure and instant verification of your internship certificates</p>
+            <h1>Verify Internship Certificates</h1>
+            <p>Secure and instant verification of your internship certificates</p>
             <div class="hero-buttons">
-                <a href="#verify" class="btn-primary" id="verifyNowBtn">Verify Now</a>
-                <a href="#about" class="btn-secondary" id="learnMoreBtn">Learn More</a>
+                <a href="#verify" class="btn-primary">Verify Now</a>
+                <a href="#about" class="btn-secondary">Learn More</a>
             </div>
         </div>
     </section>
 
-
-
     <!-- ===== VERIFICATION SECTION ===== -->
     <section id="verify" class="verify-section">
-        <h2 id="verifyTitle">Certificate Verification</h2>
+        <h2>Certificate Verification</h2>
         <div class="verify-container">
             <div class="verify-box">
-                <h3 id="enterIdLabel">Enter Certificate ID</h3>
+                <h3>Enter Certificate ID</h3>
                 <div class="input-group">
                     <input type="text" id="certificateId" placeholder="Enter Certificate ID (e.g., INT-2024-001)" />
-                    <button onclick="verifyCertificate()" class="btn-verify" id="verifyBtn">Verify</button>
+                    <button onclick="verifyCertificate()" class="btn-verify">Verify</button>
                 </div>
                 <div class="qr-section">
-                    <h4 id="orLabel">OR</h4>
-                    <p id="scanQRLabel">Scan QR Code</p>
+                    <h4>OR</h4>
+                    <p>Scan QR Code</p>
                     <div id="qr-reader" class="qr-reader"></div>
-                    <button onclick="startScanner()" class="btn-scanner" id="openScannerBtn">📷 Open Scanner</button>
+                    <button onclick="startScanner()" class="btn-scanner">📷 Open Scanner</button>
                 </div>
             </div>
             
             <!-- ===== RESULT SECTION ===== -->
             <div id="result" class="result-box" style="display:none;">
                 <div class="result-content">
-                    <div class="status-badge verified" id="verifiedBadge">✅ Verified</div>
+                    <div class="status-badge verified">✅ Verified</div>
                     <h3 id="studentName"></h3>
-                    <p><strong id="certIdLabel">Certificate ID:</strong> <span id="certId"></span></p>
-                    <p><strong id="internshipLabel">Internship:</strong> <span id="internship"></span></p>
-                    <p><strong id="durationLabel">Duration:</strong> <span id="duration"></span></p>
-                    <p><strong id="completionDateLabel">Completion Date:</strong> <span id="completionDate"></span></p>
+                    <p><strong>Certificate ID:</strong> <span id="certId"></span></p>
+                    <p><strong>Internship:</strong> <span id="internship"></span></p>
+                    <p><strong>Duration:</strong> <span id="duration"></span></p>
+                    <p><strong>Completion Date:</strong> <span id="completionDate"></span></p>
                     <div class="certificate-link">
-                        <a id="certLink" href="#" target="_blank" class="btn-certificate" id="viewCertBtn">📄 View Full Certificate</a>
-                        <button onclick="downloadCertificate()" class="btn-download" id="downloadCertBtn">⬇️ Download Certificate</button>
-                        <button onclick="printCertificate()" class="btn-print" id="printCertBtn">🖨️ Print Certificate</button>
+                        <a id="certLink" href="#" target="_blank" class="btn-certificate">📄 View Full Certificate</a>
+                        <button onclick="downloadCertificate()" class="btn-download">⬇️ Download Certificate</button>
+                        <button onclick="printCertificate()" class="btn-print">🖨️ Print Certificate</button>
                     </div>
                     
                     <!-- Share Section -->
                     <div class="share-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center;">
-                        <h4 style="margin-bottom: 15px; color: #333;" id="shareTitle">Share Your Verified Certificate</h4>
+                        <h4 style="margin-bottom: 15px; color: #333;">Share Your Verified Certificate</h4>
                         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                             <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">LinkedIn</button>
                             <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Twitter</button>
@@ -116,21 +92,21 @@
 
     <!-- ===== ABOUT SECTION ===== -->
     <section id="about" class="about-section">
-        <h2 id="aboutTitle">About This System</h2>
+        <h2>About This System</h2>
         <div class="about-content">
-            <p id="aboutText">Our internship certificate verification system provides a secure and efficient way to verify the authenticity of internship certificates.</p>
+            <p>Our internship certificate verification system provides a secure and efficient way to verify the authenticity of internship certificates.</p>
             <div class="features">
                 <div class="feature-card">
-                    <h3 id="secureLabel">🔒 Secure</h3>
-                    <p id="secureText">Blockchain-inspired verification system</p>
+                    <h3>🔒 Secure</h3>
+                    <p>Blockchain-inspired verification system</p>
                 </div>
                 <div class="feature-card">
-                    <h3 id="fastLabel">⚡ Fast</h3>
-                    <p id="fastText">Instant verification results</p>
+                    <h3>⚡ Fast</h3>
+                    <p>Instant verification results</p>
                 </div>
                 <div class="feature-card">
-                    <h3 id="qrLabel">📱 QR Code</h3>
-                    <p id="qrText">Scan to verify instantly</p>
+                    <h3>📱 QR Code</h3>
+                    <p>Scan to verify instantly</p>
                 </div>
             </div>
         </div>
@@ -138,13 +114,12 @@
 
     <!-- ===== FOOTER ===== -->
     <footer>
-        <p id="footerText">© 2024 InternVerify. All rights reserved.</p>
+        <p>© 2024 InternVerify. All rights reserved.</p>
     </footer>
 
     <!-- ===== SCRIPTS ===== -->
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="languages.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

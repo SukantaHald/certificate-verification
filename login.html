@@ -6,25 +6,21 @@
     <title>Login - InternVerify</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Same styles as signup.html */
         .auth-container {
             max-width: 450px;
             margin: 80px auto 40px;
             padding: 20px;
         }
-
         .auth-box {
             background: white;
             padding: 40px;
             border-radius: 24px;
             box-shadow: 0 10px 50px rgba(0,0,0,0.08);
         }
-
         .auth-box .logo {
             text-align: center;
             margin-bottom: 30px;
         }
-
         .auth-box .logo h1 {
             font-size: 2rem;
             font-weight: 800;
@@ -33,17 +29,14 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .auth-box .logo p {
             color: #888;
             font-size: 0.95rem;
             margin-top: 5px;
         }
-
         .auth-box .form-group {
             margin-bottom: 20px;
         }
-
         .auth-box .form-group label {
             display: block;
             font-weight: 600;
@@ -51,7 +44,6 @@
             color: #333;
             font-size: 0.95rem;
         }
-
         .auth-box .form-group input {
             width: 100%;
             padding: 14px 16px;
@@ -61,14 +53,12 @@
             transition: all 0.3s ease;
             background: #f8f9fa;
         }
-
         .auth-box .form-group input:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
             background: white;
         }
-
         .auth-box .btn-primary {
             width: 100%;
             padding: 14px;
@@ -82,28 +72,23 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
         }
-
         .auth-box .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
         }
-
         .auth-box .auth-link {
             text-align: center;
             margin-top: 20px;
             color: #666;
         }
-
         .auth-box .auth-link a {
             color: #667eea;
             text-decoration: none;
             font-weight: 600;
         }
-
         .auth-box .auth-link a:hover {
             text-decoration: underline;
         }
-
         .auth-error {
             background: #f8d7da;
             color: #721c24;
@@ -114,15 +99,11 @@
             text-align: center;
             font-weight: 500;
         }
-
         .auth-error.show {
             display: block;
         }
-
         @media (max-width: 480px) {
-            .auth-box {
-                padding: 25px;
-            }
+            .auth-box { padding: 25px; }
         }
     </style>
 </head>
@@ -133,22 +114,17 @@
                 <h1>✨ InternVerify</h1>
                 <p>Login to your student account</p>
             </div>
-
             <div id="authError" class="auth-error">❌ Invalid email or password!</div>
-
             <form id="loginForm">
                 <div class="form-group">
                     <label>Gmail Address</label>
                     <input type="email" id="email" placeholder="yourname@gmail.com" required>
                 </div>
-
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" id="password" placeholder="Enter your password" required>
                 </div>
-
                 <button type="submit" class="btn-primary">🔓 Login</button>
-
                 <div class="auth-link">
                     Don't have an account? <a href="signup.html">Sign up here</a>
                 </div>
@@ -157,27 +133,15 @@
     </div>
 
     <script>
-        // =============================================
-        // ===== LOGIN FUNCTION =====
-        // =============================================
-
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('authError');
-
             errorDiv.classList.remove('show');
-
-            // Get students from localStorage
             const students = JSON.parse(localStorage.getItem('students') || '[]');
-
-            // Find student
             const student = students.find(s => s.email === email && s.password === password);
-
             if (student) {
-                // Save current student
                 localStorage.setItem('currentStudent', JSON.stringify(student));
                 window.location.href = 'dashboard.html';
             } else {
@@ -187,12 +151,6 @@
                 document.getElementById('password').focus();
             }
         });
-
-        // =============================================
-        // ===== AUTO-LOGIN CHECK =====
-        // =============================================
-
-        // If already logged in, redirect to dashboard
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
         if (currentStudent) {
             window.location.href = 'dashboard.html';

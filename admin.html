@@ -6,7 +6,6 @@
     <title>Admin Dashboard - InternVerify</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ===== ADMIN STYLES ===== */
         .admin-container {
             max-width: 1200px;
             margin: 100px auto 40px;
@@ -183,15 +182,6 @@
             margin-top: 15px;
             flex-wrap: wrap;
         }
-        .nav-link-students {
-            background: linear-gradient(135deg, #f093fb, #f5576c) !important;
-            color: white !important;
-            box-shadow: 0 4px 20px rgba(245, 87, 108, 0.3);
-        }
-        .nav-link-students:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 6px 30px rgba(245, 87, 108, 0.4);
-        }
         @media (max-width: 768px) {
             .form-row { grid-template-columns: 1fr; }
             .admin-table { overflow-x: auto; }
@@ -200,26 +190,23 @@
     </style>
 </head>
 <body>
-    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <span class="logo-icon">✨</span>
-            <span class="logo-text">InternVerify</span>
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">InternVerify</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="admin.html" class="nav-link active">👑 Admin</a>
+                <a href="admin-students.html" class="nav-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white;">👥 Students</a>
+            </div>
+            <div class="top-logos">
+                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
+            </div>
         </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">🏠 Home</a>
-            <a href="admin.html" class="nav-link active">👑 Admin</a>
-            <a href="admin-students.html" class="nav-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white;">👥 Students</a>
-        </div>
-        <div class="top-logos">
-            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
-        </div>
-    </div>
-</nav>
-
-    <!-- ===== ADMIN CONTENT ===== -->
+    </nav>
     <div class="admin-container" id="adminContent" style="display:none;">
         <div class="admin-header">
             <h1>📊 Admin Dashboard</h1>
@@ -229,13 +216,11 @@
                 <button onclick="logout()" class="btn-admin btn-danger">🚪 Logout</button>
             </div>
         </div>
-
         <div class="admin-stats" id="statsContainer">
             <div class="stat-card"><h3 id="totalCerts">0</h3><p>Total Certificates</p></div>
             <div class="stat-card"><h3 id="verifiedCerts">0</h3><p>Verified</p></div>
             <div class="stat-card"><h3 id="expiredCerts">0</h3><p>Expired</p></div>
         </div>
-
         <div class="admin-form">
             <h2 id="formTitle">➕ Add New Certificate</h2>
             <form id="certForm" onsubmit="saveCertificate(event)">
@@ -274,16 +259,11 @@
                 <button type="button" onclick="resetForm()" class="btn-admin" style="background: #666; margin-left: 10px;">↺ Reset</button>
             </form>
         </div>
-
         <div class="admin-table">
             <h3 style="padding: 20px 20px 0; color: #2d3436;">📜 All Certificates</h3>
-            <div id="certList">
-                <!-- Rendered by JavaScript -->
-            </div>
+            <div id="certList"></div>
         </div>
     </div>
-
-    <!-- ===== LOGIN OVERLAY ===== -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
             <h2>🔐 Admin Login</h2>
@@ -301,8 +281,6 @@
             </form>
         </div>
     </div>
-
-    <!-- ===== EXPORT MODAL ===== -->
     <div class="modal-overlay" id="exportModal">
         <div class="modal-box">
             <h2>🐙 Export to GitHub</h2>
@@ -315,33 +293,17 @@
             </div>
         </div>
     </div>
-
-    <!-- ===== SCRIPTS ===== -->
     <script src="script.js"></script>
     <script>
-        // =============================================
-        // ===== ADMIN FUNCTIONS =====
-        // =============================================
-
         let adminData = [];
-
-        // =============================================
-        // ===== LOGIN CREDENTIALS =====
-        // =============================================
-
         const VALID_USERNAME = 'sukanta';
         const VALID_PASSWORD = '102030';
-
-        // ===== LOGIN =====
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
             const errorDiv = document.getElementById('loginError');
-            
             errorDiv.style.display = 'none';
-            
             if (username === VALID_USERNAME && password === VALID_PASSWORD) {
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'block';
@@ -353,7 +315,6 @@
                 document.getElementById('password').focus();
             }
         });
-
         function logout() {
             document.getElementById('loginOverlay').style.display = 'flex';
             document.getElementById('adminContent').style.display = 'none';
@@ -362,32 +323,21 @@
             document.getElementById('password').value = '';
             document.getElementById('loginError').style.display = 'none';
         }
-
-        // ===== LOAD DATA =====
         function loadAdminData() {
             const stored = localStorage.getItem('adminCertificates');
             if (stored) {
-                try {
-                    adminData = JSON.parse(stored);
-                } catch(e) {
-                    adminData = [];
-                }
+                try { adminData = JSON.parse(stored); } catch(e) { adminData = []; }
             } else {
                 if (typeof database !== 'undefined' && database.certificates) {
                     adminData = JSON.parse(JSON.stringify(database.certificates));
-                } else {
-                    adminData = [];
-                }
+                } else { adminData = []; }
                 localStorage.setItem('adminCertificates', JSON.stringify(adminData));
             }
             renderTable();
             updateStats();
         }
-
-        // ===== SAVE CERTIFICATE =====
         function saveCertificate(event) {
             event.preventDefault();
-            
             const editId = document.getElementById('editId').value;
             const certData = {
                 id: document.getElementById('certIdInput').value.trim(),
@@ -398,17 +348,13 @@
                 verified: true,
                 certificateLink: document.getElementById('linkInput').value.trim()
             };
-            
             if (!certData.id || !certData.name) {
                 alert('Please fill in all required fields.');
                 return;
             }
-            
             if (editId) {
                 const index = adminData.findIndex(c => c.id === editId);
-                if (index !== -1) {
-                    adminData[index] = certData;
-                }
+                if (index !== -1) { adminData[index] = certData; }
             } else {
                 if (adminData.find(c => c.id === certData.id)) {
                     alert('Certificate ID already exists!');
@@ -416,7 +362,6 @@
                 }
                 adminData.push(certData);
             }
-            
             saveToStorage();
             renderTable();
             updateStats();
@@ -424,7 +369,6 @@
             updateMainDatabase();
             alert('✅ Certificate saved successfully!');
         }
-
         function deleteCertificate(id) {
             if (confirm(`Are you sure you want to delete certificate ${id}?`)) {
                 adminData = adminData.filter(c => c.id !== id);
@@ -435,11 +379,9 @@
                 alert('🗑️ Certificate deleted');
             }
         }
-
         function editCertificate(id) {
             const cert = adminData.find(c => c.id === id);
             if (!cert) return;
-            
             document.getElementById('editId').value = cert.id;
             document.getElementById('certIdInput').value = cert.id;
             document.getElementById('nameInput').value = cert.name;
@@ -449,10 +391,8 @@
             document.getElementById('linkInput').value = cert.certificateLink;
             document.getElementById('formTitle').textContent = '✏️ Edit Certificate';
             document.getElementById('certIdInput').readOnly = true;
-            
             document.querySelector('.admin-form').scrollIntoView({ behavior: 'smooth' });
         }
-
         function resetForm() {
             document.getElementById('editId').value = '';
             document.getElementById('certIdInput').value = '';
@@ -464,43 +404,22 @@
             document.getElementById('linkInput').value = '';
             document.getElementById('formTitle').textContent = '➕ Add New Certificate';
         }
-
-        // ===== RENDER TABLE =====
         function renderTable() {
             const container = document.getElementById('certList');
-            
             if (adminData.length === 0) {
                 container.innerHTML = `<p style="padding: 20px; text-align: center; color: #666;">No certificates found.</p>`;
                 return;
             }
-            
             let html = `<table><thead><tr><th>ID</th><th>Name</th><th>Internship</th><th>Duration</th><th>Date</th><th>Actions</th></tr></thead><tbody>`;
-            
             adminData.forEach(cert => {
-                html += `
-                    <tr>
-                        <td><strong>${cert.id}</strong></td>
-                        <td>${cert.name}</td>
-                        <td>${cert.internship}</td>
-                        <td>${cert.duration}</td>
-                        <td>${cert.completionDate}</td>
-                        <td>
-                            <button onclick="editCertificate('${cert.id}')" style="padding: 4px 12px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">✏️</button>
-                            <button onclick="deleteCertificate('${cert.id}')" style="padding: 4px 12px; background: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer;">🗑️</button>
-                        </td>
-                    </tr>
-                `;
+                html += `<tr><td><strong>${cert.id}</strong></td><td>${cert.name}</td><td>${cert.internship}</td><td>${cert.duration}</td><td>${cert.completionDate}</td><td><button onclick="editCertificate('${cert.id}')" style="padding: 4px 12px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">✏️</button><button onclick="deleteCertificate('${cert.id}')" style="padding: 4px 12px; background: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer;">🗑️</button></td></tr>`;
             });
-            
             html += `</tbody></table>`;
             container.innerHTML = html;
         }
-
-        // ===== UPDATE STATS =====
         function updateStats() {
             document.getElementById('totalCerts').textContent = adminData.length;
             document.getElementById('verifiedCerts').textContent = adminData.filter(c => c.verified).length;
-            
             const now = new Date();
             const expired = adminData.filter(c => {
                 const date = new Date(c.completionDate);
@@ -509,27 +428,19 @@
             });
             document.getElementById('expiredCerts').textContent = expired.length;
         }
-
-        // ===== STORAGE =====
         function saveToStorage() {
             localStorage.setItem('adminCertificates', JSON.stringify(adminData));
         }
-
         function updateMainDatabase() {
             const mainData = adminData.map(c => ({ ...c, verified: true }));
             localStorage.setItem('certificatesData', JSON.stringify(mainData));
-            if (typeof database !== 'undefined') {
-                database.certificates = mainData;
-            }
+            if (typeof database !== 'undefined') { database.certificates = mainData; }
         }
-
-        // ===== EXPORT =====
         function exportToGitHub() {
             const code = generateScriptJsCode();
             document.getElementById('exportCode').value = code;
             document.getElementById('exportModal').classList.add('active');
         }
-
         function generateScriptJsCode() {
             const certs = adminData.map(c => ({
                 id: c.id,
@@ -540,17 +451,14 @@
                 verified: true,
                 certificateLink: c.certificateLink
             }));
-
             return `// ===== DATABASE =====\nconst database = {\n    certificates: ${JSON.stringify(certs, null, 8)}\n};`;
         }
-
         function copyExportCode() {
             const textarea = document.getElementById('exportCode');
             textarea.select();
             document.execCommand('copy');
             alert('📋 Code copied to clipboard!');
         }
-
         function downloadScriptJs() {
             const code = generateScriptJsCode();
             const blob = new Blob([code], { type: 'text/javascript' });
@@ -562,11 +470,9 @@
             URL.revokeObjectURL(url);
             alert('⬇️ script.js downloaded!');
         }
-
         function closeExportModal() {
             document.getElementById('exportModal').classList.remove('active');
         }
-
         function exportData() {
             const dataStr = JSON.stringify(adminData, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
@@ -578,8 +484,6 @@
             URL.revokeObjectURL(url);
             alert('📥 JSON exported!');
         }
-
-        // ===== INITIALIZE =====
         document.addEventListener('DOMContentLoaded', function() {
             if (localStorage.getItem('adminLoggedIn') === 'true') {
                 document.getElementById('loginOverlay').style.display = 'none';
@@ -590,12 +494,8 @@
                 document.getElementById('adminContent').style.display = 'none';
             }
         });
-
-        // Close modal on outside click
         document.getElementById('exportModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeExportModal();
-            }
+            if (e.target === this) { closeExportModal(); }
         });
     </script>
 </body>
