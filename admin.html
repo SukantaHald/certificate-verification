@@ -78,9 +78,6 @@
             background: linear-gradient(135deg, #24292e, #1a1e22);
             box-shadow: 0 4px 20px rgba(36, 41, 46, 0.3);
         }
-        .btn-github:hover {
-            box-shadow: 0 8px 30px rgba(36, 41, 46, 0.5);
-        }
         .admin-table {
             background: white;
             border-radius: 16px;
@@ -139,6 +136,20 @@
             display: none;
             text-align: center;
         }
+        .back-home-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .back-home-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .back-home-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -191,37 +202,23 @@
 </head>
 <body>
     <nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <span class="logo-icon">✨</span>
-            <span class="logo-text">InternVerify</span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">🏠 Home</a>
-            <a href="index.html#verify" class="nav-link">✅ Verify</a>
-            <a href="index.html#about" class="nav-link">ℹ️ About</a>
-        </div>
-        <div class="dropdown">
-            <button class="dropdown-toggle" onclick="toggleDropdown()">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="apply.html" class="dropdown-item">📝 Apply</a>
-                <a href="dashboard.html" class="dropdown-item">👤 Dashboard</a>
-                <a href="login.html" class="dropdown-item">🔐 Login</a>
-                <a href="signup.html" class="dropdown-item">📝 Sign Up</a>
-                <a href="admin.html" class="dropdown-item">👑 Admin</a>
-                <a href="admin-students.html" class="dropdown-item">👥 Students</a>
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">InternVerify</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="admin.html" class="nav-link active">👑 Admin</a>
+                <a href="admin-students.html" class="nav-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white;">👥 Students</a>
+            </div>
+            <div class="top-logos">
+                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
             </div>
         </div>
-        <div class="top-logos">
-            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
-        </div>
-    </div>
-</nav>
+    </nav>
+
     <div class="admin-container" id="adminContent" style="display:none;">
         <div class="admin-header">
             <h1>📊 Admin Dashboard</h1>
@@ -279,6 +276,7 @@
             <div id="certList"></div>
         </div>
     </div>
+
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
             <h2>🔐 Admin Login</h2>
@@ -293,9 +291,13 @@
                     <input type="password" id="password" placeholder="Enter password" required>
                 </div>
                 <button type="submit" class="btn-admin" style="width: 100%;">Login</button>
+                <div class="back-home-link">
+                    <a href="index.html">← Back to Home</a>
+                </div>
             </form>
         </div>
     </div>
+
     <div class="modal-overlay" id="exportModal">
         <div class="modal-box">
             <h2>🐙 Export to GitHub</h2>
@@ -308,11 +310,13 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
     <script>
         let adminData = [];
         const VALID_USERNAME = 'sukanta';
         const VALID_PASSWORD = '102030';
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const username = document.getElementById('username').value.trim();
@@ -330,6 +334,7 @@
                 document.getElementById('password').focus();
             }
         });
+
         function logout() {
             document.getElementById('loginOverlay').style.display = 'flex';
             document.getElementById('adminContent').style.display = 'none';
@@ -338,6 +343,7 @@
             document.getElementById('password').value = '';
             document.getElementById('loginError').style.display = 'none';
         }
+
         function loadAdminData() {
             const stored = localStorage.getItem('adminCertificates');
             if (stored) {
@@ -351,6 +357,7 @@
             renderTable();
             updateStats();
         }
+
         function saveCertificate(event) {
             event.preventDefault();
             const editId = document.getElementById('editId').value;
@@ -384,6 +391,7 @@
             updateMainDatabase();
             alert('✅ Certificate saved successfully!');
         }
+
         function deleteCertificate(id) {
             if (confirm(`Are you sure you want to delete certificate ${id}?`)) {
                 adminData = adminData.filter(c => c.id !== id);
@@ -394,6 +402,7 @@
                 alert('🗑️ Certificate deleted');
             }
         }
+
         function editCertificate(id) {
             const cert = adminData.find(c => c.id === id);
             if (!cert) return;
@@ -408,6 +417,7 @@
             document.getElementById('certIdInput').readOnly = true;
             document.querySelector('.admin-form').scrollIntoView({ behavior: 'smooth' });
         }
+
         function resetForm() {
             document.getElementById('editId').value = '';
             document.getElementById('certIdInput').value = '';
@@ -419,6 +429,7 @@
             document.getElementById('linkInput').value = '';
             document.getElementById('formTitle').textContent = '➕ Add New Certificate';
         }
+
         function renderTable() {
             const container = document.getElementById('certList');
             if (adminData.length === 0) {
@@ -432,6 +443,7 @@
             html += `</tbody></table>`;
             container.innerHTML = html;
         }
+
         function updateStats() {
             document.getElementById('totalCerts').textContent = adminData.length;
             document.getElementById('verifiedCerts').textContent = adminData.filter(c => c.verified).length;
@@ -443,19 +455,23 @@
             });
             document.getElementById('expiredCerts').textContent = expired.length;
         }
+
         function saveToStorage() {
             localStorage.setItem('adminCertificates', JSON.stringify(adminData));
         }
+
         function updateMainDatabase() {
             const mainData = adminData.map(c => ({ ...c, verified: true }));
             localStorage.setItem('certificatesData', JSON.stringify(mainData));
             if (typeof database !== 'undefined') { database.certificates = mainData; }
         }
+
         function exportToGitHub() {
             const code = generateScriptJsCode();
             document.getElementById('exportCode').value = code;
             document.getElementById('exportModal').classList.add('active');
         }
+
         function generateScriptJsCode() {
             const certs = adminData.map(c => ({
                 id: c.id,
@@ -468,12 +484,14 @@
             }));
             return `// ===== DATABASE =====\nconst database = {\n    certificates: ${JSON.stringify(certs, null, 8)}\n};`;
         }
+
         function copyExportCode() {
             const textarea = document.getElementById('exportCode');
             textarea.select();
             document.execCommand('copy');
             alert('📋 Code copied to clipboard!');
         }
+
         function downloadScriptJs() {
             const code = generateScriptJsCode();
             const blob = new Blob([code], { type: 'text/javascript' });
@@ -485,9 +503,11 @@
             URL.revokeObjectURL(url);
             alert('⬇️ script.js downloaded!');
         }
+
         function closeExportModal() {
             document.getElementById('exportModal').classList.remove('active');
         }
+
         function exportData() {
             const dataStr = JSON.stringify(adminData, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
@@ -499,6 +519,7 @@
             URL.revokeObjectURL(url);
             alert('📥 JSON exported!');
         }
+
         document.addEventListener('DOMContentLoaded', function() {
             if (localStorage.getItem('adminLoggedIn') === 'true') {
                 document.getElementById('loginOverlay').style.display = 'none';
@@ -509,6 +530,7 @@
                 document.getElementById('adminContent').style.display = 'none';
             }
         });
+
         document.getElementById('exportModal').addEventListener('click', function(e) {
             if (e.target === this) { closeExportModal(); }
         });

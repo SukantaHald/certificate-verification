@@ -102,101 +102,137 @@
         .auth-error.show {
             display: block;
         }
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-home a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .back-home a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
         @media (max-width: 480px) {
             .auth-box { padding: 25px; }
         }
     </style>
 </head>
 <body>
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <span class="logo-icon">✨</span>
-            <span class="logo-text">InternVerify</span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">🏠 Home</a>
-            <a href="index.html#verify" class="nav-link">✅ Verify</a>
-            <a href="index.html#about" class="nav-link">ℹ️ About</a>
-        </div>
-        <div class="dropdown">
-            <button class="dropdown-toggle" onclick="toggleDropdown()">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="apply.html" class="dropdown-item">📝 Apply</a>
-                <a href="dashboard.html" class="dropdown-item">👤 Dashboard</a>
-                <a href="login.html" class="dropdown-item">🔐 Login</a>
-                <a href="signup.html" class="dropdown-item">📝 Sign Up</a>
-                <a href="admin.html" class="dropdown-item">👑 Admin</a>
-                <a href="admin-students.html" class="dropdown-item">👥 Students</a>
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">InternVerify</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="index.html#verify" class="nav-link">✅ Verify</a>
+                <a href="index.html#about" class="nav-link">ℹ️ About</a>
+            </div>
+            <div class="menu-container">
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <span class="menu-icon">☰</span>
+                </button>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <a href="apply.html" class="menu-item apply-item">📝 Apply</a>
+                    <a href="dashboard.html" class="menu-item dashboard-item">👤 Dashboard</a>
+                    <a href="login.html" class="menu-item" style="background: linear-gradient(135deg, #667eea15, #764ba215); color: #667eea;">🔐 Login</a>
+                    <a href="signup.html" class="menu-item">📝 Sign Up</a>
+                    <a href="admin.html" class="menu-item admin-item">👑 Admin</a>
+                    <a href="admin-students.html" class="menu-item admin-item">👥 Students</a>
+                </div>
+            </div>
+            <div class="top-logos">
+                <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
+                <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
             </div>
         </div>
-        <div class="top-logos">
-            <img src="logo1.png" alt="Logo 1" class="top-logo" onerror="this.style.display='none'">
-            <img src="logo2.png" alt="Logo 2" class="top-logo" onerror="this.style.display='none'">
+    </nav>
+
+    <!-- ===== LOGIN FORM ===== -->
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="logo">
+                <h1>🔐 InternVerify</h1>
+                <p>Login to your student account</p>
+            </div>
+
+            <div id="authError" class="auth-error">❌ Invalid email or password!</div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Gmail Address</label>
+                    <input type="email" id="email" placeholder="yourname@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn-primary">🔓 Login</button>
+                <div class="auth-link">
+                    Don't have an account? <a href="signup.html">Sign up here</a>
+                </div>
+                <div class="back-home">
+                    <a href="index.html">← Back to Home</a>
+                </div>
+            </form>
         </div>
     </div>
-</nav>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="script.js"></script>
     <script>
+        // =============================================
+        // ===== LOGIN FUNCTION - COMPLETE FIX =====
+        // =============================================
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('authError');
+
+            // Hide previous error
             errorDiv.classList.remove('show');
+
+            // Get students from localStorage
             const students = JSON.parse(localStorage.getItem('students') || '[]');
+
+            // Find student
             const student = students.find(s => s.email === email && s.password === password);
+
             if (student) {
+                // Save current student
                 localStorage.setItem('currentStudent', JSON.stringify(student));
                 window.location.href = 'dashboard.html';
             } else {
-                errorDiv.textContent = '❌ Invalid email or password. Please try again.';
+                // Check if email exists but password is wrong
+                const emailExists = students.find(s => s.email === email);
+                if (emailExists) {
+                    errorDiv.textContent = '❌ Invalid password. Please try again.';
+                } else {
+                    errorDiv.textContent = '❌ No account found with this email. Please sign up first!';
+                }
                 errorDiv.classList.add('show');
                 document.getElementById('password').value = '';
                 document.getElementById('password').focus();
             }
         });
+
+        // =============================================
+        // ===== AUTO-LOGIN CHECK =====
+        // =============================================
+
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
         if (currentStudent) {
             window.location.href = 'dashboard.html';
         }
-        
-    // ===== CHECK IF USER SHOULD SIGNUP FIRST =====
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const errorDiv = document.getElementById('authError');
-        
-        errorDiv.classList.remove('show');
-        
-        // Check if user exists
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
-        const student = students.find(s => s.email === email);
-        
-        if (!student) {
-            errorDiv.textContent = '❌ No account found with this email. Please sign up first!';
-            errorDiv.classList.add('show');
-            return;
-        }
-        
-        if (student.password !== password) {
-            errorDiv.textContent = '❌ Invalid password. Please try again.';
-            errorDiv.classList.add('show');
-            document.getElementById('password').value = '';
-            document.getElementById('password').focus();
-            return;
-        }
-        
-        // Login successful
-        localStorage.setItem('currentStudent', JSON.stringify(student));
-        window.location.href = 'dashboard.html';
-    });
-</script>
-    
+    </script>
 </body>
 </html>
