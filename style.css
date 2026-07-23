@@ -911,47 +911,104 @@ footer {
         font-size: 1.3rem;
     }
 }
-/* ===== PARTNER LOGOS - SCROLLING ANIMATION ===== */
-.partner-logos {
+/* ===== PARTNER LOGOS SECTION - HORIZONTAL SCROLL ===== */
+.partner-section {
+    padding: 40px 20px 50px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-top: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     overflow: hidden;
-    flex: 1;
-    max-width: 500px;
-    margin-left: 20px;
-    position: relative;
 }
 
-.partner-logos-track {
+.partner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.partner-title {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ===== SCROLLING TRACK ===== */
+.partner-track-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.partner-track-wrapper::before,
+.partner-track-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.partner-track-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #f8f9fa, transparent);
+}
+
+.partner-track-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #f8f9fa, transparent);
+}
+
+.partner-track {
     display: flex;
     gap: 30px;
-    animation: scrollLogos 20s linear infinite;
+    animation: scrollPartners 20s linear infinite;
     width: max-content;
 }
 
-.partner-logos-track:hover {
+.partner-track:hover {
     animation-play-state: paused;
 }
 
-.partner-logo {
-    height: 35px;
+.partner-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    min-width: 150px;
+    height: 70px;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.partner-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.partner-item img {
+    max-height: 40px;
     width: auto;
     object-fit: contain;
     filter: grayscale(100%);
     opacity: 0.7;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
 }
 
-.partner-logo:hover {
+.partner-item:hover img {
     filter: grayscale(0%);
     opacity: 1;
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-@keyframes scrollLogos {
+@keyframes scrollPartners {
     0% {
         transform: translateX(0);
     }
@@ -960,24 +1017,50 @@ footer {
     }
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
-@media (max-width: 992px) {
-    .partner-logos {
-        max-width: 300px;
-        margin-left: 10px;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .partner-section {
+        padding: 25px 15px 30px;
     }
-    .partner-logo {
-        height: 25px;
-        padding: 2px 8px;
+    
+    .partner-title {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
     }
-    .partner-logos-track {
+    
+    .partner-track {
         gap: 15px;
+    }
+    
+    .partner-item {
+        min-width: 110px;
+        height: 55px;
+        padding: 10px 15px;
+    }
+    
+    .partner-item img {
+        max-height: 30px;
+    }
+    
+    .partner-track-wrapper::before,
+    .partner-track-wrapper::after {
+        width: 40px;
     }
 }
 
-@media (max-width: 768px) {
-    .partner-logos {
-        display: none;
+@media (max-width: 480px) {
+    .partner-item {
+        min-width: 80px;
+        height: 45px;
+        padding: 5px 10px;
+    }
+    
+    .partner-item img {
+        max-height: 25px;
+    }
+    
+    .partner-track {
+        gap: 10px;
     }
 }
 
