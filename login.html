@@ -163,6 +163,40 @@
         if (currentStudent) {
             window.location.href = 'dashboard.html';
         }
-    </script>
+        
+    // ===== CHECK IF USER SHOULD SIGNUP FIRST =====
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('authError');
+        
+        errorDiv.classList.remove('show');
+        
+        // Check if user exists
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const student = students.find(s => s.email === email);
+        
+        if (!student) {
+            errorDiv.textContent = '❌ No account found with this email. Please sign up first!';
+            errorDiv.classList.add('show');
+            return;
+        }
+        
+        if (student.password !== password) {
+            errorDiv.textContent = '❌ Invalid password. Please try again.';
+            errorDiv.classList.add('show');
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+            return;
+        }
+        
+        // Login successful
+        localStorage.setItem('currentStudent', JSON.stringify(student));
+        window.location.href = 'dashboard.html';
+    });
+</script>
+    
 </body>
 </html>

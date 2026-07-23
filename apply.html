@@ -232,6 +232,14 @@
     </style>
 </head>
 <body>
+    <script>
+    // ===== CHECK LOGIN STATUS =====
+    const currentStudent = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    if (!currentStudent) {
+        alert('🔐 Please login first to apply for internships!');
+        window.location.href = 'login.html';
+    }
+</script>
     <nav class="navbar">
     <div class="nav-container">
         <div class="logo">
