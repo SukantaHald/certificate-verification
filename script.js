@@ -1,4 +1,7 @@
+// =============================================
 // ===== DATABASE =====
+// =============================================
+
 const database = {
     certificates: [
         {
@@ -40,19 +43,39 @@ const database = {
     ]
 };
 
+// =============================================
+// ===== LOGIN STATUS FUNCTIONS =====
+// =============================================
+
+function isLoggedIn() {
+    const student = JSON.parse(localStorage.getItem('currentStudent') || 'null');
+    return student !== null;
+}
+
+function getCurrentStudent() {
+    return JSON.parse(localStorage.getItem('currentStudent') || 'null');
+}
+
+// =============================================
 // ===== VERIFY CERTIFICATE =====
+// =============================================
+
 function verifyCertificate() {
     const input = document.getElementById('certificateId');
     const id = input.value.trim();
+    
     if (!id) {
         alert('Please enter a certificate ID');
         return;
     }
+    
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = '<div class="loading"></div><p>Verifying...</p>';
+    
     setTimeout(() => {
         const certificate = database.certificates.find(cert => cert.id === id);
+        
         if (certificate && certificate.verified) {
             displayResult(certificate);
         } else {
@@ -103,22 +126,29 @@ function displayError(message) {
     `;
 }
 
+// =============================================
 // ===== QR SCANNER =====
+// =============================================
+
 let html5QrCode = null;
 
 function startScanner() {
     const readerDiv = document.getElementById('qr-reader');
     readerDiv.style.display = 'block';
+    
     if (html5QrCode) {
         html5QrCode.clear();
         html5QrCode = null;
     }
+    
     html5QrCode = new Html5Qrcode("qr-reader");
+    
     const config = {
         fps: 10,
         qrbox: { width: 250, height: 250 },
         aspectRatio: 1.0
     };
+    
     html5QrCode.start(
         { facingMode: "environment" },
         config,
@@ -139,9 +169,14 @@ function onScanSuccess(decodedText, decodedResult) {
     verifyCertificate();
 }
 
-function onScanError(errorMessage) {}
+function onScanError(errorMessage) {
+    // Ignore - scanning in progress
+}
 
+// =============================================
 // ===== SHARE FUNCTIONS =====
+// =============================================
+
 function shareOnLinkedIn() {
     const url = window.location.href;
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
@@ -186,20 +221,28 @@ function copyVerificationLink() {
     });
 }
 
+// =============================================
 // ===== DOWNLOAD CERTIFICATE =====
+// =============================================
+
 function downloadCertificate() {
     const certId = document.getElementById('certId')?.textContent || '';
+    
     if (!certId) {
         alert('No certificate to download. Please verify first.');
         return;
     }
+    
     const certificate = database.certificates.find(cert => cert.id === certId);
+    
     if (!certificate || !certificate.certificateLink) {
         alert('Certificate link not found. Please contact support.');
         return;
     }
+    
     let driveLink = certificate.certificateLink;
     let downloadLink = '';
+    
     const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
     if (fileIdMatch) {
         const fileId = fileIdMatch[1];
@@ -214,6 +257,7 @@ function downloadCertificate() {
     } else {
         downloadLink = driveLink;
     }
+    
     if (downloadLink) {
         window.open(downloadLink, '_blank');
         showNotification('📥 Downloading your original certificate...');
@@ -222,18 +266,25 @@ function downloadCertificate() {
     }
 }
 
+// =============================================
 // ===== PRINT CERTIFICATE =====
+// =============================================
+
 function printCertificate() {
     const certId = document.getElementById('certId')?.textContent || '';
+    
     if (!certId) {
         alert('Please verify a certificate first.');
         return;
     }
+    
     const certificate = database.certificates.find(cert => cert.id === certId);
+    
     if (!certificate) {
         alert('Certificate not found.');
         return;
     }
+    
     let driveLink = certificate.certificateLink;
     let fileId = '';
     const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
@@ -245,6 +296,7 @@ function printCertificate() {
             fileId = idMatch[1];
         }
     }
+    
     if (fileId) {
         const printUrl = `https://drive.google.com/file/d/${fileId}/preview`;
         window.open(printUrl, '_blank');
@@ -255,10 +307,14 @@ function printCertificate() {
     }
 }
 
+// =============================================
 // ===== NOTIFICATION =====
+// =============================================
+
 function showNotification(message) {
     const existing = document.querySelector('.notification-toast');
     if (existing) existing.remove();
+    
     const notification = document.createElement('div');
     notification.className = 'notification-toast';
     notification.style.cssText = `
@@ -279,6 +335,7 @@ function showNotification(message) {
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
+    
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
         setTimeout(() => {
@@ -289,10 +346,14 @@ function showNotification(message) {
     }, 4000);
 }
 
+// =============================================
 // ===== AUTO-VERIFY FROM URL =====
+// =============================================
+
 window.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const verifyId = urlParams.get('verify');
+    
     if (verifyId) {
         const certificate = database.certificates.find(cert => cert.id === verifyId);
         if (certificate && certificate.verified) {
@@ -304,50 +365,66 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-// ===== DROPDOWN MENU =====
-function toggleDropdown() {
-    const menu = document.getElementById('dropdownMenu');
-    menu.classList.toggle('show');
+
+// =============================================
+// ===== MODERN MENU =====
+// =============================================
+
+function toggleMenu() {
+    const menu = document.getElementById('menuDropdown');
+    if (menu) {
+        menu.classList.toggle('show');
+    }
 }
 
-// Close dropdown when clicking outside
+// Close menu when clicking outside
 document.addEventListener('click', function(event) {
-    const dropdown = document.querySelector('.dropdown');
-    const toggle = document.querySelector('.dropdown-toggle');
-    const menu = document.getElementById('dropdownMenu');
+    const menuContainer = document.querySelector('.menu-container');
+    const menu = document.getElementById('menuDropdown');
     
-    if (dropdown && !dropdown.contains(event.target)) {
+    if (menuContainer && menu && !menuContainer.contains(event.target)) {
         menu.classList.remove('show');
     }
 });
 
-// Close dropdown when pressing Escape key
+// Close menu when pressing Escape key
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
-        const menu = document.getElementById('dropdownMenu');
-        menu.classList.remove('show');
+        const menu = document.getElementById('menuDropdown');
+        if (menu) {
+            menu.classList.remove('show');
+        }
     }
 });
-// ===== DROPDOWN MENU =====
-function toggleDropdown() {
-    const menu = document.getElementById('dropdownMenu');
-    menu.classList.toggle('show');
-}
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    const dropdown = document.querySelector('.dropdown');
-    const menu = document.getElementById('dropdownMenu');
+// =============================================
+// ===== PROTECTED LINKS =====
+// =============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is on apply page without login
+    const applyLink = document.getElementById('menuApply');
+    if (applyLink) {
+        applyLink.addEventListener('click', function(e) {
+            if (!isLoggedIn()) {
+                e.preventDefault();
+                if (confirm('🔐 You need to login first to apply for internships.\n\nWould you like to login now?')) {
+                    window.location.href = 'login.html';
+                }
+            }
+        });
+    }
     
-    if (dropdown && !dropdown.contains(event.target)) {
-        menu.classList.remove('show');
-    }
-});
-
-// Close dropdown when pressing Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const menu = document.getElementById('dropdownMenu');
-        menu.classList.remove('show');
+    // Check if user is on dashboard without login
+    const dashboardLink = document.getElementById('menuDashboard');
+    if (dashboardLink) {
+        dashboardLink.addEventListener('click', function(e) {
+            if (!isLoggedIn()) {
+                e.preventDefault();
+                if (confirm('🔐 You need to login first to access your dashboard.\n\nWould you like to login now?')) {
+                    window.location.href = 'login.html';
+                }
+            }
+        });
     }
 });
