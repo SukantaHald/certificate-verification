@@ -37,59 +37,69 @@
             <a href="#about" class="nav-link">ℹ️ About</a>
         </div>
 
-        <!-- ===== COLOR THEME SWITCHER ===== -->
-        <div class="theme-switcher">
-            <button class="theme-toggle" onclick="toggleThemePanel()" title="Change Theme">
-                <svg class="theme-icon" viewBox="0 0 24 24" width="22" height="22">
-                    <circle cx="12" cy="12" r="5" fill="currentColor" stroke="currentColor" stroke-width="2"/>
-                    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <line x1="12" y1="1" x2="12" y2="3" />
-                        <line x1="12" y1="21" x2="12" y2="23" />
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                        <line x1="1" y1="12" x2="3" y2="12" />
-                        <line x1="21" y1="12" x2="23" y2="12" />
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                    </g>
-                </svg>
+        
+<!-- ===== THEME SWITCHER - MODERN VERTICAL ===== -->
+<div class="theme-switcher">
+    <button class="theme-toggle" onclick="toggleThemePanel()" title="Choose Theme">
+        <svg class="theme-icon" viewBox="0 0 24 24" width="24" height="24">
+            <circle cx="12" cy="12" r="5" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </g>
+        </svg>
+        <span class="theme-toggle-text">Theme</span>
+    </button>
+    <div class="theme-panel" id="themePanel">
+        <div class="theme-panel-header">
+            <h4>🎨 Choose Your Theme</h4>
+            <p>Select a color that inspires you</p>
+        </div>
+        <div class="theme-options">
+            <button class="theme-option active" data-theme="default" onclick="applyTheme('default')">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #667eea, #764ba2);"></span>
+                <span class="theme-name">Default</span>
+                <span class="theme-check">✓</span>
             </button>
-            <div class="theme-panel" id="themePanel">
-                <h4>Choose Theme</h4>
-                <div class="theme-options">
-                    <button class="theme-option active" data-theme="default" style="--primary: #667eea; --secondary: #764ba2;" onclick="applyTheme('default')">
-                        <span class="theme-preview" style="background: linear-gradient(135deg, #667eea, #764ba2);"></span>
-                        <span class="theme-name">Default</span>
-                    </button>
-                    <button class="theme-option" data-theme="ocean" style="--primary: #00b4db; --secondary: #0083b0;" onclick="applyTheme('ocean')">
-                        <span class="theme-preview" style="background: linear-gradient(135deg, #00b4db, #0083b0);"></span>
-                        <span class="theme-name">Ocean</span>
-                    </button>
-                    <button class="theme-option" data-theme="sunset" style="--primary: #f12711; --secondary: #f5af19;" onclick="applyTheme('sunset')">
-                        <span class="theme-preview" style="background: linear-gradient(135deg, #f12711, #f5af19);"></span>
-                        <span class="theme-name">Sunset</span>
-                    </button>
-                    <button class="theme-option" data-theme="forest" style="--primary: #11998e; --secondary: #38ef7d;" onclick="applyTheme('forest')">
-                        <span class="theme-preview" style="background: linear-gradient(135deg, #11998e, #38ef7d);"></span>
-                        <span class="theme-name">Forest</span>
-                    </button>
-                    <button class="theme-option" data-theme="night" style="--primary: #0f0c29; --secondary: #302b63;" onclick="applyTheme('night')">
-                        <span class="theme-preview" style="background: linear-gradient(135deg, #0f0c29, #302b63);"></span>
-                        <span class="theme-name">Night</span>
-                    </button>
-                    <button class="theme-option" data-theme="rose" style="--primary: #ff6b6b; --secondary: #ee5a24;" onclick="applyTheme('rose')">
-                        <span class="theme-preview" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);"></span>
-                        <span class="theme-name">Rose</span>
-                    </button>
-                    <button class="theme-option" data-theme="purple" style="--primary: #a29bfe; --secondary: #6c5ce7;" onclick="applyTheme('purple')">
-                        <span class="theme-preview" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);"></span>
-                        <span class="theme-name">Purple</span>
-                    </button>
-                </div>
-            </div>
+            <button class="theme-option" data-theme="ocean" onclick="applyTheme('ocean')">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #00b4db, #0083b0);"></span>
+                <span class="theme-name">Ocean</span>
+                <span class="theme-check">✓</span>
+            </button>
+            <button class="theme-option" data-theme="sunset" onclick="applyTheme('sunset')">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #f12711, #f5af19);"></span>
+                <span class="theme-name">Sunset</span>
+                <span class="theme-check">✓</span>
+            </button>
+            <button class="theme-option" data-theme="forest" onclick="applyTheme('forest')">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #11998e, #38ef7d);"></span>
+                <span class="theme-name">Forest</span>
+                <span class="theme-check">✓</span>
+            </button>
+            <button class="theme-option" data-theme="night" onclick="applyTheme('night')">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #0f0c29, #302b63);"></span>
+                <span class="theme-name">Night</span>
+                <span class="theme-check">✓</span>
+            </button>
+            <button class="theme-option" data-theme="rose" onclick="applyTheme('rose')">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);"></span>
+                <span class="theme-name">Rose</span>
+                <span class="theme-check">✓</span>
+            </button>
+            <button class="theme-option" data-theme="purple" onclick="applyTheme('purple')">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);"></span>
+                <span class="theme-name">Purple</span>
+                <span class="theme-check">✓</span>
+            </button>
         </div>
     </div>
-</nav>
+</div>
 
             <!-- ===== PARTNER LOGOS SECTION - MODERN UI ===== -->
 <section class="partner-section">

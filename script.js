@@ -434,7 +434,7 @@ function toggleThemePanel() {
     panel.classList.toggle('show');
 }
 
-// Close theme panel when clicking outside
+// Close panel when clicking outside
 document.addEventListener('click', function(event) {
     const switcher = document.querySelector('.theme-switcher');
     const panel = document.getElementById('themePanel');
@@ -444,6 +444,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// ===== APPLY THEME =====
 function applyTheme(themeName) {
     // Remove all theme classes
     document.body.className = '';
@@ -462,9 +463,12 @@ function applyTheme(themeName) {
     // Save preference
     localStorage.setItem('preferredTheme', themeName);
     
-    // Close panel
-    document.getElementById('themePanel').classList.remove('show');
+    // Close panel after selection
+    setTimeout(() => {
+        document.getElementById('themePanel').classList.remove('show');
+    }, 300);
 }
+
 // ===== LOAD SAVED THEME =====
 document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('preferredTheme') || 'default';
