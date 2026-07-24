@@ -10,35 +10,31 @@
     <!-- ===== NAVIGATION ===== -->
     <nav class="navbar">
         <div class="nav-container">
-            <!-- Menu Icon -->
             <div class="menu-container">
                 <button class="menu-toggle" onclick="toggleMenu()">
                     <span class="menu-icon">☰</span>
                 </button>
                 <div class="menu-dropdown" id="menuDropdown">
+                    <a href="#home" class="menu-item" style="background: linear-gradient(135deg, #667eea15, #764ba215); color: #667eea;">🏠 Home</a>
+                    <a href="#verify" class="menu-item">✅ Verify</a>
+                    <a href="#about" class="menu-item">ℹ️ About</a>
                     <a href="apply.html" class="menu-item apply-item">📝 Apply</a>
-                    <a href="dashboard.html" class="menu-item dashboard-item">👤 Dashboard</a>
-                    <a href="login.html" class="menu-item">🔐 Login</a>
-                    <a href="signup.html" class="menu-item">📝 Sign Up</a>
                     <a href="admin.html" class="menu-item admin-item">👑 Admin</a>
                     <a href="admin-students.html" class="menu-item admin-item">👥 Students</a>
                 </div>
             </div>
 
-            <!-- Logo -->
             <div class="logo">
                 <span class="logo-icon">✨</span>
                 <span class="logo-text">InternVerify</span>
             </div>
 
-            <!-- Nav Links -->
             <div class="nav-links">
                 <a href="#home" class="nav-link active">🏠 Home</a>
                 <a href="#verify" class="nav-link">✅ Verify</a>
                 <a href="#about" class="nav-link">ℹ️ About</a>
             </div>
 
-            <!-- Theme Switcher -->
             <div class="theme-switcher">
                 <button class="theme-toggle" onclick="toggleThemePanel()" title="Choose Theme">
                     <svg class="theme-icon" viewBox="0 0 24 24" width="22" height="22">
@@ -63,8 +59,18 @@
                     </div>
                     <div class="theme-options-wrapper">
                         <div class="theme-options">
-                            
-                            <!-- Themes -->
+                            <button class="theme-option dark-mode-toggle" onclick="toggleDarkMode()">
+                                <span class="theme-preview dark-preview" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+                                    <span class="dark-icon">🌙</span>
+                                </span>
+                                <span class="theme-name">Dark Mode</span>
+                                <span class="theme-check">✓</span>
+                                <span class="dark-toggle-switch">
+                                    <span class="toggle-track" id="darkToggleTrack">
+                                        <span class="toggle-thumb"></span>
+                                    </span>
+                                </span>
+                            </button>
                             <button class="theme-option active" data-theme="default" onclick="applyTheme('default')">
                                 <span class="theme-preview" style="background: linear-gradient(135deg, #667eea, #764ba2);"></span>
                                 <span class="theme-name">Default</span>
@@ -137,21 +143,21 @@
             </div>
             <div class="partner-track-wrapper">
                 <div class="partner-track">
-                    <div class="partner-item"><img src="ybi.png" alt="Partner 1"></div>
-                    <div class="partner-item"><img src="workora.png" alt="Partner 2"></div>
-                    <div class="partner-item"><img src="technohack.png" alt="Partner 3"></div>
-                    <div class="partner-item"><img src="prodigy.png" alt="Partner 4"></div>
-                    <div class="partner-item"><img src="cyb.png" alt="Partner 5"></div>
-                    <div class="partner-item"><img src="codtech.png" alt="Partner 6"></div>
-                    <div class="partner-item"><img src="code.png" alt="Partner 7"></div>
+                    <div class="partner-item"><img src="ybi.png" alt="YBI Foundation"></div>
+                    <div class="partner-item"><img src="workora.png" alt="Workora"></div>
+                    <div class="partner-item"><img src="codtech.png" alt="CodTech"></div>
+                    <div class="partner-item"><img src="cyb.png" alt="Cyb"></div>
+                    <div class="partner-item"><img src="prodigy.png" alt="Prodigy"></div>
+                    <div class="partner-item"><img src="technohack.png" alt="TechnoHack"></div>
+                    <div class="partner-item"><img src="code.png" alt="Code"></div>
                     <!-- Duplicate for seamless scrolling -->
-                    <div class="partner-item"><img src="ybi.png" alt="Partner 1"></div>
-                    <div class="partner-item"><img src="workora.png" alt="Partner 2"></div>
-                    <div class="partner-item"><img src="technohack.png" alt="Partner 3"></div>
-                    <div class="partner-item"><img src="prodigy.png" alt="Partner 4"></div>
-                    <div class="partner-item"><img src="cyb.png" alt="Partner 5"></div>
-                    <div class="partner-item"><img src="codtech.png" alt="Partner 6"></div>
-                    <div class="partner-item"><img src="code.png" alt="Partner 7"></div>
+                    <div class="partner-item"><img src="ybi.png" alt="YBI Foundation"></div>
+                    <div class="partner-item"><img src="workora.png" alt="Workora"></div>
+                    <div class="partner-item"><img src="codtech.png" alt="CodTech"></div>
+                    <div class="partner-item"><img src="cyb.png" alt="Cyb"></div>
+                    <div class="partner-item"><img src="prodigy.png" alt="Prodigy"></div>
+                    <div class="partner-item"><img src="technohack.png" alt="TechnoHack"></div>
+                    <div class="partner-item"><img src="code.png" alt="Code"></div>
                 </div>
             </div>
         </div>
@@ -175,7 +181,6 @@
                 </div>
             </div>
             
-            <!-- Result Display -->
             <div id="result" class="result-box" style="display:none;">
                 <div class="result-content">
                     <div class="status-badge verified">✅ Verified</div>

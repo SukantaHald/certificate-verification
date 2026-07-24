@@ -1,7 +1,4 @@
-// =============================================
 // ===== DATABASE =====
-// =============================================
-
 const database = {
     certificates: [
         {
@@ -43,39 +40,19 @@ const database = {
     ]
 };
 
-// =============================================
-// ===== LOGIN STATUS FUNCTIONS =====
-// =============================================
-
-function isLoggedIn() {
-    const student = JSON.parse(localStorage.getItem('currentStudent') || 'null');
-    return student !== null;
-}
-
-function getCurrentStudent() {
-    return JSON.parse(localStorage.getItem('currentStudent') || 'null');
-}
-
-// =============================================
 // ===== VERIFY CERTIFICATE =====
-// =============================================
-
 function verifyCertificate() {
     const input = document.getElementById('certificateId');
     const id = input.value.trim();
-    
     if (!id) {
         alert('Please enter a certificate ID');
         return;
     }
-    
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = '<div class="loading"></div><p>Verifying...</p>';
-    
     setTimeout(() => {
         const certificate = database.certificates.find(cert => cert.id === id);
-        
         if (certificate && certificate.verified) {
             displayResult(certificate);
         } else {
@@ -100,15 +77,15 @@ function displayResult(certificate) {
                 <button onclick="downloadCertificate()" class="btn-download">⬇️ Download Certificate</button>
                 <button onclick="printCertificate()" class="btn-print">🖨️ Print Certificate</button>
             </div>
-            <div class="share-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center;">
-                <h4 style="margin-bottom: 15px; color: #333;">Share Your Verified Certificate</h4>
+            <div class="share-section">
+                <h4>Share Your Verified Certificate</h4>
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">LinkedIn</button>
-                    <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Twitter</button>
-                    <button onclick="shareOnWhatsApp()" class="btn-share" style="background: #25d366; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">WhatsApp</button>
-                    <button onclick="shareOnFacebook()" class="btn-share" style="background: #1877f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Facebook</button>
-                    <button onclick="shareViaEmail()" class="btn-share" style="background: #ea4335; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Email</button>
-                    <button onclick="copyVerificationLink()" class="btn-share" style="background: #666; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Copy</button>
+                    <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5;">LinkedIn</button>
+                    <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2;">Twitter</button>
+                    <button onclick="shareOnWhatsApp()" class="btn-share" style="background: #25d366;">WhatsApp</button>
+                    <button onclick="shareOnFacebook()" class="btn-share" style="background: #1877f2;">Facebook</button>
+                    <button onclick="shareViaEmail()" class="btn-share" style="background: #ea4335;">Email</button>
+                    <button onclick="copyVerificationLink()" class="btn-share" style="background: #666;">Copy</button>
                 </div>
             </div>
         </div>
@@ -126,29 +103,22 @@ function displayError(message) {
     `;
 }
 
-// =============================================
 // ===== QR SCANNER =====
-// =============================================
-
 let html5QrCode = null;
 
 function startScanner() {
     const readerDiv = document.getElementById('qr-reader');
     readerDiv.style.display = 'block';
-    
     if (html5QrCode) {
         html5QrCode.clear();
         html5QrCode = null;
     }
-    
     html5QrCode = new Html5Qrcode("qr-reader");
-    
     const config = {
         fps: 10,
         qrbox: { width: 250, height: 250 },
         aspectRatio: 1.0
     };
-    
     html5QrCode.start(
         { facingMode: "environment" },
         config,
@@ -169,14 +139,9 @@ function onScanSuccess(decodedText, decodedResult) {
     verifyCertificate();
 }
 
-function onScanError(errorMessage) {
-    // Ignore - scanning in progress
-}
+function onScanError(errorMessage) {}
 
-// =============================================
 // ===== SHARE FUNCTIONS =====
-// =============================================
-
 function shareOnLinkedIn() {
     const url = window.location.href;
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
@@ -221,28 +186,20 @@ function copyVerificationLink() {
     });
 }
 
-// =============================================
 // ===== DOWNLOAD CERTIFICATE =====
-// =============================================
-
 function downloadCertificate() {
     const certId = document.getElementById('certId')?.textContent || '';
-    
     if (!certId) {
         alert('No certificate to download. Please verify first.');
         return;
     }
-    
     const certificate = database.certificates.find(cert => cert.id === certId);
-    
     if (!certificate || !certificate.certificateLink) {
         alert('Certificate link not found. Please contact support.');
         return;
     }
-    
     let driveLink = certificate.certificateLink;
     let downloadLink = '';
-    
     const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
     if (fileIdMatch) {
         const fileId = fileIdMatch[1];
@@ -257,7 +214,6 @@ function downloadCertificate() {
     } else {
         downloadLink = driveLink;
     }
-    
     if (downloadLink) {
         window.open(downloadLink, '_blank');
         showNotification('📥 Downloading your original certificate...');
@@ -266,25 +222,18 @@ function downloadCertificate() {
     }
 }
 
-// =============================================
 // ===== PRINT CERTIFICATE =====
-// =============================================
-
 function printCertificate() {
     const certId = document.getElementById('certId')?.textContent || '';
-    
     if (!certId) {
         alert('Please verify a certificate first.');
         return;
     }
-    
     const certificate = database.certificates.find(cert => cert.id === certId);
-    
     if (!certificate) {
         alert('Certificate not found.');
         return;
     }
-    
     let driveLink = certificate.certificateLink;
     let fileId = '';
     const fileIdMatch = driveLink.match(/\/file\/d\/([^\/]+)/);
@@ -296,7 +245,6 @@ function printCertificate() {
             fileId = idMatch[1];
         }
     }
-    
     if (fileId) {
         const printUrl = `https://drive.google.com/file/d/${fileId}/preview`;
         window.open(printUrl, '_blank');
@@ -307,14 +255,10 @@ function printCertificate() {
     }
 }
 
-// =============================================
 // ===== NOTIFICATION =====
-// =============================================
-
 function showNotification(message) {
     const existing = document.querySelector('.notification-toast');
     if (existing) existing.remove();
-    
     const notification = document.createElement('div');
     notification.className = 'notification-toast';
     notification.style.cssText = `
@@ -335,7 +279,6 @@ function showNotification(message) {
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
-    
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
         setTimeout(() => {
@@ -346,14 +289,10 @@ function showNotification(message) {
     }, 4000);
 }
 
-// =============================================
 // ===== AUTO-VERIFY FROM URL =====
-// =============================================
-
 window.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const verifyId = urlParams.get('verify');
-    
     if (verifyId) {
         const certificate = database.certificates.find(cert => cert.id === verifyId);
         if (certificate && certificate.verified) {
@@ -367,110 +306,69 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 // =============================================
-// ===== MODERN MENU =====
+// ===== THEME FUNCTIONS (Shared across pages) =====
 // =============================================
 
-function toggleMenu() {
-    const menu = document.getElementById('menuDropdown');
-    if (menu) {
-        menu.classList.toggle('show');
-    }
-}
-
-// Close menu when clicking outside
-document.addEventListener('click', function(event) {
-    const menuContainer = document.querySelector('.menu-container');
-    const menu = document.getElementById('menuDropdown');
-    
-    if (menuContainer && menu && !menuContainer.contains(event.target)) {
-        menu.classList.remove('show');
-    }
-});
-
-// Close menu when pressing Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const menu = document.getElementById('menuDropdown');
-        if (menu) {
-            menu.classList.remove('show');
-        }
-    }
-});
-
-// =============================================
-// ===== PROTECTED LINKS =====
-// =============================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is on apply page without login
-    const applyLink = document.getElementById('menuApply');
-    if (applyLink) {
-        applyLink.addEventListener('click', function(e) {
-            if (!isLoggedIn()) {
-                e.preventDefault();
-                if (confirm('🔐 You need to login first to apply for internships.\n\nWould you like to login now?')) {
-                    window.location.href = 'login.html';
-                }
-            }
-        });
-    }
-    
-    // Check if user is on dashboard without login
-    const dashboardLink = document.getElementById('menuDashboard');
-    if (dashboardLink) {
-        dashboardLink.addEventListener('click', function(e) {
-            if (!isLoggedIn()) {
-                e.preventDefault();
-                if (confirm('🔐 You need to login first to access your dashboard.\n\nWould you like to login now?')) {
-                    window.location.href = 'login.html';
-                }
-            }
-        });
-    }
-});
-// ===== THEME SWITCHER =====
 function toggleThemePanel() {
     const panel = document.getElementById('themePanel');
-    panel.classList.toggle('show');
+    if (panel) panel.classList.toggle('show');
 }
 
-// Close panel when clicking outside
 document.addEventListener('click', function(event) {
     const switcher = document.querySelector('.theme-switcher');
     const panel = document.getElementById('themePanel');
-    
-    if (switcher && !switcher.contains(event.target)) {
+    if (switcher && panel && !switcher.contains(event.target)) {
         panel.classList.remove('show');
     }
 });
 
-// ===== APPLY THEME =====
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    const track = document.getElementById('darkToggleTrack');
+    if (track) {
+        track.classList.toggle('active', isDark);
+    }
+    localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+    const panel = document.getElementById('themePanel');
+    if (panel) panel.classList.remove('show');
+}
+
 function applyTheme(themeName) {
-    // Remove all theme classes
     document.body.className = '';
-    
-    // Add the selected theme class
     document.body.classList.add('theme-' + themeName);
-    
-    // Update active state in panel
-    document.querySelectorAll('.theme-option').forEach(btn => {
+    document.querySelectorAll('.theme-option:not(.dark-mode-toggle)').forEach(btn => {
         btn.classList.remove('active');
         if (btn.dataset.theme === themeName) {
             btn.classList.add('active');
         }
     });
-    
-    // Save preference
     localStorage.setItem('preferredTheme', themeName);
-    
-    // Close panel after selection
-    setTimeout(() => {
-        document.getElementById('themePanel').classList.remove('show');
-    }, 300);
+    const panel = document.getElementById('themePanel');
+    if (panel) panel.classList.remove('show');
 }
 
-// ===== LOAD SAVED THEME =====
 document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('preferredTheme') || 'default';
     applyTheme(savedTheme);
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) {
+        document.body.classList.add('dark-mode');
+        const track = document.getElementById('darkToggleTrack');
+        if (track) track.classList.add('active');
+    }
+});
+
+// ===== MENU FUNCTIONS =====
+function toggleMenu() {
+    const menu = document.getElementById('menuDropdown');
+    if (menu) menu.classList.toggle('show');
+}
+
+document.addEventListener('click', function(event) {
+    const menuContainer = document.querySelector('.menu-container');
+    const menu = document.getElementById('menuDropdown');
+    if (menuContainer && menu && !menuContainer.contains(event.target)) {
+        menu.classList.remove('show');
+    }
 });
