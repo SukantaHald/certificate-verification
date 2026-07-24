@@ -925,18 +925,21 @@ body {
     box-shadow: 0 8px 40px var(--shadow-color);
 }
 
+/* ===== PARTNER ITEMS - BRIGHT VERSION ===== */
+
 .partner-item img {
-    max-height: 35px;
+    max-height: 40px;
     width: auto;
     object-fit: contain;
-    filter: grayscale(100%) brightness(2);
-    opacity: 0.6;
+    filter: grayscale(0%) brightness(1);
+    opacity: 1;
     transition: all 0.4s ease;
 }
 
 .partner-item:hover img {
-    filter: grayscale(0%) brightness(1);
+    filter: grayscale(0%) brightness(1.1);
     opacity: 1;
+    transform: scale(1.05);
 }
 
 @keyframes scrollPartners {
