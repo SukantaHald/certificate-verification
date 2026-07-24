@@ -3,183 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internship Certificate Verification</title>
+    <title>InternVerify - Certificate Verification</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar">
-    <div class="nav-container">
-        <!-- ☰ Menu Icon -->
-        <div class="menu-container">
-            <button class="menu-toggle" onclick="toggleMenu()">
-                <span class="menu-icon">☰</span>
-            </button>
-            <div class="menu-dropdown" id="menuDropdown">
-                <a href="apply.html" class="menu-item apply-item">📝 Apply</a>
-                <a href="dashboard.html" class="menu-item dashboard-item">👤 Dashboard</a>
-                <a href="login.html" class="menu-item">🔐 Login</a>
-                <a href="signup.html" class="menu-item">📝 Sign Up</a>
-                <a href="admin.html" class="menu-item admin-item">👑 Admin</a>
-                <a href="admin-students.html" class="menu-item admin-item">👥 Students</a>
+        <div class="nav-container">
+            <!-- ☰ Menu Icon - LEFT CORNER -->
+            <div class="menu-container">
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <span class="menu-icon">☰</span>
+                </button>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <a href="#home" class="menu-item" style="background: linear-gradient(135deg, #667eea15, #764ba215); color: #667eea;">🏠 Home</a>
+                    <a href="#verify" class="menu-item">✅ Verify</a>
+                    <a href="#about" class="menu-item">ℹ️ About</a>
+                    <a href="apply.html" class="menu-item apply-item">📝 Apply</a>
+                    <a href="dashboard.html" class="menu-item dashboard-item">👤 Dashboard</a>
+                    <a href="login.html" class="menu-item">🔐 Login</a>
+                    <a href="signup.html" class="menu-item">📝 Sign Up</a>
+                    <a href="admin.html" class="menu-item admin-item">👑 Admin</a>
+                    <a href="admin-students.html" class="menu-item admin-item">👥 Students</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Logo -->
-        <div class="logo">
-            <span class="logo-icon">🎓</span>
-            <span class="logo-text">InternVerify</span>
-        </div>
-
-        <!-- Nav Links -->
-        <div class="nav-links">
-            <a href="#home" class="nav-link active">🏠 Home</a>
-            <a href="#verify" class="nav-link">✅ Verify</a>
-            <a href="#about" class="nav-link">ℹ️ About</a>
-        </div>
-
-        
-<!-- ===== THEME SWITCHER - MODERN VERTICAL ===== -->
-<div class="theme-switcher">
-    <button class="theme-toggle" onclick="toggleThemePanel()" title="Choose Theme">
-        <svg class="theme-icon" viewBox="0 0 24 24" width="24" height="24">
-            <circle cx="12" cy="12" r="5" fill="currentColor" stroke="currentColor" stroke-width="2"/>
-            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-            </g>
-        </svg>
-        <span class="theme-toggle-text">Theme</span>
-    </button>
-    <div class="theme-panel" id="themePanel">
-        <div class="theme-panel-header">
-            <h4>🎨 Choose Your Theme</h4>
-            <p>Select a color that inspires you</p>
-        </div>
-        <div class="theme-options">
-            <button class="theme-option active" data-theme="default" onclick="applyTheme('default')">
-                <span class="theme-preview" style="background: linear-gradient(135deg, #667eea, #764ba2);"></span>
-                <span class="theme-name">Default</span>
-                <span class="theme-check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="ocean" onclick="applyTheme('ocean')">
-                <span class="theme-preview" style="background: linear-gradient(135deg, #00b4db, #0083b0);"></span>
-                <span class="theme-name">Ocean</span>
-                <span class="theme-check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="sunset" onclick="applyTheme('sunset')">
-                <span class="theme-preview" style="background: linear-gradient(135deg, #f12711, #f5af19);"></span>
-                <span class="theme-name">Sunset</span>
-                <span class="theme-check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="forest" onclick="applyTheme('forest')">
-                <span class="theme-preview" style="background: linear-gradient(135deg, #11998e, #38ef7d);"></span>
-                <span class="theme-name">Forest</span>
-                <span class="theme-check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="night" onclick="applyTheme('night')">
-                <span class="theme-preview" style="background: linear-gradient(135deg, #0f0c29, #302b63);"></span>
-                <span class="theme-name">Night</span>
-                <span class="theme-check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="rose" onclick="applyTheme('rose')">
-                <span class="theme-preview" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);"></span>
-                <span class="theme-name">Rose</span>
-                <span class="theme-check">✓</span>
-            </button>
-            <button class="theme-option" data-theme="purple" onclick="applyTheme('purple')">
-                <span class="theme-preview" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);"></span>
-                <span class="theme-name">Purple</span>
-                <span class="theme-check">✓</span>
-            </button>
-        </div>
-    </div>
-</div>
-
-            <!-- ===== PARTNER LOGOS SECTION - MODERN UI ===== -->
-<section class="partner-section">
-    <div class="partner-container">
-        <!-- Modern Title with Decorative Line -->
-        <div class="partner-header">
-            <span class="partner-badge">🤝 Trusted Worldwide</span>
-            <h2 class="partner-title">Our <span>Trusted</span> Partners</h2>
-            <div class="partner-divider">
-                <span></span>
-                <span>✦</span>
-                <span></span>
+            <!-- Logo -->
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">InternVerify</span>
             </div>
-            <p class="partner-subtitle">Proudly associated with industry leaders</p>
-        </div>
 
-        <!-- Scrolling Logos -->
-        <div class="partner-track-wrapper">
-            <div class="partner-track">
-                <!-- Partner 1 -->
-                <div class="partner-item">
-                    <img src="ybi.png" alt="Partner 1">
-                </div>
-                <!-- Partner 2 -->
-                <div class="partner-item">
-                    <img src="workora.png" alt="Partner 2">
-                </div>
-                <!-- Partner 3 -->
-                <div class="partner-item">
-                    <img src="code.png" alt="Partner 3">
-                </div>
-                <!-- Partner 4 -->
-                <div class="partner-item">
-                    <img src="codtech.png" alt="Partner 4">
-                </div>
-                <!-- Partner 5 -->
-                <div class="partner-item">
-                    <img src="cyb.png" alt="Partner 5">
-                </div>
-                <!-- Partner 6 -->
-                <div class="partner-item">
-                    <img src="prodigy.png" alt="Partner 6">
-                </div>
-                <!-- Partner 7 -->
-                <div class="partner-item">
-                    <img src="technohack.png" alt="Partner 7">
-                </div>
-                <!-- DUPLICATE FOR SEAMLESS SCROLLING -->
-                <div class="partner-item">
-                    
-                    <img src="ybi.png" alt="Partner 1">
-                </div>
-                <div class="partner-item">
-                    
-                    <img src="workora.png" alt="Partner 2">
-                </div>
-                <div class="partner-item">
-                    
-                    <img src="code.png" alt="Partner 3">
-                </div>
-                <div class="partner-item">
-                   
-                    <img src="codtech.png" alt="Partner 4">
-                </div>
-                <div class="partner-item">
-                    
-                    <img src="cyb.png" alt="Partner 5">
-                </div>
-                <div class="partner-item">
-                    
-                    <img src="prodigy.png" alt="Partner 6">
-                </div>
-                <div class="partner-item">
-                    
-                    <img src="technohack.png" alt="Partner 7">
+            <!-- Nav Links - Home, Verify, About -->
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">🏠 Home</a>
+                <a href="#verify" class="nav-link">✅ Verify</a>
+                <a href="#about" class="nav-link">ℹ️ About</a>
+            </div>
+
+            <!-- Theme Switcher -->
+            <div class="theme-switcher">
+                <button class="theme-toggle" onclick="toggleThemePanel()" title="Choose Theme">
+                    <svg class="theme-icon" viewBox="0 0 24 24" width="22" height="22">
+                        <circle cx="12" cy="12" r="5" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+                        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        </g>
+                    </svg>
+                    <span class="theme-toggle-text">Theme</span>
+                </button>
+                <div class="theme-panel" id="themePanel">
+                    <div class="theme-panel-header">
+                        <h4>🎨 Choose Your Theme</h4>
+                        <p>Select a color that inspires you</p>
+                    </div>
+                    <div class="theme-options">
+                        <button class="theme-option active" data-theme="default" onclick="applyTheme('default')">
+                            <span class="theme-preview" style="background: linear-gradient(135deg, #667eea, #764ba2);"></span>
+                            <span class="theme-name">Default</span>
+                            <span class="theme-check">✓</span>
+                        </button>
+                        <button class="theme-option" data-theme="ocean" onclick="applyTheme('ocean')">
+                            <span class="theme-preview" style="background: linear-gradient(135deg, #00b4db, #0083b0);"></span>
+                            <span class="theme-name">Ocean</span>
+                            <span class="theme-check">✓</span>
+                        </button>
+                        <button class="theme-option" data-theme="sunset" onclick="applyTheme('sunset')">
+                            <span class="theme-preview" style="background: linear-gradient(135deg, #f12711, #f5af19);"></span>
+                            <span class="theme-name">Sunset</span>
+                            <span class="theme-check">✓</span>
+                        </button>
+                        <button class="theme-option" data-theme="forest" onclick="applyTheme('forest')">
+                            <span class="theme-preview" style="background: linear-gradient(135deg, #11998e, #38ef7d);"></span>
+                            <span class="theme-name">Forest</span>
+                            <span class="theme-check">✓</span>
+                        </button>
+                        <button class="theme-option" data-theme="night" onclick="applyTheme('night')">
+                            <span class="theme-preview" style="background: linear-gradient(135deg, #0f0c29, #302b63);"></span>
+                            <span class="theme-name">Night</span>
+                            <span class="theme-check">✓</span>
+                        </button>
+                        <button class="theme-option" data-theme="rose" onclick="applyTheme('rose')">
+                            <span class="theme-preview" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);"></span>
+                            <span class="theme-name">Rose</span>
+                            <span class="theme-check">✓</span>
+                        </button>
+                        <button class="theme-option" data-theme="purple" onclick="applyTheme('purple')">
+                            <span class="theme-preview" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);"></span>
+                            <span class="theme-name">Purple</span>
+                            <span class="theme-check">✓</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </nav>
 
     <!-- ===== HERO SECTION ===== -->
     <section id="home" class="hero">
@@ -189,6 +114,41 @@
             <div class="hero-buttons">
                 <a href="#verify" class="btn-primary">Verify Now</a>
                 <a href="#about" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PARTNER LOGOS SECTION ===== -->
+    <section class="partner-section">
+        <div class="partner-container">
+            <div class="partner-header">
+                <span class="partner-badge">🤝 Trusted Worldwide</span>
+                <h2 class="partner-title">Our <span>Trusted</span> Partners</h2>
+                <div class="partner-divider">
+                    <span></span>
+                    <span>✦</span>
+                    <span></span>
+                </div>
+                <p class="partner-subtitle">Proudly associated with industry leaders</p>
+            </div>
+            <div class="partner-track-wrapper">
+                <div class="partner-track">
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/667eea/white?text=Partner+1" alt="Partner 1"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/764ba2/white?text=Partner+2" alt="Partner 2"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/e74c3c/white?text=Partner+3" alt="Partner 3"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/f39c12/white?text=Partner+4" alt="Partner 4"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/27ae60/white?text=Partner+5" alt="Partner 5"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/2980b9/white?text=Partner+6" alt="Partner 6"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/8e44ad/white?text=Partner+7" alt="Partner 7"></div>
+                    <!-- Duplicate for seamless scrolling -->
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/667eea/white?text=Partner+1" alt="Partner 1"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/764ba2/white?text=Partner+2" alt="Partner 2"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/e74c3c/white?text=Partner+3" alt="Partner 3"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/f39c12/white?text=Partner+4" alt="Partner 4"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/27ae60/white?text=Partner+5" alt="Partner 5"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/2980b9/white?text=Partner+6" alt="Partner 6"></div>
+                    <div class="partner-item"><img src="https://via.placeholder.com/120x50/8e44ad/white?text=Partner+7" alt="Partner 7"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -211,7 +171,7 @@
                 </div>
             </div>
             
-            <!-- ===== RESULT SECTION ===== -->
+            <!-- Result Section -->
             <div id="result" class="result-box" style="display:none;">
                 <div class="result-content">
                     <div class="status-badge verified">✅ Verified</div>
@@ -225,17 +185,15 @@
                         <button onclick="downloadCertificate()" class="btn-download">⬇️ Download Certificate</button>
                         <button onclick="printCertificate()" class="btn-print">🖨️ Print Certificate</button>
                     </div>
-                    
-                    <!-- Share Section -->
-                    <div class="share-section" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center;">
-                        <h4 style="margin-bottom: 15px; color: #333;">Share Your Verified Certificate</h4>
+                    <div class="share-section">
+                        <h4>Share Your Verified Certificate</h4>
                         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                            <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">LinkedIn</button>
-                            <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Twitter</button>
-                            <button onclick="shareOnWhatsApp()" class="btn-share" style="background: #25d366; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">WhatsApp</button>
-                            <button onclick="shareOnFacebook()" class="btn-share" style="background: #1877f2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Facebook</button>
-                            <button onclick="shareViaEmail()" class="btn-share" style="background: #ea4335; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Email</button>
-                            <button onclick="copyVerificationLink()" class="btn-share" style="background: #666; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">Copy</button>
+                            <button onclick="shareOnLinkedIn()" class="btn-share" style="background: #0077b5;">LinkedIn</button>
+                            <button onclick="shareOnTwitter()" class="btn-share" style="background: #1da1f2;">Twitter</button>
+                            <button onclick="shareOnWhatsApp()" class="btn-share" style="background: #25d366;">WhatsApp</button>
+                            <button onclick="shareOnFacebook()" class="btn-share" style="background: #1877f2;">Facebook</button>
+                            <button onclick="shareViaEmail()" class="btn-share" style="background: #ea4335;">Email</button>
+                            <button onclick="copyVerificationLink()" class="btn-share" style="background: #666;">Copy</button>
                         </div>
                     </div>
                 </div>
