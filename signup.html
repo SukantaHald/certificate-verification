@@ -251,97 +251,73 @@
     <!-- ===== SCRIPTS ===== -->
     <script src="script.js"></script>
     <script>
-        // =============================================
-        // ===== SIGNUP FUNCTION - COMPLETE FIX =====
-        // =============================================
+       // In signup.html, replace the signup function with:
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    const fullName = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const errorDiv = document.getElementById('authError');
+    const successDiv = document.getElementById('authSuccess');
 
-            // Get form values
-            const fullName = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            // Get error and success divs
-            const errorDiv = document.getElementById('authError');
-            const successDiv = document.getElementById('authSuccess');
+    errorDiv.classList.remove('show');
+    successDiv.classList.remove('show');
 
-            // Hide previous messages
-            errorDiv.classList.remove('show');
-            successDiv.classList.remove('show');
+    if (!fullName) {
+        errorDiv.textContent = '❌ Please enter your full name.';
+        errorDiv.classList.add('show');
+        return;
+    }
 
-            // ===== VALIDATION =====
+    if (!email.endsWith('@gmail.com')) {
+        errorDiv.textContent = '❌ Please use a valid Gmail address.';
+        errorDiv.classList.add('show');
+        return;
+    }
 
-            // 1. Check if name is empty
-            if (!fullName) {
-                errorDiv.textContent = '❌ Please enter your full name.';
-                errorDiv.classList.add('show');
-                return;
-            }
+    if (password !== confirmPassword) {
+        errorDiv.textContent = '❌ Passwords do not match!';
+        errorDiv.classList.add('show');
+        return;
+    }
 
-            // 2. Check if email is Gmail
-            if (!email.endsWith('@gmail.com')) {
-                errorDiv.textContent = '❌ Please use a valid Gmail address (e.g., name@gmail.com)';
-                errorDiv.classList.add('show');
-                return;
-            }
+    if (password.length < 6) {
+        errorDiv.textContent = '❌ Password must be at least 6 characters.';
+        errorDiv.classList.add('show');
+        return;
+    }
 
-            // 3. Check if email already registered
-            let students = JSON.parse(localStorage.getItem('students') || '[]');
-            if (students.find(s => s.email === email)) {
-                errorDiv.textContent = '❌ This email is already registered. Please login.';
-                errorDiv.classList.add('show');
-                return;
-            }
+    // Get existing students
+    let students = JSON.parse(localStorage.getItem('students') || '[]');
 
-            // 4. Check password length
-            if (password.length < 6) {
-                errorDiv.textContent = '❌ Password must be at least 6 characters long.';
-                errorDiv.classList.add('show');
-                return;
-            }
+    // Check if email already exists
+    if (students.find(s => s.email === email)) {
+        errorDiv.textContent = '❌ This email is already registered. Please login.';
+        errorDiv.classList.add('show');
+        return;
+    }
 
-            // 5. Check if passwords match
-            if (password !== confirmPassword) {
-                errorDiv.textContent = '❌ Passwords do not match!';
-                errorDiv.classList.add('show');
-                return;
-            }
+    // Create student
+    const studentData = {
+        id: 'STU-' + Date.now(),
+        fullName: fullName,
+        email: email,
+        password: password,
+        signupDate: new Date().toLocaleString()
+    };
 
-            // ===== SAVE STUDENT DATA =====
+    // Save
+    students.push(studentData);
+    localStorage.setItem('students', JSON.stringify(students));
+    localStorage.setItem('currentStudent', JSON.stringify(studentData));
 
-            // Create student object
-            const studentData = {
-                id: 'STU-' + Date.now(),
-                fullName: fullName,
-                email: email,
-                password: password,
-                signupDate: new Date().toLocaleString()
-            };
+    // Show success
+    successDiv.textContent = '✅ Account created successfully! Redirecting...';
+    successDiv.classList.add('show');
 
-            // Get existing students from localStorage
-            let existingStudents = JSON.parse(localStorage.getItem('students') || '[]');
-            
-            // Add new student
-            existingStudents.push(studentData);
-            
-            // Save to localStorage
-            localStorage.setItem('students', JSON.stringify(existingStudents));
-            
-            // Auto-login: Save current student
-            localStorage.setItem('currentStudent', JSON.stringify(studentData));
-
-            // ===== SHOW SUCCESS =====
-            successDiv.textContent = '✅ Account created successfully! Redirecting to dashboard...';
-            successDiv.classList.add('show');
-
-            // ===== REDIRECT AFTER 1.5 SECONDS =====
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1500);
-        });
-    </script>
-</body>
-</html>
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 1500);
+});
